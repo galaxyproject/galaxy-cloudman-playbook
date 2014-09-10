@@ -1,0 +1,137 @@
+---
+# Builds proftpd package (deb or rpm) with the following modules:
+#   - mod_sql
+#   - mod_sql_postgres
+#   - mod_sql_passwd
+#   - mod_tls
+#
+# Note: This play will use sudo to install some system packages and the fpm gem
+#
+# To use:
+#  - Set instance IP address for `package-builder` in `inventory/cloud-builder`
+#  - Run with:
+#    % ansible-playbook -i inventory/hosts build/proftpd.yml \
+#      --extra-vars work_dir=/tmp/proftpd \
+#      --extra-vars proftpd_dir_prefix=/usr/proftpd
+
+- hosts: package-builder
+  vars:
+    build_id: cm-20140910b01
+    proftpd_version: 1.3.5
+    proftpd_sha256: c10316fb003bd25eccbc08c77dd9057e053693e6527ffa2ea2cc4e08ccb87715
+    postgresql_version: 9.3.3
+    postgresql_sha256: 2db5ebb8d4d7c19f06ed585cd9efd41ff620b22e30848fae3ac2eea9186bc87b
+    postgresql_configure_args: --prefix={{ work_dir }}/postgresql-{{ postgresql_version }}/.postgresql
+        --disable-dependency-tracking
+        --enable-static
+        --disable-shared
+        --without-readline
+        --with-thread-safety
+    proftpd_configure_args: --prefix={{ proftpd_dir_prefix }}
+        --disable-auth-files
+        --disable-ident
+        --disable-shadow
+        --enable-openssl
+        --with-modules=mod_sql:mod_sql_postgres:mod_sql_passwd:mod_tls
+        --with-includes={{ work_dir }}/postgresql-{{ postgresql_version }}/.postgresql/include
+        --with-libraries={{ work_dir }}/postgresql-{{ postgresql_version }}/.postgresql/lib
+        --localstatedir=/var/opt/galaxy/proftpd
+    fpm_args: --maintainer "Galaxy Team <galaxy-lab@bx.psu.edu>"
+        --vendor "ProFTPD" --url http://proftpd.org/
+        --license "GNU GPL Version 2, <URL:http://www.gnu.org/licenses/gpl-2.0.txt>"
+        -C {{ work_dir }}/proftpd-{{ proftpd_version }}-dest
+  tasks:
+
+  - name: Create work dir
+    file: path={{ work_dir }} state=directory
+
+  - name: Update APT cache
+    apt: update_cache=yes cache_valid_time=3600
+    sudo: True
+
+  - name: Install prerequisite packages
+    apt: name={{ item }} state=latest
+    with_items:
+      - make
+      - ruby
+      - ruby-dev
+      - zlib1g-dev
+      - libssl-dev
+    sudo: True
+    when: ansible_os_family == "Debian"
+
+  - name: Install prerequisite packages specific to Ubuntu 12.04
+    apt: name={{ item }} state=latest
+    with_items:
+      - rubygems
+    sudo: True
+    when: ansible_distribution_release == "Precise"
+
+  - name: Install fpm
+    gem: name=fpm state=present
+    sudo: True
+
+  - name: Fetch ProFTPD source
+    get_url: url=ftp://ftp.proftpd.org/distrib/source/proftpd-{{ proftpd_version }}.tar.gz
+        sha256sum={{ proftpd_sha256 }} dest={{ work_dir }}/proftpd-{{ proftpd_version }}.tar.gz
+
+  - name: Untar proftpd source
+    command: tar zxf proftpd-{{ proftpd_version }}.tar.gz
+        chdir={{ work_dir }} creates={{ work_dir }}/proftpd-{{ proftpd_version }}
+
+  - name: Fetch PostgreSQL source
+    get_url: url=http://ftp.postgresql.org/pub/source/v{{ postgresql_version }}/postgresql-{{ postgresql_version }}.tar.gz
+        sha256sum={{ postgresql_sha256 }} dest={{ work_dir }}/postgresql-{{ postgresql_version }}.tar.gz
+
+  - name: Untar PostgreSQL source
+    command: tar zxf postgresql-{{ postgresql_version }}.tar.gz
+        chdir={{ work_dir }} creates={{ work_dir }}/postgresql-{{ postgresql_version }}
+
+  - name: Configure PostgreSQL
+    command: ./configure {{ postgresql_configure_args }}
+        chdir={{ work_dir }}/postgresql-{{ postgresql_version }} creates={{ work_dir }}/postgresql-{{ postgresql_version }}/config.status
+
+  - name: Build PostgreSQL fmgroids.h
+    command: make ../../src/include/utils/fmgroids.h ../../src/include/utils/errcodes.h
+        chdir={{ work_dir }}/postgresql-{{ postgresql_version }}/src/backend creates={{ work_dir }}/postgresql-{{ postgresql_version }}/src/include/utils/errcodes.h
+
+  - name: Build PostgreSQL libpq
+    command: make
+        chdir={{ work_dir }}/postgresql-{{ postgresql_version }}/src/interfaces/libpq creates={{ work_dir }}/postgresql-{{ postgresql_version }}/src/interfaces/libpq/libpq.a
+
+  - name: Install PostgreSQL libpq
+    command: make install
+        chdir={{ work_dir }}/postgresql-{{ postgresql_version }}/src/interfaces/libpq creates={{ work_dir }}/postgresql-{{ postgresql_version }}/.postgresql/lib/libpq.a
+
+  - name: Install PostgreSQL includes
+    command: make install
+        chdir={{ work_dir }}/postgresql-{{ postgresql_version }}/src/include creates={{ work_dir }}/postgresql-{{ postgresql_version }}/.postgresql/include/pg_config.h
+
+  - name: Configure ProFTPD
+    shell: ./configure {{ proftpd_configure_args }}
+        chdir={{ work_dir }}/proftpd-{{ proftpd_version }} creates={{ work_dir }}/proftpd-{{ proftpd_version }}/config.status
+        executable=/bin/bash
+
+  - name: Build ProFTPD
+    command: make MAIN_LIBS=-ldl
+        chdir={{ work_dir }}/proftpd-{{ proftpd_version }} creates={{ work_dir }}/proftpd-{{ proftpd_version }}/ftpcount
+
+  - name: Stage ProFTPD package
+    command: make MAIN_LIBS=-ldl DESTDIR={{ work_dir }}/proftpd-{{ proftpd_version }}-dest install
+        chdir={{ work_dir }}/proftpd-{{ proftpd_version }} creates={{ work_dir }}/proftpd-{{ proftpd_version }}-dest/{{ proftpd_dir_prefix }}/sbin/proftpd
+    sudo: True
+
+  - name: Rename ProFTPD config to sample
+    command: mv {{ work_dir }}/proftpd-{{ proftpd_version }}-dest/{{ proftpd_dir_prefix }}/etc/proftpd.conf {{ work_dir }}/proftpd-{{ proftpd_version }}-dest/{{ proftpd_dir_prefix }}/etc/proftpd.conf.sample
+        creates={{ work_dir }}/proftpd-{{ proftpd_version }}-dest/{{ proftpd_dir_prefix }}/etc/proftpd.conf.sample
+    sudo: True
+
+  - name: Create RPM
+    command: fpm -s dir -t rpm -n galaxy-proftpd -v {{ proftpd_version }}-{{ build_id }}.gxy -p {{ work_dir }}/galaxy-proftpd-{{ proftpd_version }}_gxy{{ build_id }}_x86_64.rpm {{ fpm_args }} {{ proftpd_dir_prefix | regex_replace('^/(\w+)/.*$', '\\1') }} var
+        chdir={{ work_dir }}/proftpd-{{ proftpd_version }}-dest creates={{ work_dir }}/galaxy-proftpd-{{ proftpd_version }}_gxy{{ build_id }}_x86_64.rpm
+    when: ansible_os_family == "RedHat"
+
+  - name: Create deb
+    command: fpm -s dir -t deb -n galaxy-proftpd -v {{ proftpd_version }}-gxy{{ build_id }}-{{ ansible_lsb['codename'] }} -p {{ work_dir }}/galaxy-proftpd-{{ proftpd_version }}_gxy{{ build_id }}-{{ ansible_lsb['codename'] }}_amd64.deb {{ fpm_args }} {{ proftpd_dir_prefix | regex_replace('^/(\w+)/.*$', '\\1') }} var
+        chdir={{ work_dir }}/proftpd-{{ proftpd_version }}-dest creates={{ work_dir }}/galaxy-proftpd-{{ proftpd_version }}_gxy{{ build_id }}-{{ ansible_lsb['codename'] }}_amd64.deb
+    when: ansible_os_family == "Debian"

@@ -1,0 +1,21 @@
+- name: Install virutalenv-burrito for user {{ username }}
+  shell: curl -sL https://raw.githubusercontent.com/brainsik/virtualenv-burrito/master/virtualenv-burrito.sh | $SHELL
+  args:
+    creates: "{{ user_home }}/.venvburrito"
+  sudo_user: "{{ username }}"
+
+- name: Create venevburrito first login file
+  command: touch {{ user_home }}/.venvburrito/.firstrun
+  args:
+    creates: "{{ user_home }}/.venvburrito/.firstrun"
+  sudo_user: "{{ username }}"
+
+# Is there a way to do the subsequent task, which is dependent on existence of a
+# file, w/o having this (ie, separate) task that just checks if the file exists?
+- name: Check if {{ user_home }}/.venvburrito/startup.sh exists
+  stat: path={{ user_home }}/.venvburrito/startup.sh
+  register: vburrito_start
+
+- name: Source venvburrito at login
+  lineinfile: dest={{ user_home }}/.bashrc line=". {{ user_home }}/.venvburrito/startup.sh"
+  when: vburrito_start.stat.exists

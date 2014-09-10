@@ -1,0 +1,18 @@
+---
+# file: cloud.yml
+#   Use this file to setup components required for Galaxy on the Cloud
+
+# Use this role to build the base machine image for CloudMan
+# Before running this, copy ``inventory/cloud-builder.sample`` as
+# ``inventory/cloud-builder`` and edit it to provide your info
+# % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman"
+#   --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cm_cleanup=true]
+- hosts: cloudman-image
+  # gather_facts: False  # Uncomment during dev only
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - cloudman_image
+  vars_files:
+    - roles/cloudman_image/defaults/cloudman.yml
+  tags: cloudman

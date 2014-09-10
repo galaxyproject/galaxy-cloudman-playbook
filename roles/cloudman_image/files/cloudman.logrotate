@@ -1,0 +1,10 @@
+# Use logrotate to regularly rotate CloudMan's log file
+/mnt/cm/paster.log {
+    missingok
+    copytruncate
+    weekly
+    rotate 4
+    notifempty
+    compress
+    delaycompress
+}

@@ -1,0 +1,151 @@
+---
+# Builds nginx with the following modules:
+#   - http_ssl_module
+#   - zlib
+#   - nginx_upload_module
+#   - ngx_http_auth_pam_module
+#
+# This package does not attempt to integrate with Debian/RHEL nginx packages,
+# although improvements in this area would be welcome.
+#
+# Note: This play will use sudo to install some system packages and the fpm
+# gem.
+#
+# To use:
+#  - Set instance IP address for `package-builder` in `inventory/cloud-builder`
+#  - Run with:
+#    % ansible-playbook -i inventory/hosts build/nginx.yml \
+#      --extra-vars work_dir=/tmp/nginx --extra-vars nginx_dir_prefix=/usr/nginx
+
+- hosts: package-builder
+  vars:
+    build_id: cm-20140910b01
+    user_id: galaxy
+    user_group: galaxy
+    var_opt_path: /var/opt/galaxy
+    nginx_version: 1.4.7
+    nginx_sha256: 23b8ff4a76817090678f91b0efbfcef59a93492f6612dc8370c44c1f1ce1b626
+    nginx_upload_module_repo: https://github.com/vkholodkov/nginx-upload-module.git
+    nginx_upload_module_branch: 2.2
+    nginx_http_auth_pam_module_version: 1.3
+    nginx_http_auth_pam_module_sha256: 199dff5d11fbb3b6ddf9c8a60cc141970125a3f8e7a06f245e3175e93ca947e3
+    pcre_version: 8.33
+    pcre_sha256: 0a8b84eed13ce4e28017d297a457fdd66ab1068b80b2d1e26e932bed688074d7
+    zlib_version: 1.2.8
+    zlib_sha256: 36658cb768a54c1d4dec43c3116c27ed893e88b02ecfcb44f2166f9c0b7f2a0d
+    nginx_configure_args: --prefix={{ nginx_dir_prefix }}
+        --error-log-path=/var/log/nginx/error.log
+        --http-log-path=/var/log/nginx/access.log
+        --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock
+        --http-client-body-temp-path={{ var_opt_path }}/nginx/client_body_temp
+        --http-proxy-temp-path={{ var_opt_path }}/nginx/proxy_temp
+        --http-fastcgi-temp-path={{ var_opt_path }}/nginx/fastcgi_temp
+        --http-uwsgi-temp-path={{ var_opt_path }}/nginx/uwsgi_temp
+        --http-scgi-temp-path={{ var_opt_path }}/nginx/scgi_temp
+        --user={{ user_id }} --group={{ user_group }}
+        --with-http_ssl_module
+        --add-module=../nginx_upload_module
+        --add-module=../ngx_http_auth_pam_module-{{ nginx_http_auth_pam_module_version }}
+        --with-pcre=../pcre-{{ pcre_version }}
+        --with-zlib=../zlib-{{ zlib_version }}
+    fpm_args: --maintainer "Galaxy Team <galaxy-lab@bx.psu.edu>"
+        --vendor "Nginx, Inc." --url http://nginx.org/
+        --license "BSD 2-Clause, <URL:http://nginx.org/LICENSE>"
+        -C {{ work_dir }}/nginx-{{ nginx_version }}-dest
+
+  tasks:
+  - name: Create work dir
+    file: path={{ work_dir }} state=directory
+
+  - name: Update APT cache
+    apt: update_cache=yes cache_valid_time=3600
+    sudo: True
+
+  - name: Install prerequisite packages
+    apt: name={{ item }} state=latest
+    with_items:
+      - make
+      - ruby
+      - ruby-dev
+      - git
+      - libpam-dev
+      - libssl-dev
+    sudo: True
+    when: ansible_os_family == "Debian"
+
+  - name: Install prerequisite packages specific to Ubuntu 12.04
+    apt: name={{ item }} state=latest
+    with_items:
+      - rubygems
+    sudo: True
+    when: ansible_distribution_release == "Precise"
+
+  - name: Install fpm
+    gem: name=fpm state=present user_install=no
+    sudo: True
+
+  - name: Fetch nginx source
+    get_url: url=http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz
+        sha256sum={{ nginx_sha256 }} dest={{ work_dir }}/nginx-{{ nginx_version }}.tar.gz
+
+  - name: Untar nginx source
+    unarchive: src={{ work_dir }}/nginx-{{ nginx_version }}.tar.gz
+        dest={{ work_dir }} copy=no creates={{ work_dir }}/nginx-{{ nginx_version }}
+
+  - name: Fetch nginx_upload_module source
+    git: repo={{ nginx_upload_module_repo }}
+        version={{ nginx_upload_module_branch }} dest={{ work_dir }}/nginx_upload_module
+
+  - name: Fetch nginx_http_auth_pam_module source
+    get_url: url=http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-{{ nginx_http_auth_pam_module_version }}.tar.gz
+        sha256sum={{ nginx_http_auth_pam_module_sha256 }} dest={{ work_dir }}/ngx_http_auth_pam_module-{{ nginx_http_auth_pam_module_version }}.tar.gz
+
+  - name: Untar nginx_http_auth_pam_module source
+    unarchive: src={{ work_dir }}/ngx_http_auth_pam_module-{{ nginx_http_auth_pam_module_version }}.tar.gz
+        dest={{ work_dir }} copy=no creates={{ work_dir }}/ngx_http_auth_pam_module-{{ nginx_http_auth_pam_module_version }}
+
+  - name: Fetch PCRE source
+    get_url: url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-{{ pcre_version }}.tar.gz
+        sha256sum={{ pcre_sha256 }} dest={{ work_dir }}/pcre-{{ pcre_version }}.tar.gz
+
+  - name: Untar PCRE source
+    unarchive: src={{ work_dir}}/pcre-{{ pcre_version }}.tar.gz
+        dest={{ work_dir }} copy=no creates={{ work_dir }}/pcre-{{ pcre_version }}
+
+  - name: Fetch zlib source
+    get_url: url=http://zlib.net/zlib-{{ zlib_version }}.tar.gz
+        sha256sum={{ zlib_sha256 }} dest={{ work_dir }}/zlib-{{ zlib_version }}.tar.gz
+
+  - name: Untar zlib source
+    unarchive: src={{ work_dir }}/zlib-{{ zlib_version }}.tar.gz
+        dest={{ work_dir }} copy=no creates={{ work_dir }}/zlib-{{ zlib_version }}
+
+  - name: Configure nginx
+    command: ./configure {{ nginx_configure_args }}
+        chdir={{ work_dir }}/nginx-{{ nginx_version }}
+        creates={{ work_dir }}/nginx-{{ nginx_version }}/objs/ngx_auto_config.h
+
+  - name: Build nginx
+    command: make
+        chdir={{ work_dir }}/nginx-{{ nginx_version }}
+        creates={{ work_dir }}/nginx-{{ nginx_version }}/objs/nginx
+
+  - name: Stage nginx package
+    command: make DESTDIR={{ work_dir }}/nginx-{{ nginx_version }}-dest INSTALL_USER={{ user_id }} INSTALL_GROUP={{ user_group }} install
+        chdir={{ work_dir }}/nginx-{{ nginx_version }}
+        creates={{ work_dir }}/nginx-{{ nginx_version }}-dest
+
+  - name: Create var-opt dir
+    command: mkdir -p {{ work_dir }}/nginx-{{ nginx_version }}-dest/{{ var_opt_path }}/nginx
+
+  - name: Create RPM
+    command: fpm -s dir -t rpm -n galaxy-nginx -v {{ nginx_version }}-{{ build_id }}.gxy -p {{ work_dir }}/galaxy-nginx-{{ nginx_version }}_gxy{{ build_id }}_x86_64.rpm {{ fpm_args }} {{ nginx_dir_prefix | regex_replace('^/(\w+)/.*$', '\\1') }} var
+        chdir={{ work_dir }}/nginx-{{ nginx_version }}-dest
+        creates={{ work_dir }}/{{ work_dir }}/galaxy-nginx-{{ nginx_version }}_gxy{{ build_id }}_x86_64.rpm
+    when: ansible_os_family == "RedHat"
+
+  - name: Create deb
+    command: fpm -s dir -t deb -n galaxy-nginx -v {{ nginx_version }}-gxy{{ build_id }}-{{ ansible_lsb['codename'] }} -p {{ work_dir }}/galaxy-nginx-{{ nginx_version }}_gxy{{ build_id }}-{{ ansible_lsb['codename'] }}_amd64.deb {{ fpm_args }} --conflicts nginx --conflicts nginx-core --conflicts nginx-common {{ nginx_dir_prefix | regex_replace('^/(\w+)/.*$', '\\1') }} var
+        chdir={{ work_dir }}/nginx-{{ nginx_version }}-dest
+        creates={{ work_dir }}/galaxy-nginx-{{ nginx_version }}_gxy{{ build_id }}-{{ ansible_lsb['codename'] }}_amd64.deb
+    when: ansible_os_family == "Debian"
