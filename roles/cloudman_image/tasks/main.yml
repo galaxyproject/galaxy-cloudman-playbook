@@ -192,6 +192,9 @@
 - name: Create nginx conf file
   template: src=nginx.j2 dest=/etc/nginx/nginx.conf
 
+- name: Place nginx error files
+  unarchive: src=nginx_errdoc.tar.gz dest=/usr/share/nginx/html
+
 ## Install proftpd
 - name: Download proftpd package
   get_url: url={{ proftpd_package_url }} dest=/tmp
