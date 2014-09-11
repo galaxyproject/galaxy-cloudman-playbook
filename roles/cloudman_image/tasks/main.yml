@@ -216,7 +216,9 @@
 - name: Install proftpd package
   command: dpkg -i /tmp/{{ proftpd_package_url | basename }}
 
-# Install and configure novnc
+## Install and configure novnc
+##  *Note* that VNC does not work - current status is captured here:
+##  http://forum.odroid.com/viewtopic.php?f=77&t=5616
 - name: Create novnc install dir {{ novnc_install_dir }}
   file: path={{ novnc_install_dir }} state=directory
 
@@ -245,9 +247,9 @@
   sudo_user: "{{ default_user }}"
   when: vnc_password is defined
 
-  ## Move vnc_auto.html which takes vnc_password as query argument
-  ## to index.html and rewrite it so that password is autoset, no
-  ## need to specify via query parameter.
+  # Move vnc_auto.html which takes vnc_password as query argument
+  # to index.html and rewrite it so that password is autoset, no
+  # need to specify via query parameter.
 - name: Autoset novnc passwd to match the vnc one
   shell: sed 's/password\ =/password\ = "{{ vnc_password }}";\/\//' {{ novnc_install_dir }}/vnc_auto.html > {{ novnc_install_dir }}/index.html #"
 
@@ -313,8 +315,8 @@
   sudo_user: "{{ default_user }}"
   when: cm_cleanup is defined
 
-# Note that no ssh logins will be possible after this task runs!
-# Hence, must execute all the required deletions as a single command
+  # Note that no ssh logins will be possible after this task runs!
+  # Hence, must execute all the required deletions as a single command
 - name: Delete ssh login files
   shell: rm -f /etc/ssh/ssh_host_* /root/.ssh/authorized_keys* "{{ default_user_home }}/.ssh/authorized_keys*"
   when: cm_cleanup is defined
