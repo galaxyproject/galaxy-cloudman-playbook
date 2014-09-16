@@ -1,0 +1,63 @@
+galaxy_manage_trackster: yes
+
+galaxyFS_base_dir: /mnt/galaxy
+galaxy_mutable_data_dir: "{{ galaxyFS_base_dir }}"
+galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
+galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
+galaxy_genome_data_path: /mnt/galaxyIndices/genomes
+galaxy_datatypes_conf_file: "{{ galaxy_server_dir }}/datatypes_conf.xml"
+
+len_file_path: "{{ galaxyFS_base_dir }}/configuration_data/len"
+bedtools_version: 2.20.1
+
+galaxy_config:
+  "server:main":
+    port: 8080
+    host: 127.0.0.1
+  "app:main":
+    database_connection: postgres://galaxy@localhost:5910/galaxy
+    database_engine_option_pool_size: 20
+    database_engine_option_max_overflow: 50
+    database_engine_option_server_side_cursors: True
+    database_engine_option_strategy: threadlocal
+    genome_data_path: "{{ galaxy_genome_data_path }}"
+    file_path: "{{ galaxyFS_base_dir }}/files"
+    tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
+    len_file_path: "{{ len_file_path }}"
+    rsync_url: rsync://scofield.bx.psu.edu/indexes
+    nginx_x_accel_redirect_base: /_x_accel_redirect
+    nginx_upload_store: "{{ galaxyFS_base_dir }}/upload_store"
+    library_import_dir: "{{ galaxyFS_base_dir }}/tmp/library_import_dir"
+    allow_library_path_paste: True
+    allow_user_dataset_purge: True
+    enable_openid: True
+    enable_unique_workflow_defaults: True
+    ftp_upload_dir: "{{ galaxyFS_base_dir }}/tmp/ftp"
+    track_jobs_in_database: True
+    enable_job_recovery: True
+    set_metadata_externally: True
+    retry_metadata_internally: True
+    outputs_to_working_directory: True
+    cleanup_job: onsuccess
+    start_job_runners: drmaa
+    default_cluster_job_runner: drmaa:///
+    cluster_job_queue_workers: 3
+    use_pbkdf2: False
+    allow_user_deletion: True
+  "filter:gzip":
+    use: egg:Paste#gzip
+  "filter:proxy-prefix":
+    use: egg:PasteDeploy#prefix
+    prefix: /galaxy
+
+galaxy_mutable_configs:
+    - src: "{{ galaxy_server_dir }}/datatypes_conf.xml.sample"
+      dest: "{{ galaxy_datatypes_conf_file }}"
+
+galaxy_config_files:
+    - src: welcome.html
+      dest: "{{ galaxy_server_dir }}/static/welcome.html"
+    - src: cloud.gif
+      dest: "{{ galaxy_server_dir }}/static/images/cloud.gif"
+    - src: cloud_text.png
+      dest: "{{ galaxy_server_dir }}/static/images/cloud_text.png"

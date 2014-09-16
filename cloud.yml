@@ -2,11 +2,17 @@
 # file: cloud.yml
 #   Use this file to setup components required for Galaxy on the Cloud
 
-# Use this role to build the base machine image for CloudMan
-# Before running this, copy ``inventory/cloud-builder.sample`` as
-# ``inventory/cloud-builder`` and edit it to provide your info
-# % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman"
-#   --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cm_cleanup=true]
+# Before running roles inside this playbook, copy
+# ``inventory/cloud-builder.sample`` as ``inventory/cloud-builder`` and edit it
+# to provide info about your instance(s)
+
+# To build the base image, use this role via the following command (make sure
+# you provided an instance IP in ``inventory/cloud-builder`` for
+# ``cloudman-image``):
+#
+#   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman"
+#     --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cm_cleanup=true]
+#
 - hosts: cloudman-image
   # gather_facts: False  # Uncomment during dev only
   remote_user: ubuntu
@@ -16,3 +22,20 @@
   vars_files:
     - roles/cloudman_image/defaults/cloudman.yml
   tags: cloudman
+
+# To build the galaxyFS, use this role via the following command (make sure
+# you provided an instance IP in ``inventory/cloud-builder`` for
+# ``cloudman-instance``):
+#
+#   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
+#
+- hosts: cloudman-instance
+  gather_facts: False  # Uncomment during dev only
+  roles:
+     - galaxyprojectdotorg.galaxy
+  remote_user: ubuntu
+  sudo_user: galaxy
+  sudo: yes
+  vars_files:
+    - roles/galaxyprojectdotorg.galaxy/vars/main.yml
+  tags: galaxyFS
