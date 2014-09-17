@@ -1,8 +1,6 @@
 ---
 # group_vars/cloudman-instance.yml
 
-galaxy_manage_trackster: no
-
 galaxyFS_base_dir: /mnt/galaxy
 galaxy_mutable_data_dir: "{{ galaxyFS_base_dir }}"
 galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
@@ -10,6 +8,7 @@ galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
 galaxy_genome_data_path: /mnt/galaxyIndices/genomes
 galaxy_datatypes_conf_file: "{{ galaxy_server_dir }}/datatypes_conf.xml"
 
+galaxy_manage_trackster: yes
 len_file_path: "{{ galaxyFS_base_dir }}/configuration_data/len"
 bedtools_version: 2.20.1
 

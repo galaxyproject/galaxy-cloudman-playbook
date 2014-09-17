@@ -1,5 +1,7 @@
 ---
 # Setup Galaxy Trackster
+#
+#   https://wiki.galaxyproject.org/VisualizationSetup
 
 - name: Assure Trackster len files dir {{ len_file_path }} exists
   file: state=directory path="{{ len_file_path }}"  #"

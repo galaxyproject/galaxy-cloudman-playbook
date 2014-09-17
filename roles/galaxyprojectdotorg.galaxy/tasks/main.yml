@@ -20,6 +20,3 @@
 
 - include: database.yml
   when: galaxy_manage_database
-
-- include: trackster.yml
-  when: galaxy_manage_trackster

@@ -36,6 +36,7 @@
       file: path={{ galaxyFS_base_dir }} state=directory
   roles:
      - galaxyprojectdotorg.galaxy
+     - trackster
   remote_user: ubuntu
   sudo_user: galaxy
   sudo: yes
