@@ -2,7 +2,7 @@
 # Manage Galaxy Eggs
 
 - name: Fetch Galaxy eggs
-  command: "python {{ galaxy_server_dir }}/scripts/fetch_eggs.py -c {{ galaxy_config_file }} chdir={{ galaxy_server_dir }}"
+  command: "{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/fetch_eggs.py -c {{ galaxy_config_file }} chdir={{ galaxy_server_dir }}"
   environment:
     PATH: "{{ galaxy_venv_dir }}/bin:{{ ansible_env.PATH }}"
   when: galaxy_fetch_eggs

@@ -28,6 +28,7 @@
 # ``cloudman-instance``):
 #
 #   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
+#     --extra-vars psql_galaxyftp_password=<make_up_a_pwd>
 #
 - hosts: cloudman-instance
   # gather_facts: False  # Uncomment during dev only
@@ -37,8 +38,14 @@
     - name: Create shed tools dir
       file: state=directory path={{ galaxy_shed_tools_dir }}
   roles:
+     - role: natefoo.postgresql_objects
+       sudo: yes
+       sudo_user: postgres
      - galaxyprojectdotorg.galaxy
      - trackster
+  post_tasks:
+    - name: Create Galaxy Install DB
+      command: "{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/create_db.py -c {{ galaxy_config_file }} install chdir={{ galaxy_server_dir }}"
   remote_user: ubuntu
   sudo_user: galaxy
   sudo: yes

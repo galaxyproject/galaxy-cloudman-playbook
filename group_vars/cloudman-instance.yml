@@ -1,12 +1,26 @@
 ---
 # group_vars/cloudman-instance.yml
 
+# Just the default values from the underlying role but required for post_tasks
+galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
+galaxy_config_file: "{{ galaxy_config_dir }}/universe_wsgi.ini"
+
+postgresql_objects_users:
+  - name: galaxy
+    db: galaxy
+  - name: galaxyftp
+    password: "{{ psql_galaxyftp_password }}"
+postgresql_objects_databases:
+  - name: galaxy
+    owner: galaxy
+
 galaxyFS_base_dir: /mnt/galaxy
+galaxy_config_dir: "{{ galaxyFS_base_dir }}/configuration_data/galaxy"
 galaxy_mutable_data_dir: "{{ galaxyFS_base_dir }}"
+galaxy_mutable_config_dir: "{{ galaxyFS_base_dir }}/var"
 galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
 galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
 galaxy_genome_data_path: /mnt/galaxyIndices/genomes
-galaxy_datatypes_conf_file: "{{ galaxy_server_dir }}/datatypes_conf.xml"
 
 galaxy_manage_trackster: yes
 len_file_path: "{{ galaxyFS_base_dir }}/configuration_data/len"
@@ -17,16 +31,16 @@ galaxy_config:
     port: 8080
     host: 127.0.0.1
   "app:main":
-    database_connection: postgres://galaxy@localhost:5910/galaxy
+    # database_connection: postgres://galaxy@localhost:5930/galaxy
+    database_connection: postgresql:///galaxy?host=/var/run/postgresql
+    install_database_connection: sqlite:///{{ galaxy_mutable_config_dir }}/galaxy_install_db.sqlite?isolation_level=IMMEDIATE
     database_engine_option_pool_size: 20
     database_engine_option_max_overflow: 50
     database_engine_option_server_side_cursors: True
     database_engine_option_strategy: threadlocal
     genome_data_path: "{{ galaxy_genome_data_path }}"
-    file_path: "{{ galaxyFS_base_dir }}/files"
-    tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
-    len_file_path: "{{ len_file_path }}"
     rsync_url: rsync://scofield.bx.psu.edu/indexes
+    static_enabled: False
     nginx_x_accel_redirect_base: /_x_accel_redirect
     nginx_upload_store: "{{ galaxyFS_base_dir }}/upload_store"
     library_import_dir: "{{ galaxyFS_base_dir }}/tmp/library_import_dir"
@@ -46,6 +60,18 @@ galaxy_config:
     cluster_job_queue_workers: 3
     use_pbkdf2: False
     allow_user_deletion: True
+
+    file_path: "{{ galaxyFS_base_dir }}/files"
+    tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
+    len_file_path: "{{ len_file_path }}"
+
+    tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }}"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+    datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
+    migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
+    shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
+    builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
+
   "filter:gzip":
     use: egg:Paste#gzip
   "filter:proxy-prefix":
@@ -53,13 +79,27 @@ galaxy_config:
     prefix: /galaxy
 
 galaxy_mutable_configs:
-    - src: "{{ galaxy_server_dir }}/datatypes_conf.xml.sample"
-      dest: "{{ galaxy_datatypes_conf_file }}"
+  - src: "{{ galaxy_server_dir }}/shed_tool_conf.xml.sample"
+    dest: "{{ galaxy_shed_tool_conf_file }}"
+  - src: "{{ galaxy_server_dir }}/migrated_tools_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['migrated_tools_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'migrated_tools_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['migrated_tools_config'] }}"
+  - src: "{{ galaxy_server_dir }}/shed_data_manager_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['shed_data_manager_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_data_manager_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_data_manager_config_file'] }}"
+  - src: "{{ galaxy_server_dir }}/shed_tool_data_table_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['shed_tool_data_table_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_tool_data_table_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_tool_data_table_config'] }}"
+  - src: "{{ galaxy_server_dir }}/datatypes_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['datatypes_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'datatypes_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['datatypes_config_file'] }}"
+  - src: "{{ galaxy_server_dir }}/tool_data_table_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['tool_data_table_config_path'] }}"
+  - src: "{{ galaxy_server_dir }}/tool_conf.xml.sample"
+    dest: "{{ galaxy_config_dir }}/tool_conf.xml"
+  - src: "{{ galaxy_server_dir }}/tool-data/shared/ucsc/builds.txt.sample"
+    dest: "{{ galaxy_server_dir }}/config/builds.txt"
 
 galaxy_config_files:
-    - src: welcome.html
-      dest: "{{ galaxy_server_dir }}/static/welcome.html"
-    - src: cloud.gif
-      dest: "{{ galaxy_server_dir }}/static/images/cloud.gif"
-    - src: cloud_text.png
-      dest: "{{ galaxy_server_dir }}/static/images/cloud_text.png"
+  - src: welcome.html
+    dest: "{{ galaxy_server_dir }}/static/welcome.html"
+  - src: cloud.gif
+    dest: "{{ galaxy_server_dir }}/static/images/cloud.gif"
+  - src: cloud_text.png
+    dest: "{{ galaxy_server_dir }}/static/images/cloud_text.png"
