@@ -1,4 +1,7 @@
-galaxy_manage_trackster: yes
+---
+# group_vars/cloudman-instance.yml
+
+galaxy_manage_trackster: no
 
 galaxyFS_base_dir: /mnt/galaxy
 galaxy_mutable_data_dir: "{{ galaxyFS_base_dir }}"

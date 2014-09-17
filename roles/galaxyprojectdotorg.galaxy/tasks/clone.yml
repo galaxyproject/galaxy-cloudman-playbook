@@ -1,16 +1,9 @@
 ---
 # Manage Galaxy clone
 
-- name: Assure Galaxy server dir {{ galaxy_server_dir }} exists
-  file: path={{ galaxy_server_dir }} state=directory
-
 - name: Check for Galaxy
   stat: path={{ galaxy_server_dir }}/universe_wsgi.ini.sample
   register: universe_wsgi_ini_sample
-
-- name: Clone Galaxy source
-  command: "{{ hg_executable | default( 'hg' ) }} clone {{ galaxy_repo }} . chdir={{ galaxy_server_dir }}"
-  when: not universe_wsgi_ini_sample.stat.exists
 
 - name: Get current Galaxy changeset
   command: "{{ hg_executable | default( 'hg' ) }} parents --template '{node}' chdir={{ galaxy_server_dir }}"

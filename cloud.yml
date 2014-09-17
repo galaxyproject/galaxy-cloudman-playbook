@@ -30,12 +30,13 @@
 #   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
 #
 - hosts: cloudman-instance
-  gather_facts: False  # Uncomment during dev only
+  # gather_facts: False  # Uncomment during dev only
+  pre_tasks:
+    - name: Assure galaxyFS dir {{ galaxyFS_base_dir }} exists
+      file: path={{ galaxyFS_base_dir }} state=directory
   roles:
      - galaxyprojectdotorg.galaxy
   remote_user: ubuntu
   sudo_user: galaxy
   sudo: yes
-  vars_files:
-    - roles/galaxyprojectdotorg.galaxy/vars/main.yml
   tags: galaxyFS
