@@ -45,7 +45,9 @@
     - postgresql-plpython-9.3
     - python-dev
     - python-prettytable
+    - python-psycopg2
     - rsync
+    - slurm-drmaa-dev
     - swig
     - sysstat
     - unzip
