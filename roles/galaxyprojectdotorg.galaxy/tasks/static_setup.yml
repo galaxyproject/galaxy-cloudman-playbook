@@ -16,6 +16,3 @@
   template: src=universe_wsgi.ini.j2 dest={{ galaxy_config_file }} backup=yes
   notify:
     - restart galaxy
-
-- name: Create shed tools dir
-  file: state=directory path={{ galaxy_shed_tools_dir }}

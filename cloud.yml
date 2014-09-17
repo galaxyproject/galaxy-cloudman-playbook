@@ -34,6 +34,8 @@
   pre_tasks:
     - name: Assure galaxyFS dir {{ galaxyFS_base_dir }} exists
       file: path={{ galaxyFS_base_dir }} state=directory
+    - name: Create shed tools dir
+      file: state=directory path={{ galaxy_shed_tools_dir }}
   roles:
      - galaxyprojectdotorg.galaxy
      - trackster
