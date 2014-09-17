@@ -109,15 +109,16 @@
 
 - include: install_venvburrito.yml username='{{ default_user }}' user_home='{{ default_user_home }}'
 
-## Setup system env
+## Setup system environment
 - name: Setup system-wide vimrc
   copy: src=vimrc dest=/etc/vim/vimrc
 
-- name: Setup profile aliases
+- name: Setup /etc/bash.bashrc
   lineinfile: dest=/etc/bash.bashrc line="{{ item }}"
   with_items:
     - "alias 'lt=ls -ltr'"
     - "alias 'll=ls -l'"
+    - "export PATH=/mnt/galaxy/tools/bin:$PATH"
 
 - name: Disable all default MOTD
   shell: chmod -x /etc/update-motd.d/*
