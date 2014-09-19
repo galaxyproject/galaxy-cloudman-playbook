@@ -1,0 +1,83 @@
+---
+# Install system packages
+- name: Add custom Galaxy PPA (used for nginx package)
+  apt_repository: repo="ppa:natefoo/galaxy" update_cache=no
+
+- name: Update APT cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Install required system packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - ant
+    - atop
+    - axel
+    - bioperl
+    - cmake
+    - curl
+    - default-jdk
+    - firefox
+    - g++
+    - gcc
+    - gfortran
+    - git-core
+    - htop
+    - iftop
+    - iotop
+    - ipython
+    - libncurses5-dev
+    - libpam0g-dev
+    - libpq-dev
+    - libsparsehash-dev
+    - lubuntu-desktop
+    - make
+    - mercurial
+    - nmon
+    - openssh-server
+    - patch
+    - postgresql
+    - postgresql
+    - postgresql-client
+    - postgresql-plpython-9.3
+    - python-dev
+    - python-prettytable
+    - python-psycopg2
+    - rsync
+    - slurm-drmaa-dev
+    - swig
+    - sysstat
+    - unzip
+    - vim
+    - vnc4server
+    - wget
+    - zlib1g-dev
+
+- name: Install CloudMan-required system packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - automake  # s3fs required
+    - build-essential  # s3fs required
+    - fail2ban
+    - fuse
+    - glusterfs-client
+    - libcurl4-openssl-dev  # s3fs required
+    - libfuse-dev  # s3fs required
+    - libfuse2
+    - libpcre3-dev
+    - libreadline6-dev
+    - libssl-dev
+    - libtool  # s3fs required
+    - libxml2-dev  # s3fs required
+    - libmunge-dev
+    - mime-support  # s3fs required
+    - munge
+    - nfs-common
+    - nfs-kernel-server
+    - pkg-config
+    - postgresql-server-dev-9.3
+    - python-pip
+    - rabbitmq-server
+    - slurm-llnl
+    - xfsprogs
+    - nginx  # From custom PPA
+    - nginx-extras

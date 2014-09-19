@@ -1,325 +1,39 @@
 ---
 # file: roles/cloudman_image/tasks/main.yml
 #   Build the base machine image
+#
+#   See /cloudman_image/defaults/cloudman.yml for enabling/disabling
+#   individual task groups
 
+- include: packages.yml
+  when: cm_install_packages
 
-## System installs
-- name: Add custom Galaxy PPA (used for nginx package)
-  apt_repository: repo="ppa:natefoo/galaxy" update_cache=no
+- include: libraries.yml
+  when: cm_install_libraries
 
-- name: Update APT cache
-  apt: update_cache=yes cache_valid_time=3600
+- include: system_users.yml
+  when: cm_add_system_users
 
-- name: Install required system packages
-  apt: pkg={{ item }} state=latest
-  with_items:
-    - ant
-    - atop
-    - axel
-    - bioperl
-    - cmake
-    - curl
-    - default-jdk
-    - firefox
-    - g++
-    - gcc
-    - gfortran
-    - git-core
-    - htop
-    - iftop
-    - iotop
-    - ipython
-    - libncurses5-dev
-    - libpam0g-dev
-    - libpq-dev
-    - libsparsehash-dev
-    - lubuntu-desktop
-    - make
-    - mercurial
-    - nmon
-    - openssh-server
-    - patch
-    - postgresql
-    - postgresql
-    - postgresql-client
-    - postgresql-plpython-9.3
-    - python-dev
-    - python-prettytable
-    - python-psycopg2
-    - rsync
-    - slurm-drmaa-dev
-    - swig
-    - sysstat
-    - unzip
-    - vim
-    - vnc4server
-    - wget
-    - zlib1g-dev
-
-- name: Install CloudMan-required system packages
-  apt: pkg={{ item }} state=latest
-  with_items:
-    - automake  # s3fs required
-    - build-essential  # s3fs required
-    - fail2ban
-    - fuse
-    - glusterfs-client
-    - libcurl4-openssl-dev  # s3fs required
-    - libfuse-dev  # s3fs required
-    - libfuse2
-    - libpcre3-dev
-    - libreadline6-dev
-    - libssl-dev
-    - libtool  # s3fs required
-    - libxml2-dev  # s3fs required
-    - libmunge-dev
-    - mime-support  # s3fs required
-    - munge
-    - nfs-common
-    - nfs-kernel-server
-    - pkg-config
-    - postgresql-server-dev-9.3
-    - python-pip
-    - rabbitmq-server
-    - slurm-llnl
-    - xfsprogs
-    - nginx  # From custom PPA
-    - nginx-extras
-
-## Library installs
-- name: Install python libs
-  pip: name={{ item }}
-  with_items:
-    - boto
-    - virtualenv
-
-## Add system users
-- name: Add system groups
-  group: name={{ item }} system=yes
-  with_items:
-    - galaxy
-    - shadow
-
-- name: Add galaxy system user
-  user: name=galaxy shell=/bin/bash system=yes groups=galaxy,shadow uid={{ galaxy_user_uid }}
-
-- name: Add nobody user to shadow group
-  user: name=nobody groups=shadow
-
-## Install virtualenv-burrito
 - include: install_venvburrito.yml username='galaxy' user_home='/home/galaxy'
+  when: cm_venvburrito
 
-- include: install_venvburrito.yml username='{{ default_user }}' user_home='{{ default_user_home }}'
+- include: install_venvburrito.yml username='{{ default_user }}' user_home='{{ default_user_home }}'  #'
+  when: cm_venvburrito
 
-## Setup system environment
-- name: Setup system-wide vimrc
-  copy: src=vimrc dest=/etc/vim/vimrc
+- include: system_environment.yml
+  when: cm_system_environment and cm_venvburrito
 
-- name: Setup /etc/bash.bashrc
-  lineinfile: dest=/etc/bash.bashrc line="{{ item }}"
-  with_items:
-    - "alias 'lt=ls -ltr'"
-    - "alias 'll=ls -l'"
-    - "export PATH=/mnt/galaxy/tools/bin:$PATH"
+- include: s3fs.yml
+  when: cm_install_s3fs
 
-- name: Disable all default MOTD
-  shell: chmod -x /etc/update-motd.d/*
+- include: nginx.yml
+  when: cm_configure_nginx
 
-- name: Add custom login splash MOTD
-  copy: src=motd/00-header dest=/etc/update-motd.d/00-header mode=0755
+- include: proftpd.yml
+  when: cm_install_proftpd
 
-- name: Enable reboot notice MOTD
-  file: path=/etc/update-motd.d/98-reboot-required mode=0755
+- include: novnc.yml
+  when: cm_install_novnc
 
-- name: Enable motd
-  lineinfile: dest=/etc/ssh/sshd_config regexp='^PrintMotd\ no' line='PrintMotd yes'
-
-- name: Disable last login ssh message
-  lineinfile: dest=/etc/ssh/sshd_config regexp='^PrintLastLog\ yes' line='PrintLastLog no'
-
-- name: Create Ipython config dir
-  shell: mkdir -p ~/.ipython/profile_default
-  sudo_user: "{{ item }}"
-  with_items:
-    - ubuntu
-    - galaxy
-
-- name: Setup Ipython env
-  copy: src=ipython_config.py dest=~/.ipython/profile_default/ipython_config.py mode=0644
-  sudo_user: "{{ item }}"
-  with_items:
-    - ubuntu
-    - galaxy
-
-- name: Download CloudMan's requirements.txt
-  get_url: url={{ cm_hg_repo }}/requirements.txt dest=/tmp/requirements.txt
-
-- name: Check if vburrito venv CM exists
-  sudo_user: "{{ default_user }}"
-  command: bash -l -c "lsvirtualenv | grep CM"
-  register: CM_venv_installed
-  ignore_errors: yes
-
-- name: Via vburrito, create a virtualenv for CloudMan (called CM)
-  sudo_user: "{{ default_user }}"
-  command: bash -l -c "mkvirtualenv -r /tmp/requirements.txt CM"
-  when: CM_venv_installed.rc == 1
-
-- name: Configure logrotate
-  copy: src=cloudman.logrotate dest=/etc/logrotate.d/cloudman
-
-- name: Copy CloudMan's ec2autorun
-  copy: src=ec2autorun.py dest=/usr/bin/ mode=0744
-
-- name: Configure ec2autorun as an upstart job
-  copy: src=cloudman.conf dest=/etc/init/cloudman.conf
-
-## Install s3fs
-- name: Download s3fs
-  get_url: url=https://github.com/s3fs-fuse/s3fs-fuse/archive/v{{ s3fs_version }}.tar.gz dest=/tmp/s3fs.tar.gz
-
-- name: Create temporary directory
-  command: mktemp -d
-  register: tempdir
-
-- name: Unarchive s3fs
-  unarchive: src=/tmp/s3fs.tar.gz dest={{ tempdir.stdout }} copy=no
-
-- name: Install s3fs
-  command: "{{ item }} chdir='{{ tempdir.stdout }}/s3fs-fuse-{{ s3fs_version }}'"
-  with_items:
-    - ./autogen.sh
-    - ./configure --prefix=/usr
-    - make
-    - make install
-
-- name: Remove temporary directory
-  file: path={{ tempdir.stdout }} state=absent
-
-## Configure nginx
-- name: Configure PAM for nginx auth
-  copy: src=nginx.pam dest=/etc/pam.d/nginx
-
-- name: Create nginx conf CLU template files
-  file: path=/etc/nginx/{{ item }} state=touch
-  with_items:
-    - commandline_utilities_http.conf
-    - commandline_utilities_https.conf
-
-- name: Create nginx conf file
-  template: src=nginx.j2 dest=/etc/nginx/nginx.conf
-
-- name: Place nginx error files
-  unarchive: src=nginx_errdoc.tar.gz dest=/usr/share/nginx/html
-
-## Install proftpd
-- name: Download proftpd package
-  get_url: url={{ proftpd_package_url }} dest=/tmp
-
-- name: Install proftpd package
-  command: dpkg -i /tmp/{{ proftpd_package_url | basename }}
-
-## Install and configure novnc
-##  *Note* that VNC does not work - current status is captured here:
-##  http://forum.odroid.com/viewtopic.php?f=77&t=5616
-- name: Create novnc install dir {{ novnc_install_dir }}
-  file: path={{ novnc_install_dir }} state=directory
-
-- name: Clone novnc
-  git: repo=https://github.com/kanaka/noVNC.git dest={{ novnc_install_dir }}
-
-- name: Create ~/.vnc dir
-  file: path=~/.vnc state=directory
-  sudo_user: "{{ default_user }}"
-
-- name: Remove old vncpasswd dir
-  file: path=~/vncpasswd state=absent
-  sudo_user: "{{ default_user }}"
-
-- name: Clone vncpasswd
-  git: repo=https://github.com/trinitronx/vncpasswd.py dest=~/vncpasswd
-  sudo_user: "{{ default_user }}"
-
-- name: Create vnc password bridge
-  command: python ~/vncpasswd/vncpasswd.py {{ vnc_password }} -f ~/.vnc/passwd
-  sudo_user: "{{ default_user }}"
-  when: vnc_password is defined
-
-- name: Chmod on vnc password file
-  file: path=~/.vnc/passwd mode=0600
-  sudo_user: "{{ default_user }}"
-  when: vnc_password is defined
-
-  # Move vnc_auto.html which takes vnc_password as query argument
-  # to index.html and rewrite it so that password is autoset, no
-  # need to specify via query parameter.
-- name: Autoset novnc passwd to match the vnc one
-  shell: sed 's/password\ =/password\ = "{{ vnc_password }}";\/\//' {{ novnc_install_dir }}/vnc_auto.html > {{ novnc_install_dir }}/index.html #"
-
-- name: Remove temp vncpasswd dir
-  file: path=~/vncpasswd state=absent
-  sudo_user: "{{ default_user }}"
-
-- name: Copy script for starting X
-  copy: src=xstartup dest=~/.vnc/xstartup mode=0755
-  sudo_user: "{{ default_user }}"
-
-- name: Make sure /etc/X11/xinit/xinitrc has execute permissions set
-  file: path=/etc/X11/xinit/xinitrc mode=0755
-
-- name: Copy novnc init file
-  copy: src=novnc_init dest=/etc/init.d/novnc mode=0755
-
-- name: Copy novnc default file
-  template: src=novnc_default.j2 dest=/etc/default/novnc
-
-- name: Copy vncserver init file
-  copy: src=vncserver_init dest=/etc/init.d/vncserver mode=0755
-
-- name: Copy vncserver default file
-  template: src=vncserver_default.j2 dest=/etc/default/vncserver
-
-- include: create_simple_service.yml src_file='novnc'
-
-- include: create_simple_service.yml src_file='vncserver'
-
-## Cleanup the image before bundling
-- name: Don't autostart Apache at boot
-  shell: /usr/sbin/update-rc.d -f apache2 remove
-  when: cm_cleanup is defined
-
-- name: Remove unwanted packages
-  apt: pkg={{ item }} state=absent
-  with_items:
-    - tntnet
-    - tntnet-runtime
-    - libtntnet9
-    - vsftpd
-  when: cm_cleanup is defined
-
-- name: Stop RabbitMQ server
-  shell: "{{ item }}"
-  with_items:
-    - /etc/init.d/rabbitmq-server stop
-    - service rabbitmq-server stop
-  when: cm_cleanup is defined
-
-- name: Delete log files
-  shell: rm -rf {{ item }}
-  with_items:
-    - /var/lib/rabbitmq/mnesia
-    - /mnesia
-    - /usr/bin/ec2autorun.log
-    - "{{ default_user_home }}/.bash_history"
-  when: cm_cleanup is defined
-
-- name: Place a custom history file
-  copy: src=bash_history dest=~/.bash_history mode=0600
-  sudo_user: "{{ default_user }}"
-  when: cm_cleanup is defined
-
-  # Note that no ssh logins will be possible after this task runs!
-  # Hence, must execute all the required deletions as a single command
-- name: Delete ssh login files
-  shell: rm -f /etc/ssh/ssh_host_* /root/.ssh/authorized_keys* "{{ default_user_home }}/.ssh/authorized_keys*"
-  when: cm_cleanup is defined
+- include: cleanup.yml
+  when: cm_cleanup

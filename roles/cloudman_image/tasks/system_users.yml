@@ -1,0 +1,14 @@
+---
+# Add system users
+
+- name: Add system groups
+  group: name={{ item }} system=yes
+  with_items:
+    - galaxy
+    - shadow
+
+- name: Add galaxy system user
+  user: name=galaxy shell=/bin/bash system=yes groups=galaxy,shadow uid={{ galaxy_user_uid }}
+
+- name: Add nobody user to shadow group
+  user: name=nobody groups=shadow

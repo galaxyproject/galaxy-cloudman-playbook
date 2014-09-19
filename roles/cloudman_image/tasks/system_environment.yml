@@ -1,0 +1,64 @@
+---
+# Setup system environment
+
+- name: Setup system-wide vimrc
+  copy: src=vimrc dest=/etc/vim/vimrc
+
+- name: Setup /etc/bash.bashrc
+  lineinfile: dest=/etc/bash.bashrc line="{{ item }}"
+  with_items:
+    - "alias 'lt=ls -ltr'"
+    - "alias 'll=ls -l'"
+    - "export PATH=/mnt/galaxy/tools/bin:$PATH"  #"
+
+- name: Disable all default MOTD
+  shell: chmod -x /etc/update-motd.d/*
+
+- name: Add custom login splash MOTD
+  copy: src=motd/00-header dest=/etc/update-motd.d/00-header mode=0755
+
+- name: Enable reboot notice MOTD
+  file: path=/etc/update-motd.d/98-reboot-required mode=0755
+
+- name: Enable motd
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PrintMotd\ no' line='PrintMotd yes'
+
+- name: Disable last login ssh message
+  lineinfile: dest=/etc/ssh/sshd_config regexp='^PrintLastLog\ yes' line='PrintLastLog no'
+
+- name: Create Ipython config dir
+  shell: mkdir -p ~/.ipython/profile_default
+  sudo_user: "{{ item }}"
+  with_items:
+    - ubuntu
+    - galaxy
+
+- name: Setup Ipython env
+  copy: src=ipython_config.py dest=~/.ipython/profile_default/ipython_config.py mode=0644
+  sudo_user: "{{ item }}"
+  with_items:
+    - ubuntu
+    - galaxy
+
+- name: Download CloudMan's requirements.txt
+  get_url: url={{ cm_hg_repo }}/requirements.txt dest=/tmp/requirements.txt
+
+- name: Check if vburrito venv CM exists
+  sudo_user: "{{ default_user }}"
+  command: bash -l -c "lsvirtualenv | grep CM"
+  register: CM_venv_installed
+  ignore_errors: yes
+
+- name: Via vburrito, create a virtualenv for CloudMan (called CM)
+  sudo_user: "{{ default_user }}"
+  command: bash -l -c "mkvirtualenv -r /tmp/requirements.txt CM"
+  when: CM_venv_installed.rc == 1
+
+- name: Configure logrotate
+  copy: src=cloudman.logrotate dest=/etc/logrotate.d/cloudman
+
+- name: Copy CloudMan's ec2autorun
+  copy: src=ec2autorun.py dest=/usr/bin/ mode=0744
+
+- name: Configure ec2autorun as an upstart job
+  copy: src=cloudman.conf dest=/etc/init/cloudman.conf

@@ -1,0 +1,8 @@
+---
+# Install proftpd
+
+- name: Download proftpd package
+  get_url: url={{ proftpd_package_url }} dest=/tmp
+
+- name: Install proftpd package
+  command: dpkg -i /tmp/{{ proftpd_package_url | basename }}

@@ -1,0 +1,8 @@
+---
+# Install system-wide libraries
+
+- name: Install python libs
+  pip: name={{ item }}
+  with_items:
+    - boto
+    - virtualenv
