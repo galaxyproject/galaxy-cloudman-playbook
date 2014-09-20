@@ -13,7 +13,6 @@ cm_install_s3fs: yes
 cm_configure_nginx: yes
 cm_install_proftpd: yes
 cm_install_novnc: yes
-cm_cleanup: yes
 
 # System user details
 galaxy_user_uid: 1001
