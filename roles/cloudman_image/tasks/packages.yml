@@ -16,7 +16,6 @@
     - cmake
     - curl
     - default-jdk
-    - firefox
     - g++
     - gcc
     - gfortran
@@ -29,7 +28,6 @@
     - libpam0g-dev
     - libpq-dev
     - libsparsehash-dev
-    - lubuntu-desktop
     - make
     - mercurial
     - nmon
@@ -48,7 +46,6 @@
     - sysstat
     - unzip
     - vim
-    - vnc4server
     - wget
     - zlib1g-dev
 

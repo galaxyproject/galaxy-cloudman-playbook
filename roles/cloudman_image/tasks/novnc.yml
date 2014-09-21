@@ -3,6 +3,14 @@
 #  *Note* that VNC does not work - current status is captured here:
 #  http://forum.odroid.com/viewtopic.php?f=77&t=5616
 
+- name: Install VNC-required system packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - firefox
+    - lubuntu-desktop
+    - vnc4server
+    - xinetd
+
 - name: Create novnc install dir {{ novnc_install_dir }}
   file: path={{ novnc_install_dir }} state=directory
 
