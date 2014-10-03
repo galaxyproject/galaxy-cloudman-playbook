@@ -31,14 +31,20 @@
 #     --extra-vars psql_galaxyftp_password=<make_up_a_pwd>
 #
 - hosts: cloudman-instance
-  # gather_facts: False  # Uncomment during dev only
+  gather_facts: False  # Not making system-level changes so skip
   pre_tasks:
     - name: Assure galaxyFS dir {{ galaxyFS_base_dir }} exists
       file: path={{ galaxyFS_base_dir }} state=directory
     - name: Create shed tools dir
       file: state=directory path={{ galaxy_shed_tools_dir }}
+    - name: Create database dir
+      file: path={{ galaxy_db_dir }} state=directory owner=postgres group=postgres
+      sudo_user: root
   roles:
-     - role: natefoo.postgresql_objects
+     # - role: natefoo.postgresql_objects
+     #   sudo: yes
+     #   sudo_user: postgres
+     - role: database
        sudo: yes
        sudo_user: postgres
      - galaxyprojectdotorg.galaxy
@@ -46,6 +52,13 @@
   post_tasks:
     - name: Create Galaxy Install DB
       command: "{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/create_db.py -c {{ galaxy_config_file }} install chdir={{ galaxy_server_dir }}"
+    # - name: Apply database migrations
+    #   command: sh {{ galaxy_server_dir }}/create_db.sh
+  handlers:
+    - name: Stop PostgreSQL
+      shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} stop"
+      sudo: yes
+      sudo_user: postgres
   remote_user: ubuntu
   sudo_user: galaxy
   sudo: yes
