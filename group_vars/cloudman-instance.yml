@@ -5,15 +5,6 @@
 galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
 galaxy_config_file: "{{ galaxy_server_dir }}/universe_wsgi.ini"
 
-# postgresql_objects_users:
-#   - name: galaxy
-#     # db: galaxy
-#   - name: galaxyftp
-#     password: "{{ psql_galaxyftp_password }}"
-# postgresql_objects_databases:
-#   - name: galaxy
-#     owner: galaxy
-
 galaxyFS_base_dir: /mnt/galaxy
 galaxy_config_dir: "{{ galaxyFS_base_dir }}/configuration_data/galaxy"
 galaxy_mutable_data_dir: "{{ galaxyFS_base_dir }}"

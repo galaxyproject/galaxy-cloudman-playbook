@@ -41,9 +41,6 @@
       file: path={{ galaxy_db_dir }} state=directory owner=postgres group=postgres
       sudo_user: root
   roles:
-     # - role: natefoo.postgresql_objects
-     #   sudo: yes
-     #   sudo_user: postgres
      - role: database
        sudo: yes
        sudo_user: postgres
