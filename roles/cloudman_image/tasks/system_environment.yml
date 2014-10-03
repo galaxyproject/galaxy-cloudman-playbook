@@ -9,7 +9,7 @@
   with_items:
     - "alias 'lt=ls -ltr'"
     - "alias 'll=ls -l'"
-    - "export PATH=/mnt/galaxy/tools/bin:/usr/lib/postgresql/9.3/bin:$PATH"  #"
+    - "export PATH=/mnt/galaxy/tools/bin:{{ postgresql_bin_dir }}:$PATH"  #"
 
 - name: Disable all default MOTD
   shell: chmod -x /etc/update-motd.d/*
