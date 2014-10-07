@@ -8,7 +8,7 @@
   lineinfile: dest={{ galaxy_db_dir }}/postgresql.conf regexp='^#port\ =\ 5432' line='port = {{ galaxy_db_port }}'
 
 - name: Check if PostgreSQL server is running
-  stat: path=/mnt/galaxy/db/postmaster.pid
+  stat: path={{ galaxy_db_dir }}/postmaster.pid
   register: postgres_running
 
 - name: Restart Postgres
@@ -20,11 +20,11 @@
   when: not postgres_running.stat.exists
 
 - name: Create galaxy role
-  postgresql_user: port={{ galaxy_db_port }} name=galaxy role_attr_flags=CREATEDB,LOGIN
+  postgresql_user: port={{ galaxy_db_port }} name={{ galaxy_user_name }} role_attr_flags=CREATEDB,LOGIN
 
 - name: Create galaxyftp role
   postgresql_user: port={{ galaxy_db_port }} name=galaxyftp role_attr_flags=LOGIN password={{ psql_galaxyftp_password }}
 
 - name: Create galaxy database
-  postgresql_db: port={{ galaxy_db_port }} name=galaxy owner=galaxy
+  postgresql_db: port={{ galaxy_db_port }} name=galaxy owner={{ galaxy_user_name }}
 

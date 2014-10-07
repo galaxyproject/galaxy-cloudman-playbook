@@ -15,7 +15,6 @@
 #
 - hosts: cloudman-image
   # gather_facts: False  # Uncomment during dev only
-  remote_user: ubuntu
   sudo: yes
   roles:
     - cloudman_image
@@ -33,8 +32,9 @@
 - hosts: cloudman-instance
   gather_facts: False  # Not making system-level changes so skip
   pre_tasks:
-    - name: Assure galaxyFS dir {{ galaxyFS_base_dir }} exists
-      file: path={{ galaxyFS_base_dir }} state=directory
+    - name: Assure galaxyFS dir exists
+      file: path={{ galaxyFS_base_dir }} state=directory owner={{ galaxy_user_name }} group={{ galaxy_user_name }}
+      sudo_user: root
     - name: Create shed tools dir
       file: state=directory path={{ galaxy_shed_tools_dir }}
     - name: Create database dir
@@ -56,7 +56,6 @@
       shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} stop"
       sudo: yes
       sudo_user: postgres
-  remote_user: ubuntu
-  sudo_user: galaxy
+  sudo_user: "{{ galaxy_user_name }}"
   sudo: yes
   tags: galaxyFS

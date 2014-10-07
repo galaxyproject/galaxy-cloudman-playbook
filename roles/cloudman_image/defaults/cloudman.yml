@@ -15,6 +15,7 @@ cm_install_proftpd: yes
 cm_install_novnc: yes
 
 # System user details
+galaxy_user_name: galaxy
 galaxy_user_uid: 1001
 default_user: ubuntu
 default_user_home: /home/ubuntu
@@ -29,7 +30,9 @@ nginx_package_url: https://s3.amazonaws.com/cloudman/galaxy-nginx-1.4.7_gxycm-20
 nginx_upload_store_path: /mnt/galaxy/upload_store
 
 # Expected default path for the Galaxy application
-galaxy_home: /mnt/galaxy/galaxy-app
+galaxyFS: /mnt/galaxy
+galaxy_home: "{{ galaxyFS }}/galaxy-app"
+postgresql_bin_dir: /usr/lib/postgresql/9.3/bin
 
 # novnc setup details
 novnc_install_dir: /opt/galaxy/novnc
