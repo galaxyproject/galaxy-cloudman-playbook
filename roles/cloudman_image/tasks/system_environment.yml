@@ -26,7 +26,7 @@
   copy: src=motd/00-header dest=/etc/update-motd.d/00-header mode=0755
 
 - name: Enable reboot notice MOTD
-  file: path=/etc/update-motd.d/98-reboot-required mode=0755
+  file: path=/etc/update-motd.d/98-reboot-required mode=0755 state=touch
 
 - name: Enable motd
   lineinfile: dest=/etc/ssh/sshd_config regexp='^PrintMotd\ no' line='PrintMotd yes'
