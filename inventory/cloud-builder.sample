@@ -1,6 +1,9 @@
 package-builder ansible_ssh_user=ubuntu ansible_ssh_private_key_file=<path_to_your_private_ssh_key> ansible_ssh_host=<instance_ip>
 
-cloudman-image ansible_ssh_user=ubuntu ansible_ssh_private_key_file=<path_to_your_private_ssh_key> ansible_ssh_host=<instance_ip>
+[image-builder]
+<instance_ip> ansible_ssh_private_key_file=<path_to_your_private_ssh_key>
+[image-builder:vars]
+ansible_ssh_user=ubuntu
 
-[cloudman-instance]
+[galaxyFS-builder]
 <instance_ip> ansible_ssh_private_key_file=<path_to_your_private_ssh_key> ansible_ssh_user=galaxy

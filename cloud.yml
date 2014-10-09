@@ -13,7 +13,7 @@
 #   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman"
 #     --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cm_cleanup=true]
 #
-- hosts: cloudman-image
+- hosts: image-builder
   # gather_facts: False  # Uncomment during dev only
   sudo: yes
   roles:
@@ -29,7 +29,7 @@
 #   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
 #     --extra-vars psql_galaxyftp_password=<make_up_a_pwd>
 #
-- hosts: cloudman-instance
+- hosts: galaxyFS-builder
   gather_facts: False  # Not making system-level changes so skip
   pre_tasks:
     - name: Assure galaxyFS dir exists

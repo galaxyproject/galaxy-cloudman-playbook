@@ -19,8 +19,8 @@ To build an image, make sure the default values provided in the
 `roles/cloudman_image/defaults` directory suite you. Next, create a copy of
 `inventory/cloud-builder.sample` as `inventory/cloud-builder`, launch a new
 instance (this role has been developed and tested on Ubuntu 14.04) and set the
-instance IP address for `cloudman-image` host in `cloud-builder`. Finally, run
-the role with
+instance IP address under `image-builder` host group in the `cloud-builder` file.
+Finally, run the role with
 
     ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman" --extra-vars vnc_password=<choose a password> --extra-vars cm_cleanup=yes
 
@@ -42,7 +42,8 @@ Launch an instance of the machine image built in the previous step and attach a
 new volume to it. Create a (`XFS`) file system on that volume and mount it
 (under `/mnt/galaxy`). Note that this can also be done from the CloudMan's
 Admin page by adding a new-volume-based file system. Set the lauched instance
-IP in `inventory/cloud-builder` for `cloudman-instance` and run the role with
+IP in `inventory/cloud-builder` under `galaxyFS-builder` host group and run the
+role with
 
     ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS" --extra-vars psql_galaxyftp_password=<choose a password>
 
