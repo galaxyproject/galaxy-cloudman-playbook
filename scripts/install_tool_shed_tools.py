@@ -121,7 +121,7 @@ def main():
     counter = 1
     total_num_tools = len(tools_info)
     default_err_msg = 'All repositories that you are attempting to install have been previously installed.'
-    for r in tools_info[:10]:
+    for r in tools_info:
         already_installed = False
         # Check if the tool is already installed
         for it in itl:
