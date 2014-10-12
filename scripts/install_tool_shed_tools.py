@@ -116,10 +116,12 @@ def main():
     itl = installed_tools(tsc)  # installed tools list
 
     responses = []
+    errored_tools = []
+    skipped_tools = []
     counter = 1
     total_num_tools = len(tools_info)
     default_err_msg = 'All repositories that you are attempting to install have been previously installed.'
-    for r in tools_info:
+    for r in tools_info[:10]:
         already_installed = False
         # Check if the tool is already installed
         for it in itl:
@@ -127,7 +129,9 @@ def main():
                it['tool_shed'] in r['tool_shed_url'] and it['latest']:
                 print ("\n({0}/{1}) Tool {2} already installed. Skipping..."
                        .format(counter, total_num_tools, r['name']))
+                skipped_tools.append({'name': r['name'], 'owner': r['owner']})
                 already_installed = True
+                break
         if not already_installed:
             # Set the payload
             if 'install_tool_dependencies' not in r:
@@ -158,13 +162,17 @@ def main():
                     print ("Tool %s already installed (at revision %s)" % (r['name'],
                            r['revision']))
                 else:
-                    print ("Tool install error! Name: %s, owner: %s, revision: %s, error: %s"
-                           % (r['name'], r['owner'], r['revision'], e.body))
+                    print ("* Error installing a tool! Name: %s, owner: %s, revision: %s"
+                           ", error: %s" % (r['name'], r['owner'], r['revision'], e.body))
+                    errored_tools.append({'name': r['name'], 'owner': r['owner'],
+                                          'revision': r['revision'], 'error': e.body})
             outcome = {'tool': r, 'response': response, 'duration': str(end - start)}
             responses.append(outcome)
         counter += 1
 
-    print "All tools listed in '{0}' have been installed.".format(tool_list_file)
+    print "\n\nSkipped tools: {0}".format(skipped_tools)
+    print "\nErrored tools: {0}".format(errored_tools)
+    print "\nAll tools listed in '{0}' have been processed.".format(tool_list_file)
 
 if __name__ == "__main__":
     main()
