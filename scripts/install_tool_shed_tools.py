@@ -125,7 +125,8 @@ def main():
         for it in itl:
             if r['name'] == it['name'] and r['owner'] == it['owner'] and \
                it['tool_shed'] in r['tool_shed_url'] and it['latest']:
-                print "Tool {0} already installed. Skipping...".format(r['name'])
+                print ("\n({0}/{1}) Tool {2} already installed. Skipping..."
+                       .format(counter, total_num_tools, r['name']))
                 already_installed = True
         if not already_installed:
             # Set the payload
@@ -161,7 +162,7 @@ def main():
                            % (r['name'], r['owner'], r['revision'], e.body))
             outcome = {'tool': r, 'response': response, 'duration': str(end - start)}
             responses.append(outcome)
-            counter += 1
+        counter += 1
 
     print "All tools listed in '{0}' have been installed.".format(tool_list_file)
 
