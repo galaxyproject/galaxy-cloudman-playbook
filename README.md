@@ -22,12 +22,13 @@ instance (this role has been developed and tested on Ubuntu 14.04) and set the
 instance IP address under `image-builder` host group in the `cloud-builder` file.
 Finally, run the role with
 
-    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman" --extra-vars vnc_password=<choose a password> --extra-vars cm_cleanup=yes
+    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman" --extra-vars vnc_password=<choose a password> --extra-vars cm_cleanup=true
 
 On average, the build time takes about 30 minutes. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
-you still need to ssh, omit `--extra-vars cm_cleanup=yes` from the above command.
-Before creating the image, however, you must rerun the playbook with that flag set.
+you still need to ssh, set `--extra-vars cm_cleanup=false` in the above command.
+Before creating the image, however, you must rerun the playbook with that flag
+set to `true`.
 
 ### Customizing
 A configuration file exposing adjustable options is available under
