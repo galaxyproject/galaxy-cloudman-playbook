@@ -107,6 +107,7 @@ def main():
     """
     Parse the default input file and proceed to install listed tools.
     """
+    istart = dt.datetime.now()
     tool_list_file = 'tool_shed_tool_list.yaml'
     tl = load_input_file(tool_list_file)  # Input file contents
     tools_info = tl['tools']  # The list of tools to install
@@ -173,6 +174,7 @@ def main():
     print "\n\nSkipped tools: {0}".format(skipped_tools)
     print "\nErrored tools: {0}".format(errored_tools)
     print "\nAll tools listed in '{0}' have been processed.".format(tool_list_file)
+    print "\nTotal run time: {0}".format(dt.datetime.now() - istart)
 
 if __name__ == "__main__":
     main()
