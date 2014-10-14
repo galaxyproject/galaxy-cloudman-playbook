@@ -1,6 +1,7 @@
 ---
 # file: roles/cloudman_image/defaults/cloudman.yml
-#   Global variables used during the image build process
+#
+#   Variables used during the image build process
 
 # Controls which tasks are included, in case you want to execute/update
 # only certain parts of the role.

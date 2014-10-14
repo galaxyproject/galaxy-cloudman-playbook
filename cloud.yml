@@ -18,8 +18,6 @@
   sudo: yes
   roles:
     - cloudman_image
-  vars_files:
-    - roles/cloudman_image/defaults/cloudman.yml
   tags: cloudman
 
 # To build the galaxyFS, use this role via the following command (make sure
