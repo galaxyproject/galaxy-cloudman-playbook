@@ -3,12 +3,15 @@ A script to automate installation of tool repositories from a Galaxy Tool Shed
 into an instance of Galaxy.
 
 Galaxy instance details and the installed tools need to be provided in YAML
-format in a file called ``tool_shed_tool_list.yaml``. See
-``tool_shed_tool_list.yaml.sample`` for a sample of such a file.
+format in a file called ``shed_tool_list.yaml``. See
+``shed_tool_list.yaml.sample`` for a sample of such a file.
 
 The script expects any `tool_panel_section_id` provided in the input file to
 already exist on the target Galaxy instance. If the section does not exist,
-the tool will be installed outside any section.
+the tool will be installed outside any section. As part of the `galaxyFS`
+tagged role(s), a sample file (`shed_tool_conf_cloud.xml`) with a number of
+sections is uploaded to the target Galaxy instance and Galaxy's config file
+updated to reflect this configuration.
 
 Usage:
 
@@ -108,7 +111,7 @@ def main():
     Parse the default input file and proceed to install listed tools.
     """
     istart = dt.datetime.now()
-    tool_list_file = 'tool_shed_tool_list.yaml'
+    tool_list_file = 'shed_tool_list.yaml'
     tl = load_input_file(tool_list_file)  # Input file contents
     tools_info = tl['tools']  # The list of tools to install
     gi = galaxy_instance(tl['galaxy_instance'], tl['api_key'])
