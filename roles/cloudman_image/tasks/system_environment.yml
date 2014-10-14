@@ -9,10 +9,10 @@
   with_items:
     - "alias 'lt=ls -ltr'"
     - "alias 'll=ls -l'"
-    - "export PATH={{ galaxyFS }}/tools/bin:{{ postgresql_bin_dir }}:$PATH"  #"
+    - "export PATH={{ galaxyFS_base_dir }}/tools/bin:{{ postgresql_bin_dir }}:$PATH"  #"
 
 - name: Create a symlink placeholder to the Galaxy app dir
-  shell: ln -s {{ galaxy_home }} ~/galaxy
+  shell: ln -s {{ galaxy_server_dir }} ~/galaxy
   sudo_user: "{{ item }}"
   ignore_errors: yes
   with_items:

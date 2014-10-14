@@ -82,26 +82,26 @@ http {
         }
 
         location /static {
-            alias {{ galaxy_home }}/static;
+            alias {{ galaxy_server_dir }}/static;
             expires 24h;
         }
 
         location /static/style {
-            alias {{ galaxy_home }}/static/june_2007_style/blue;
+            alias {{ galaxy_server_dir }}/static/june_2007_style/blue;
             expires 24h;
         }
 
         location /static/scripts {
-            alias {{ galaxy_home }}/static/scripts/packed;
+            alias {{ galaxy_server_dir }}/static/scripts/packed;
             expires 24h;
         }
 
         location /robots.txt {
-            alias {{ galaxy_home }}/static/robots.txt;
+            alias {{ galaxy_server_dir }}/static/robots.txt;
         }
 
         location /favicon.ico {
-            alias {{ galaxy_home }}/static/favicon.ico;
+            alias {{ galaxy_server_dir }}/static/favicon.ico;
         }
 
         location /admin/jobs {
