@@ -1,0 +1,822 @@
+api_key: <Galaxy Admin user API key>
+galaxy_instance: <IP address for target Galaxy instance>
+tools:
+- name: !!python/unicode 'all_cufflinks_tool_suite'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'all_vcftools'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'analyze_covariates'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'annotation_profiler'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bamleftalign'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bam_to_sam'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'basecoverage'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bcftools'
+  owner: !!python/unicode 'iuc'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'best_regression_subsets'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: multiple_regression
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bowtie2'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bowtie_color_wrappers'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bowtie_wrappers'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bwa_0_7_10'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'bwa_wrappers'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'categorize_elements_satisfying_criteria'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'ccat'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: peak_calling
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'change_case'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'clustalw'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'cluster'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'column_maker'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'complement'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'compute_motif_frequencies_for_all_motifs'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'compute_motifs_frequency'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'compute_q_values'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'concat'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'condense_characters'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'convert_characters'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'correlation'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'count_covariates'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'count_gff_features'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'coverage'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'ctd_batch'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: hgv
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'cuffcompare'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'cuffdiff'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'cufflinks'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'cuffmerge'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'cut_columns'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'depth_of_coverage'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dgidb_annotator'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'divide_pg_snp'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: hgv
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dna_filtering'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'draw_stacked_barplots'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: plots
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dwt_cor_ava_perclass'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dwt_cor_avb_all'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dwt_ivc_all'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dwt_var_perclass'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'dwt_var_perfeature'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'emboss_5'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: emboss
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'emboss_datatypes'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: emboss
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'express'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_clipping_histogram'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_compute_length'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_concatenate_by_species'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_filter_by_length'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_formatter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_nucleotide_changer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fasta_to_tabular'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastqc'
+  owner: !!python/unicode 'iuc'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_combiner'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_groomer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_manipulation'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_masker_by_quality'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_paired_end_deinterlacer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_paired_end_interlacer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_paired_end_joiner'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_paired_end_splitter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_quality_boxplot'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: plots
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_quality_converter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_quality_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastqsolexa_to_fasta_qual'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_stats'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastqtofasta'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_to_fasta'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_to_tabular'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_trimmer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastq_trimmer_by_quality'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_artifacts_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_barcode_splitter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_clipper'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_collapser'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_nucleotides_distribution'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_quality_statistics'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_renamer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_reverse_complement'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'fastx_trimmer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'featurecounter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'filter_transcripts_via_tracking'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'find_diag_hits'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: metagenomics
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'flanking_features'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'freebayes'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'freebayes_0_9_14_8a407cf5f4'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'freebayes_wrapper'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'gatk2'
+  owner: !!python/unicode 'iuc'
+  tool_panel_section_id: gatk2
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'generate_pc_lda_matrix'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'get_flanks'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'getindelrates_3way'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'getindels_2way'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'gi2taxonomy'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: metagenomics
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'gmaj'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: plots
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'hgv_fundo'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: hgv
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'hgv_hilbertvis'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: hgv
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'histogram'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'indel_realigner'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'indels_3way'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: regional_variation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'intersect'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'join'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'lastz'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'lastz_paired_reads'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: solexa_tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'lca_wrapper'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: metagenomics
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'lda_analysis'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'linear_regression'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'logistic_regression_vif'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'macs'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: peak_calling
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'maf_cpg_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'merge'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'merge_cols'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'microsatellite_birthdeath'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: regional_variation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'microsats_alignment_level'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'microsats_mutability'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'mine'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'multispecies_orthologous_microsats'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'mutate_snp_codon'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'ncbi_blast_plus'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'partialr_square'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'pearson_correlation'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'pgsnp2gd_snp'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'picard'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_picard
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'pileup_interval'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'pileup_parser'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'plot_from_lda'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'poisson2test'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'principal_component_analysis'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: multivariate_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'print_reads'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'quality_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'rcve'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'realigner_target_creator'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'remove_beginning'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'sam2interval'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'sam_bitwise_flag_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'sam_merge'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'sam_pileup'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'sam_to_bam'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtool_filter2'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtools_flagstat'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtools_mpileup'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtools_phase'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtools_rmdup'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtools_slice_bam'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'samtools_sort'
+  owner: !!python/unicode 'iuc'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'scatterplot'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'show_beginning'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'show_tail'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: textutil
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'sicer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: peak_calling
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'snpeff'
+  owner: !!python/unicode 'iuc'
+  tool_panel_section_id: snpeff
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'snpfreq'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'split_paired_reads'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'substitution_rates'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'substitutions'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'subtract'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'subtract_query'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'suite_fastx_toolkit_0_0_13'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: fasta_manipulation
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'suite_gatk_1_4'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'suite_gops_1_0'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'suite_samtools_0_1_18'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'suite_samtools_0_1_19'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 't2ps'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: metagenomics
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 't2t_report'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: metagenomics
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'table_annovar'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'table_recalibration'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'tables_arithmetic_operations'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'tabular_to_fasta'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: convert
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'tabular_to_fastq'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: convert
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'tophat'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'tophat2'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'tophat_fusion_post'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'trimmer'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 't_test_two_samples'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: stats
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'unified_genotyper'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_annotator'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_apply_recalibration'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_combine'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_eval'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_filtration'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_recalibrator'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variant_select'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'variants_validate'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'varscan_version_2'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcf2pgsnp'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcf_annotate'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcf_extract'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcf_filter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcf_intersect'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcftools_annotate'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcftools_compare'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcftools_isec'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcftools_merge'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcftools_slice'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vcftools_subset'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'vt_variant_tools'
+  owner: !!python/unicode 'iuc'
+  tool_panel_section_id: ngs_variant_analysis
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'weblogo3'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: plots
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'weightedaverage'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'windowsplitter'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: gatk
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'xy_plot'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: plots
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: !!python/unicode 'data_manager_fetch_genome_all_fasta'
+  owner: !!python/unicode 'devteam'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
