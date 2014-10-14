@@ -16,13 +16,13 @@ More insturctions about the build process can be found [here][building].
 Machine Image
 -------------
 To build an image, make sure the default values provided in the
-`roles/cloudman_image/defaults` directory suite you. Next, create a copy of
+`group_cars/image-builder.yml` file suite you. Next, create a copy of
 `inventory/cloud-builder.sample` as `inventory/cloud-builder`, launch a new
 instance (this role has been developed and tested on Ubuntu 14.04) and set the
 instance IP address under `image-builder` host group in the `cloud-builder` file.
 Finally, run the role with
 
-    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman" --extra-vars vnc_password=<choose a password> --extra-vars cm_cleanup=true
+    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "machine-image" --extra-vars vnc_password=<choose a password> --extra-vars cm_cleanup=true
 
 On average, the build time takes about 30 minutes. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
@@ -32,10 +32,11 @@ set to `true`.
 
 ### Customizing
 A configuration file exposing adjustable options is available under
-`roles/cloudman_image/defaults/cloudman.yml`. Besides allowing you to set some
+`group_vars/image-builder.yml`. Besides allowing you to set some
 of the image configuration options, this file allows you to easily control which
 steps of the image building process run. This can be quite useful if a step fails
 and you want to rerun only it or if you're just trying to run a certain steps.
+Common variables for all the roles in the playbook are stored in `group_vars/all`.
 
 Galaxy File System (galaxyFS)
 -----------------------------
@@ -61,9 +62,10 @@ system, unmount the file system and create a snapshot of it from the Cloud's con
 This role requires a number of configuration options for the Galaxy application,
 CloudMan application, PostgreSQL the database, as well as the glue linking those.
 The configuration options have been aggregated under
-`group_vars/cloudman-instance.yml` and represent represent reasonable defaults.
+`group_vars/galaxyFS-builder.yml` and represent represent reasonable defaults.
 Keep in mind that changing the options that influence how the system is deployed
-and/or managed may also require changes in CloudMan.
+and/or managed may also require changes in CloudMan. Common variables for all the
+roles in the playbook are stored in `group_vars/all`.
 
 
 [cloudman]: http://usecloudman.org/

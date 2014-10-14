@@ -8,9 +8,9 @@
 
 # To build the base image, use this role via the following command (make sure
 # you provided an instance IP in ``inventory/cloud-builder`` for
-# ``cloudman-image``):
+# ``image-builder`` host group):
 #
-#   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "cloudman"
+#   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "machine-image"
 #     --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cm_cleanup=true]
 #
 - hosts: image-builder
@@ -18,11 +18,11 @@
   sudo: yes
   roles:
     - cloudman_image
-  tags: cloudman
+  tags: machine-image
 
 # To build the galaxyFS, use this role via the following command (make sure
 # you provided an instance IP in ``inventory/cloud-builder`` for
-# ``cloudman-instance``):
+# ``galaxyFS-builder`` host group):
 #
 #   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
 #     --extra-vars psql_galaxyftp_password=<make_up_a_pwd>
