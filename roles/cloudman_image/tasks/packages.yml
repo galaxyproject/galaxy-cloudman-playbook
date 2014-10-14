@@ -1,7 +1,7 @@
 ---
 # Install system packages
 - name: Add custom Galaxy PPA (used for nginx package)
-  apt_repository: repo="ppa:natefoo/galaxy" update_cache=no
+  apt_repository: repo="ppa:galaxyproject/nginx" update_cache=no
 
 - name: Update APT cache
   apt: update_cache=yes cache_valid_time=3600
@@ -76,5 +76,4 @@
     - rabbitmq-server
     - slurm-llnl
     - xfsprogs
-    - nginx  # From custom PPA
     - nginx-extras
