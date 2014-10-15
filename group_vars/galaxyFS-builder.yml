@@ -37,6 +37,7 @@ galaxy_config:
     static_enabled: False
     nginx_x_accel_redirect_base: /_x_accel_redirect
     nginx_upload_store: "{{ galaxyFS_base_dir }}/upload_store"
+    nginx_upload_path: /_upload
     library_import_dir: "{{ galaxyFS_base_dir }}/tmp/library_import_dir"
     allow_library_path_paste: True
     allow_user_dataset_purge: True
