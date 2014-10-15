@@ -22,6 +22,12 @@
 - name: Disable all default MOTD
   shell: chmod -x /etc/update-motd.d/*
 
+- name: Disable specific MOTD notices
+  shell: path={{ item }} mode=0644 state=touch
+  with_items:
+    - /etc/update-motd.d/90-updates-available
+    - /etc/update-motd.d/98-fsck-at-reboot
+
 - name: Add custom login splash MOTD
   copy: src=motd/00-header dest=/etc/update-motd.d/00-header mode=0755
 
