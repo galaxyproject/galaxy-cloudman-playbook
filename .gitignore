@@ -5,3 +5,4 @@ syntax: glob
 *.orig
 *.DS_Store
 inventory/cloud-builder
+scripts/shed_tool_list.yaml
