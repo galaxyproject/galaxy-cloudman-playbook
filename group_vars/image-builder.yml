@@ -13,7 +13,7 @@ cm_system_environment: yes  # Also requires cm_venvburrito to be set
 cm_install_s3fs: yes
 cm_configure_nginx: yes
 cm_install_proftpd: yes
-cm_install_novnc: yes
+cm_install_novnc: no
 
 # System user details
 galaxy_user_uid: 1001
