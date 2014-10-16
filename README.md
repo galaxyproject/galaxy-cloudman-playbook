@@ -10,13 +10,14 @@ cloud.
 There are several roles contained in this playbook; the roles manage
 the build process of different components. To get a complete built,
 you will first need to build the machine image. Then launch an instance
-of that machine image and build the rest of the componts off of it.
-More insturctions about the build process can be found [here][building].
+of that machine image and build the rest of the components off of it.
+More instructions about the build process can be found [here][building].
 
 Machine Image
 -------------
-To build an image, make sure the default values provided in the
-`group_cars/image-builder.yml` file suite you. Next, create a copy of
+To build an image, make sure the default values provided in the `group_vars/all`
+and `group_vars/image-builder.yml` files suite you. Make sure to change the value
+of `psql_galaxyftp_password` in `group_vars/all`! Next, create a copy of
 `inventory/cloud-builder.sample` as `inventory/cloud-builder`, launch a new
 instance (this role has been developed and tested on Ubuntu 14.04) and set the
 instance IP address under `image-builder` host group in the `cloud-builder` file.
@@ -43,11 +44,12 @@ Galaxy File System (galaxyFS)
 Launch an instance of the machine image built in the previous step and attach a
 new volume to it. Create a (`XFS`) file system on that volume and mount it
 (under `/mnt/galaxy`). Note that this can also be done from the CloudMan's
-Admin page by adding a new-volume-based file system. Set the lauched instance
+Admin page by adding a new-volume-based file system. Change the value
+of `psql_galaxyftp_password` in `group_vars/all` and set the launched instance
 IP in `inventory/cloud-builder` under `galaxyFS-builder` host group and run the
 role with
 
-    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS" --extra-vars psql_galaxyftp_password=<choose a password>
+    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
 
 After the run has completed (typically ~15 minutes), you can start the Galaxy
 application by hand and install desired tools via the Tool Shed. To start Galaxy,
@@ -62,7 +64,7 @@ system, unmount the file system and create a snapshot of it from the Cloud's con
 This role requires a number of configuration options for the Galaxy application,
 CloudMan application, PostgreSQL the database, as well as the glue linking those.
 The configuration options have been aggregated under
-`group_vars/galaxyFS-builder.yml` and represent represent reasonable defaults.
+`group_vars/galaxyFS-builder.yml` and represent reasonable defaults.
 Keep in mind that changing the options that influence how the system is deployed
 and/or managed may also require changes in CloudMan. Common variables for all the
 roles in the playbook are stored in `group_vars/all`.

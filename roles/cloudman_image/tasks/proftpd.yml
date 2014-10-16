@@ -6,3 +6,12 @@
 
 - name: Install proftpd package
   command: dpkg -i /tmp/{{ proftpd_package_url | basename }}
+
+- name: Place proftpd.conf
+  template: src=proftpd_default.j2 dest=/usr/proftpd/etc/proftpd.conf
+
+- name: Place init script for proftpd
+  copy: src=proftpd_init dest=/etc/init.d/proftpd mode=0755
+
+- name: Place the welcome message file
+  get_url: url=https://s3.amazonaws.com/cloudman/files/proftpd_welcome.txt dest=/usr/proftpd/etc/welcome_msg.txt

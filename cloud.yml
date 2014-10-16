@@ -25,7 +25,6 @@
 # ``galaxyFS-builder`` host group):
 #
 #   % ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
-#     --extra-vars psql_galaxyftp_password=<make_up_a_pwd>
 #
 - hosts: galaxyFS-builder
   gather_facts: False  # Not making system-level changes so skip
