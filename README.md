@@ -4,11 +4,11 @@ A playbook for building the *Galaxy on the Cloud*
 This playbook is used to build the components required to run
 [CloudMan][cloudman] and [Galaxy on the Cloud][goc]. The playbook is
 used by th [Galaxy project][gp] itself and is intended for anyone
-wanting to deploy their own instance, either on a public or private
-cloud.
+wanting to deploy their own instance of the platform, either on a public or
+private cloud.
 
 There are several roles contained in this playbook; the roles manage
-the build process of different components. To get a complete built,
+the build process of different components. To get the complete platform built,
 you will first need to build the machine image. Then launch an instance
 of that machine image and build the rest of the components off of it.
 More instructions about the build process can be found [here][building].
@@ -54,7 +54,8 @@ role with
 After the run has completed (typically ~15 minutes), you can start the Galaxy
 application by hand and install desired tools via the Tool Shed. To start Galaxy,
 change into the `galaxy` user and from the `galaxy_server_dir` (e.g.,
-*/mnt/galaxy/galaxy-app*) just run `sh run.sh`.
+*/mnt/galaxy/galaxy-app*) just run `sh run.sh`. Take a look at the `scripts`
+directory in this repository for an automated method of installing the tools.
 
 Once the tools have been installed, you need to create a snapshot of the file
 system. Before doing so, stop any services that might still be using the file
