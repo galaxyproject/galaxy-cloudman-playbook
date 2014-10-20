@@ -15,3 +15,9 @@
 
 - name: Place nginx error files
   unarchive: src=nginx_errdoc.tar.gz dest=/usr/share/nginx/html
+
+- name: Create nginx upload_store dir
+  file: state=directory path={{ nginx_upload_store_path }}
+
+- name: Reload nginx config
+  shell: nginx -s reload
