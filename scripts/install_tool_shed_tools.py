@@ -15,13 +15,15 @@ updated to reflect this configuration.
 
 Usage:
 
-    python install_tool_shed_tools.py
+    python install_tool_shed_tools.py [-h]
 
 Required libraries:
     bioblend, pyyaml
 """
 import yaml
 import datetime as dt
+from optparse import OptionParser
+
 from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.toolshed import ToolShedClient
 from bioblend.toolshed import ToolShedInstance
@@ -110,13 +112,29 @@ def main():
     """
     Parse the default input file and proceed to install listed tools.
     """
+    parser = OptionParser(usage="usage: python %prog [options]")
+    parser.add_option("-f", "--toolsfile",
+                      dest="tool_list_file",
+                      default="shed_tool_list.yaml",
+                      help="Tools file to use (see shed_tool_list.yaml.sample)",)
+    parser.add_option("-a", "--apikey",
+                      dest="api_key",
+                      default=None,
+                      help="Galaxy admin user API key",)
+    parser.add_option("-g", "--galaxy",
+                      dest="galaxy_url",
+                      default=None,
+                      help="URL for the Galaxy instance",)
+    (options, args) = parser.parse_args()
+
     istart = dt.datetime.now()
-    tool_list_file = 'shed_tool_list.yaml'
+    tool_list_file = options.tool_list_file
     tl = load_input_file(tool_list_file)  # Input file contents
     tools_info = tl['tools']  # The list of tools to install
-    gi = galaxy_instance(tl['galaxy_instance'], tl['api_key'])
+    galaxy_url = options.galaxy_url or tl['galaxy_instance']
+    api_key = options.api_key or tl['api_key']
+    gi = galaxy_instance(galaxy_url, api_key)
     tsc = tool_shed_client(gi)
-
     itl = installed_tools(tsc)  # installed tools list
 
     responses = []
