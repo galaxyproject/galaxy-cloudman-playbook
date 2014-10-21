@@ -11,7 +11,7 @@
     - vnc4server
     - xinetd
 
-- name: Create novnc install dir {{ novnc_install_dir }}
+- name: Create novnc install dir
   file: path={{ novnc_install_dir }} state=directory
 
 - name: Clone novnc

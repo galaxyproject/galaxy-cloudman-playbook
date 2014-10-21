@@ -7,7 +7,7 @@
     - "{{ galaxy_user_name }}"
     - shadow
 
-- name: Add galaxy user '{{ galaxy_user_name }}'
+- name: Add galaxy user
   user: name={{ galaxy_user_name }} uid={{ galaxy_user_uid }} shell=/bin/bash groups={{ galaxy_user_name }},shadow
 
 - name: Add nobody user to shadow group

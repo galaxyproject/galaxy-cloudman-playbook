@@ -1,4 +1,4 @@
-- name: Install virutalenv-burrito for user {{ default_user }}
+- name: Install virutalenv-burrito for user default_user
   shell: curl -sL https://raw.githubusercontent.com/brainsik/virtualenv-burrito/master/virtualenv-burrito.sh | $SHELL
   args:
     creates: "{{ default_user_home }}/.venvburrito"
@@ -12,7 +12,7 @@
 
 # Is there a way to do the subsequent task, which is dependent on existence of a
 # file, w/o having this (ie, separate) task that just checks if the file exists?
-- name: Check if {{ default_user_home }}/.venvburrito/startup.sh exists
+- name: "Check if [default_user_home]/.venvburrito/startup.sh exists"
   stat: path={{ default_user_home }}/.venvburrito/startup.sh
   register: vburrito_start
 
