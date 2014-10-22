@@ -21,7 +21,7 @@
   when: cm_venvburrito
 
 - include: system_environment.yml
-  when: cm_system_environment and cm_venvburrito
+  when: cm_system_environment
 
 - include: s3fs.yml
   when: cm_install_s3fs

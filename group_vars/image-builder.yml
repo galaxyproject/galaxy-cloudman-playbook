@@ -8,17 +8,17 @@
 cm_install_packages: yes
 cm_install_libraries: yes
 cm_add_system_users: yes
-cm_venvburrito: yes
-cm_system_environment: yes  # Also requires cm_venvburrito to be set
-cm_install_s3fs: yes
+cm_venvburrito: no
+cm_system_environment: yes
+cm_install_s3fs: no
 cm_configure_nginx: yes
 cm_install_proftpd: yes
 cm_install_novnc: no
 
 # System user details
 galaxy_user_uid: 1001
-default_user: ubuntu
-default_user_home: /home/ubuntu
+default_user: gxy
+default_user_home: /home/gxy
 
 # CloudMan details
 cm_hg_repo: https://bitbucket.org/galaxy/cloudman/raw/tip
@@ -27,7 +27,7 @@ cm_hg_repo: https://bitbucket.org/galaxy/cloudman/raw/tip
 s3fs_version: 1.77
 proftpd_package_url: https://s3.amazonaws.com/cloudman/galaxy-proftpd-1.3.5_gxycm-20140910b01-trusty_amd64.deb
 nginx_package_url: https://s3.amazonaws.com/cloudman/galaxy-nginx-1.4.7_gxycm-20140902b01-trusty_amd64.deb
-nginx_upload_store_path: /mnt/galaxy/upload_store
+nginx_upload_store_path: "{{ galaxyFS_base_dir }}/upload_store"
 
 # novnc setup details
 novnc_install_dir: /opt/galaxy/novnc

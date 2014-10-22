@@ -54,25 +54,29 @@
     - "{{ default_user }}"
     - "{{ galaxy_user_name }}"
 
-- name: Download CloudMan's requirements.txt
-  get_url: url={{ cm_hg_repo }}/requirements.txt dest=/tmp/requirements.txt
+- name: Place supervisord.conf file
+  copy: src=supervisor/supervisord.conf dest=/etc/supervisord.conf
 
-- name: Check if vburrito venv CM exists
-  sudo_user: "{{ default_user }}"
-  command: bash -l -c "lsvirtualenv | grep CM"
-  register: CM_venv_installed
-  ignore_errors: yes
+- name: Create supervisor program conf dir
+  file: path=/etc/supervisor/conf.d state=directory
 
-- name: Via vburrito, create a virtualenv for CloudMan (called CM)
-  sudo_user: "{{ default_user }}"
-  command: bash -l -c "mkvirtualenv -r /tmp/requirements.txt CM"
-  when: CM_venv_installed.rc == 1
+- name: Place supervisor program conf files
+  copy: src=supervisor/{{ item }} dest=/etc/supervisor/conf.d/{{ item }}
+  with_items:
+    - nginx.conf
+    # - slurm.conf
 
-- name: Configure logrotate
-  copy: src=cloudman.logrotate dest=/etc/logrotate.d/cloudman
+# - name: Place postgres supervisor program conf file
+#   template: src=postgres_supervisor.j2 dest=/etc/supervisor/conf.d/postgres.conf
 
-- name: Copy CloudMan's ec2autorun
-  copy: src=ec2autorun.py dest=/usr/bin/ mode=0744
+# - name: Place galaxy supervisor program conf file
+#   template: src=galaxy_supervisor.j2 dest=/etc/supervisor/conf.d/galaxy.conf
 
-- name: Configure ec2autorun as an upstart job
-  copy: src=cloudman.conf dest=/etc/init/cloudman.conf
+- name: Place supervisor init.d file
+  copy: src=supervisor/supervisord_init dest=/etc/init.d/supervisord mode=0755
+
+- name: Remove nginx init script
+  file: path=/etc/init.d/nginx state=absent
+
+- name: Place Galaxy init file
+  template: src=galaxy_init.j2 dest=/etc/init.d/galaxy mode=0755

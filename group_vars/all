@@ -3,8 +3,8 @@
 #
 #   Common variables across all roles
 
-galaxy_user_name: galaxy
-galaxyFS_base_dir: /mnt/galaxy
+galaxy_user_name: gxy
+galaxyFS_base_dir: /opt/galaxy
 galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
 
 galaxy_db_port: 5930
