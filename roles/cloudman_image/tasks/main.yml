@@ -6,34 +6,34 @@
 #   individual task groups
 
 - include: packages.yml
-  when: cm_install_packages
+  when: cm_install_packages and not only_cleanup
 
 - include: libraries.yml
-  when: cm_install_libraries
+  when: cm_install_libraries and not only_cleanup
 
 - include: system_users.yml
-  when: cm_add_system_users
+  when: cm_add_system_users and not only_cleanup
 
 - include: install_venvburrito.yml username='galaxy' user_home='/home/galaxy'
-  when: cm_venvburrito
+  when: cm_venvburrito and not only_cleanup
 
 - include: install_venvburrito.yml username='{{ default_user }}' user_home='{{ default_user_home }}'  #'
-  when: cm_venvburrito
+  when: cm_venvburrito and not only_cleanup
 
 - include: system_environment.yml
-  when: cm_system_environment
+  when: cm_system_environment and not only_cleanup
 
 - include: s3fs.yml
-  when: cm_install_s3fs
+  when: cm_install_s3fs and not only_cleanup
 
 - include: nginx.yml
-  when: cm_configure_nginx
+  when: cm_configure_nginx and not only_cleanup
 
 - include: proftpd.yml
-  when: cm_install_proftpd
+  when: cm_install_proftpd and not only_cleanup
 
 - include: novnc.yml
-  when: cm_install_novnc
+  when: cm_install_novnc and not only_cleanup
 
 - include: cleanup.yml
-  when: cm_cleanup
+  when: cleanup or only_cleanup
