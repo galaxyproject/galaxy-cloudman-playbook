@@ -49,9 +49,9 @@ galaxy_config:
     retry_metadata_internally: True
     outputs_to_working_directory: True
     cleanup_job: onsuccess
-    start_job_runners: drmaa
-    default_cluster_job_runner: drmaa:///
-    cluster_job_queue_workers: 3
+    # start_job_runners: drmaa
+    # default_cluster_job_runner: drmaa:///
+    # cluster_job_queue_workers: 3
     use_pbkdf2: False
     allow_user_deletion: True
 
