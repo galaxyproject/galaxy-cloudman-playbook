@@ -78,5 +78,9 @@
 - name: Remove nginx init script
   file: path=/etc/init.d/nginx state=absent
 
+- include: create_simple_service.yml src_file='supervisord'
+
 - name: Place Galaxy init file
   template: src=galaxy_init.j2 dest=/etc/init.d/galaxy mode=0755
+
+- include: create_simple_service.yml src_file='galaxy'
