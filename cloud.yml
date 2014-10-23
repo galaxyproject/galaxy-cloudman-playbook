@@ -18,7 +18,9 @@
   sudo: yes
   roles:
     - cloudman_image
-  tags: machine-image
+  tags:
+    - machine-image
+    - server
 
 # To build the galaxyFS, use this role via the following command (make sure
 # you provided an instance IP in ``inventory/cloud-builder`` for
@@ -55,4 +57,6 @@
       sudo_user: postgres
   sudo_user: "{{ galaxy_user_name }}"
   sudo: yes
-  tags: galaxyFS
+  tags:
+    - galaxyFS
+    - server
