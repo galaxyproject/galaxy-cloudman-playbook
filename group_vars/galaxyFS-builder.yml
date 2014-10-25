@@ -13,7 +13,6 @@ galaxy_mutable_data_dir: "{{ galaxyFS_base_dir }}"
 galaxy_mutable_config_dir: "{{ galaxyFS_base_dir }}/var"
 galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
 
-galaxy_db_dir: "{{ galaxyFS_base_dir }}/db"
 galaxy_db_log: /tmp/pSQL.log
 
 galaxy_manage_trackster: yes

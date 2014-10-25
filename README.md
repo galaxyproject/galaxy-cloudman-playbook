@@ -86,7 +86,7 @@ configuration options used to setup the Server are available within the individu
 in the `group_vars` folder. Make sure to change the value of `psql_galaxyftp_password`
 in `group_vars/all`! Next, create a copy of `inventory/cloud-builder.sample` as
 `inventory/cloud-builder` and provide the IP address of the target machine under both
-under `image-builder` and `galaxyFS-builder` host groups. Once the setting are to your
+under `image-builder` and `galaxyFS-builder` host groups. Once the settings are to your
 liking, run the role with
 
     ansible-playbook -i inventory/cloud-builder cloud.yml --tags "server"
