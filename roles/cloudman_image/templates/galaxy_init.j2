@@ -21,7 +21,7 @@ LOGFILE={{ galaxy_server_dir }}/main.log
 case $1 in
         start)
                 log_daemon_msg "Starting PostgreSQL" "Galaxy"
-                su - $PSQL_USER /bin/sh -c "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxyFS_base_dir }}/db -w -l /var/log/postgresql/pg_galaxy.log start"
+                su - $PSQL_USER /bin/sh -c "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l /var/log/postgresql/pg_galaxy.log start"
                 log_daemon_msg "Starting Galaxy" "Galaxy"
                 su - $GALAXY_USER /bin/sh -c "$GALAXY_HOME/run.sh --pid-file=$PIDFILE --log-file $LOGFILE  --daemon"
                 status=$?
@@ -33,7 +33,7 @@ case $1 in
                 log_end_msg $?
                 rm -f $PIDFILE
                 log_daemon_msg "Stopping PostgreSQL" "Galaxy"
-                su - $PSQL_USER /bin/sh -c "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxyFS_base_dir }}/db stop"
+                su - $PSQL_USER /bin/sh -c "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} stop"
                 log_end_msg $?
                 ;;
         restart|force-reload)
