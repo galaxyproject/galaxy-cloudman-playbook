@@ -1,9 +1,15 @@
 package-builder ansible_ssh_user=ubuntu ansible_ssh_private_key_file=<path_to_your_private_ssh_key> ansible_ssh_host=<instance_ip>
 
 [image-builder]
-<instance_ip> ansible_ssh_private_key_file=<path_to_your_private_ssh_key>
-[image-builder:vars]
-ansible_ssh_user=ubuntu
+<instance_ip>
 
 [galaxyFS-builder]
-<instance_ip> ansible_ssh_private_key_file=<path_to_your_private_ssh_key> ansible_ssh_user=ubuntu
+<instance_ip>
+
+[builder:children]
+image-builder
+galaxyFS-builder
+
+[builder:vars]
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key_file=<path_to_your_private_ssh_key>
