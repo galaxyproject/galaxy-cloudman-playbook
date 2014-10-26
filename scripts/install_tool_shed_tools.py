@@ -20,14 +20,29 @@ Usage:
 Required libraries:
     bioblend, pyyaml
 """
-import yaml
 import datetime as dt
+import logging
+import yaml
 from optparse import OptionParser
 
 from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.toolshed import ToolShedClient
 from bioblend.toolshed import ToolShedInstance
 from bioblend.galaxy.client import ConnectionError
+
+# Omit (most of the) logging by external libraries
+logging.getLogger('bioblend').setLevel(logging.ERROR)
+logging.getLogger('requests').setLevel(logging.ERROR)
+
+
+def _setup_global_logger():
+    formatter = logging.Formatter('%(asctime)s %(levelname)-5s - %(message)s')
+    console = logging.StreamHandler()
+    console.setFormatter(formatter)
+    new_logger = logging.root
+    new_logger.addHandler(console)
+    new_logger.setLevel(logging.DEBUG)
+    return new_logger
 
 
 def load_input_file(tool_list_file='tool_shed_tool_list.yaml'):
@@ -149,7 +164,7 @@ def main():
         for it in itl:
             if r['name'] == it['name'] and r['owner'] == it['owner'] and \
                it['tool_shed'] in r['tool_shed_url'] and it['latest']:
-                print ("\n({0}/{1}) Tool {2} already installed. Skipping..."
+                log.debug("({0}/{1}) Tool {2} already installed. Skipping..."
                        .format(counter, total_num_tools, r['name']))
                 skipped_tools.append({'name': r['name'], 'owner': r['owner']})
                 already_installed = True
@@ -168,23 +183,23 @@ def main():
                     r['name'], r['owner'])[-1]
             # Initate tool installation
             start = dt.datetime.now()
-            print '\n(%s/%s) Installing tool %s from %s to section %s' % (counter,
-                total_num_tools, r['name'], r['owner'], r['tool_panel_section_id'])
+            log.debug('(%s/%s) Installing tool %s from %s to section %s' % (counter,
+                total_num_tools, r['name'], r['owner'], r['tool_panel_section_id']))
             try:
                 response = tsc.install_repository_revision(r['tool_shed_url'], r['name'],
                     r['owner'], r['revision'], r['install_tool_dependencies'],
                     r['install_repository_dependencies'], r['tool_panel_section_id'])
                 end = dt.datetime.now()
-                print "Tool %s installed successfully (in %s) at revision %s" % (r['name'],
-                    str(end - start), r['revision'])
+                log.debug("\tTool %s installed successfully (in %s) at revision %s" % (r['name'],
+                    str(end - start), r['revision']))
             except ConnectionError, e:
                 response = None
                 end = dt.datetime.now()
                 if default_err_msg in e.body:
-                    print ("Tool %s already installed (at revision %s)" % (r['name'],
+                    log.debug("\tTool %s already installed (at revision %s)" % (r['name'],
                            r['revision']))
                 else:
-                    print ("* Error installing a tool! Name: %s, owner: %s, revision: %s"
+                    log.error("\t* Error installing a tool! Name: %s, owner: %s, revision: %s"
                            ", error: %s" % (r['name'], r['owner'], r['revision'], e.body))
                     errored_tools.append({'name': r['name'], 'owner': r['owner'],
                                           'revision': r['revision'], 'error': e.body})
@@ -192,11 +207,13 @@ def main():
             responses.append(outcome)
         counter += 1
 
-    print "\n\nSkipped tools: {0}".format(skipped_tools)
-    print "\nErrored tools: {0}".format(errored_tools)
-    print "\nAll tools listed in '{0}' have been processed.".format(tool_list_file)
-    print "\nTotal run time: {0}".format(dt.datetime.now() - istart)
+    log.info("Skipped tools: {0}".format(skipped_tools))
+    log.info("Errored tools: {0}".format(errored_tools))
+    log.info("All tools listed in '{0}' have been processed.".format(tool_list_file))
+    log.info("Total run time: {0}".format(dt.datetime.now() - istart))
 
 if __name__ == "__main__":
+    global log
+    log = _setup_global_logger()
     main()
     pass
