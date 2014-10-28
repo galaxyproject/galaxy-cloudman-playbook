@@ -8,7 +8,7 @@
 # Note: This play will use sudo to install some system packages and the fpm gem
 #
 # To use:
-#  - Set instance IP address for `package-builder` in `inventory/cloud-builder`
+#  - Set instance IP address for `package-builder` in `inventory/builders`
 #  - Run with:
 #    % ansible-playbook -i inventory/hosts build/proftpd.yml \
 #      --extra-vars work_dir=/tmp/proftpd \
