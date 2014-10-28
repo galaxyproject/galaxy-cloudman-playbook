@@ -4,5 +4,5 @@ syntax: glob
 *.*.swp
 *.orig
 *.DS_Store
-inventory/cloud-builder
+inventory/builders
 scripts/shed_tool_list.yaml

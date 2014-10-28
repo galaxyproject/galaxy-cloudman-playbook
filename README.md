@@ -1,5 +1,5 @@
-A playbook for building the *Galaxy on the Cloud*
-=================================================
+A playbook for building the *Galaxy on the Cloud* or *Galaxy Server*
+====================================================================
 
 This [Ansible][ansible] playbook is used to build the components required to run
 [CloudMan][cloudman], [Galaxy on the Cloud][goc], or Galaxy Server. The playbook is
@@ -22,12 +22,12 @@ Machine Image
 To build an image, make sure the default values provided in the `group_vars/all`
 and `group_vars/image-builder.yml` files suite you. Make sure to change the value
 of `psql_galaxyftp_password` in `group_vars/all`! Next, create a copy of
-`inventory/cloud-builder.sample` as `inventory/cloud-builder`, launch a new
+`inventory/builders.sample` as `inventory/builders`, launch a new
 instance (this role has been developed and tested on Ubuntu 14.04) and set the
-instance IP address under `image-builder` host group in the `cloud-builder` file.
+instance IP address under `image-builder` host group in the `builders` file.
 Finally, run the role with
 
-    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "machine-image" --extra-vars vnc_password=<choose a password> --extra-vars cleanup=true
+    ansible-playbook -i inventory/builders cloud.yml --tags "machine-image" --extra-vars vnc_password=<choose a password> --extra-vars cleanup=true
 
 On average, the build time takes about 30 minutes. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
@@ -50,10 +50,10 @@ new volume to it. Create a (`XFS`) file system on that volume and mount it
 (under `/mnt/galaxy`). Note that this can also be done from the CloudMan's
 Admin page by adding a new-volume-based file system. Change the value
 of `psql_galaxyftp_password` in `group_vars/all` and set the launched instance
-IP in `inventory/cloud-builder` under `galaxyFS-builder` host group and run the
+IP in `inventory/builders` under `galaxyFS-builder` host group and run the
 role with
 
-    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "galaxyFS"
+    ansible-playbook -i inventory/builders cloud.yml --tags "galaxyFS"
 
 After the run has completed (typically ~15 minutes), you can start the Galaxy
 application by hand and install desired tools via the Tool Shed. To start Galaxy,
@@ -84,12 +84,12 @@ thus requires *root* access; it is best used on a dedicated system or a VM.
 To run this role, you must switch to the `server` branch of the repository. The
 configuration options used to setup the Server are available within the individual files
 in the `group_vars` folder. Make sure to change the value of `psql_galaxyftp_password`
-in `group_vars/all`! Next, create a copy of `inventory/cloud-builder.sample` as
-`inventory/cloud-builder` and provide the IP address of the target machine under both
+in `group_vars/all`! Next, create a copy of `inventory/builders.sample` as
+`inventory/builders` and provide the IP address of the target machine under both
 under `image-builder` and `galaxyFS-builder` host groups. Once the settings are to your
 liking, run the role with
 
-    ansible-playbook -i inventory/cloud-builder cloud.yml --tags "server"
+    ansible-playbook -i inventory/builders cloud.yml --tags "server"
 
 Once the run has completed and you'd like to install Galaxy tools, take a look at the
 `scripts` directory in this repository for an automated method of installing the tools.

@@ -12,7 +12,7 @@
 # gem.
 #
 # To use:
-#  - Set instance IP address for `package-builder` in `inventory/cloud-builder`
+#  - Set instance IP address for `package-builder` in `inventory/builders`
 #  - Run with:
 #    % ansible-playbook -i inventory/hosts build/nginx.yml \
 #      --extra-vars work_dir=/tmp/nginx --extra-vars nginx_dir_prefix=/usr/nginx
