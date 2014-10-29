@@ -77,9 +77,13 @@ roles in the playbook are stored in `group_vars/all`.
 Galaxy Server
 -------------
 This role will build a standalone Galaxy Server that is configured to be
-[production-ready][production]. Note that this role will install a number of system
-packages, system users, as well as Galaxy-required software and configurations and
-thus requires *root* access; it is best used on a dedicated system or a VM.
+[production-ready][production]. The Server does not contain any of the coud or
+CloudMan components but instead focuses on providing a well-configured standalone
+instance of the Galaxy application for a dedicated server. As part of the
+installation, Galaxy will be configured to use the local job runner. Note that
+this role will install a number of system packages, system users, as well as
+Galaxy-required software and configurations and thus requires *root* access; it
+is best used on a dedicated system or a VM.
 
 To run this role, you must switch to the `server` branch of the repository. The
 configuration options used to setup the Server are available within the individual files
