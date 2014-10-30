@@ -22,6 +22,7 @@ Required libraries:
 """
 import datetime as dt
 import logging
+import time
 import yaml
 from optparse import OptionParser
 
@@ -94,6 +95,19 @@ def installed_tools(tsc=None):
                                          'tool_shed': it['tool_shed'],
                                          'latest': it['tool_shed_status']['latest_installable_revision']})
     return installed_tools_list
+
+
+def update_tool_status(tool_shed_client, tool_id):
+    """
+    Given a `tool_shed_client` handle and and Tool Shed `tool_id`, return the
+    installation status of the tool.
+    """
+    try:
+        r = tool_shed_client.show_repository(tool_id)
+        return r.get('status', 'NA')
+    except Exception, e:
+        log.warning('\tException checking tool {0} status: {1}'.format(tool_id, e))
+        return 'NA'
 
 
 def _tools_to_install(owners=['devteam', 'iuc'], return_formatted=False):
@@ -176,7 +190,7 @@ def main():
             if 'install_repository_dependencies' not in r:
                 r['install_repository_dependencies'] = True
             if 'tool_shed_url' not in r:
-                r['tool_shed_url'] = 'http://toolshed.g2.bx.psu.edu'
+                r['tool_shed_url'] = 'https://toolshed.g2.bx.psu.edu'
             ts = ToolShedInstance(url=r['tool_shed_url'])
             if 'revision' not in r:
                 r['revision'] = ts.repositories.get_ordered_installable_revisions(
@@ -189,6 +203,15 @@ def main():
                 response = tsc.install_repository_revision(r['tool_shed_url'], r['name'],
                     r['owner'], r['revision'], r['install_tool_dependencies'],
                     r['install_repository_dependencies'], r['tool_panel_section_id'])
+                tool_id = None
+                if len(response) > 0:
+                    tool_id = response[0].get('id', None)
+                    tool_status = response[0].get('status', None)
+                # Possibly an infinite loop here. Introduce a kick-out counter?
+                while not tool_status in ['Installed', 'Error']:
+                    log.debug('\tTool still installing...')
+                    time.sleep(10)
+                    tool_status = update_tool_status(tsc, tool_id)
                 end = dt.datetime.now()
                 log.debug("\tTool %s installed successfully (in %s) at revision %s" % (r['name'],
                     str(end - start), r['revision']))
@@ -199,8 +222,9 @@ def main():
                     log.debug("\tTool %s already installed (at revision %s)" % (r['name'],
                            r['revision']))
                 else:
-                    log.error("\t* Error installing a tool! Name: %s, owner: %s, revision: %s"
-                           ", error: %s" % (r['name'], r['owner'], r['revision'], e.body))
+                    log.error("\t* Error installing a tool (after %s)! Name: %s,"
+                              "owner: %s, revision: %s, error: %s" % (r['name'],
+                              str(end - start), r['owner'], r['revision'], e.body))
                     errored_tools.append({'name': r['name'], 'owner': r['owner'],
                                           'revision': r['revision'], 'error': e.body})
             outcome = {'tool': r, 'response': response, 'duration': str(end - start)}
