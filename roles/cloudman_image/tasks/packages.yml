@@ -30,6 +30,7 @@
     - iftop
     - iotop
     - ipython
+    - libffi-dev
     - libncurses5-dev
     - libpam0g-dev
     - libpq-dev
