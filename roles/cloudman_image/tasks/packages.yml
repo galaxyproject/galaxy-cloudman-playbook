@@ -3,6 +3,12 @@
 - name: Add custom Galaxy PPA (used for nginx package)
   apt_repository: repo="ppa:galaxyproject/nginx" update_cache=no
 
+- name: Add Docker repository key
+  apt_key: url="https://get.docker.io/gpg" id="A88D21E9"
+
+- name: Add Docker repository
+  apt_repository: repo='deb http://get.docker.io/ubuntu docker main' update_cache=no
+
 - name: Update APT cache
   apt: update_cache=yes cache_valid_time=3600
 
@@ -66,6 +72,7 @@
     - libtool  # s3fs required
     - libxml2-dev  # s3fs required
     - libmunge-dev
+    - lxc-docker
     - mime-support  # s3fs required
     - munge
     - nfs-common
