@@ -47,7 +47,7 @@ galaxy_config:
     enable_job_recovery: True
     set_metadata_externally: True
     retry_metadata_internally: True
-    outputs_to_working_directory: True
+    outputs_to_working_directory: False
     cleanup_job: onsuccess
     start_job_runners: drmaa
     default_cluster_job_runner: drmaa:///
