@@ -44,6 +44,7 @@
        sudo: yes
        sudo_user: postgres
      - galaxyprojectdotorg.galaxy
+     - galaxyprojectdotorg.pulsar
      - trackster
   post_tasks:
     - name: Create Galaxy Install DB
