@@ -11,7 +11,7 @@
 # ``image-builder`` host group):
 #
 #   % ansible-playbook -i inventory/builders cloud.yml --tags "machine-image"
-#     --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cleanup=true]
+#     --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cleanup=yes]
 #
 - hosts: image-builder
   # gather_facts: False  # Uncomment during dev only
