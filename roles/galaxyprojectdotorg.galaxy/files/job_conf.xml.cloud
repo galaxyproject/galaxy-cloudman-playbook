@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<job_conf>
+    <plugins>
+        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner" />
+        <plugin id="pulsar_rest" type="runner" load="galaxy.jobs.runners.pulsar:PulsarRESTJobRunner" />
+        <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner" workers="4" />
+    </plugins>
+    <handlers default="main">
+        <handler id="main" />
+    </handlers>
+    <destinations default="slurm_cluster">
+        <destination id="slurm_cluster" runner="slurm"/>
+        <destination id="pulsar_server" runner="pulsar_rest">
+            <param id="url">http://pulsar_server_ip:pulsar_server_port/</param>
+        </destination>
+        <destination id="local_runner" runner="local" />
+    </destinations>
+    <tools>
+        <!-- <tool id="upload1" destination="local_runner" /> -->
+        <!-- <tool id="random_lines1" destination="pulsar_server" /> -->
+    </tools>
+</job_conf>
