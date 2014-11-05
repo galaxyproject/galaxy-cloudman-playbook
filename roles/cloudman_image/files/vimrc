@@ -34,3 +34,16 @@ highlight LineNr ctermfg=grey ctermbg=234 guibg=#202020 " Set color of the line 
 
 " Have 3 lines of offset (or buffer) when scrolling
 set scrolloff=3
+
+" Automatically set/unset Vim's paste mode when you paste
+" http://bit.ly/1GpolV2
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
