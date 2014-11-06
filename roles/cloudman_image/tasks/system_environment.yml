@@ -1,6 +1,9 @@
 ---
 # Setup system environment
 
+- name: Allow galaxy user to run docker
+  lineinfile: "dest=/etc/sudoers line='{{ galaxy_user_name }}  ALL = (root) NOPASSWD: SETENV: /usr/bin/docker'"
+
 - name: Setup system-wide vimrc
   copy: src=vimrc dest=/etc/vim/vimrc
 
