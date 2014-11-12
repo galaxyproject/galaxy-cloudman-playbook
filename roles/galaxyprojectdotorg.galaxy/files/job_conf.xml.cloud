@@ -8,7 +8,7 @@
     <handlers default="main">
         <handler id="main" />
     </handlers>
-    <destinations default="slurm_cluster">
+    <destinations default="local">
         <destination id="slurm_cluster" runner="slurm"/>
         <destination id="pulsar_server" runner="pulsar_rest">
             <param id="url">http://pulsar_server_ip:pulsar_server_port/</param>
