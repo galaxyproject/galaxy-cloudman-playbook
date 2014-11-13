@@ -62,12 +62,13 @@
 - name: Copy novnc default file
   template: src=novnc_default.j2 dest=/etc/default/novnc
 
-- name: Copy vncserver init file
-  copy: src=vncserver_init dest=/etc/init.d/vncserver mode=0755
-
 - name: Copy vncserver default file
   template: src=vncserver_default.j2 dest=/etc/default/vncserver
 
-- include: create_simple_service.yml src_file='novnc'
+- name: Copy lightdm config file
+  copy: src=lightdm.conf dest=/etc/lightdm/lightdm.conf
 
-- include: create_simple_service.yml src_file='vncserver'
+- name: Copy vnc config file for xinetd
+  copy: src=xinetd_vnc dest=/etc/xinetd.d/vnc
+
+- include: create_simple_service.yml src_file='novnc'

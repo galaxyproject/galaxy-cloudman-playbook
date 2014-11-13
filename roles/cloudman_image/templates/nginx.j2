@@ -117,7 +117,7 @@ http {
         location ~ /vnc {
             auth_pam    "Secure Zone";
             auth_pam_service_name   "nginx";
-            # TMP (2014-09) rewrite ^(.*[^/])$ $1/ permanent; # redirect if no trailing slash
+            rewrite ^(.*[^/])$ $1/ permanent; # redirect if no trailing slash
             rewrite ^/vnc(.*) //$1 break;
             proxy_pass http://vnc_app;
             proxy_http_version 1.1;
