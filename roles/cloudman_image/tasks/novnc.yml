@@ -69,6 +69,6 @@
   copy: src=lightdm.conf dest=/etc/lightdm/lightdm.conf
 
 - name: Copy vnc config file for xinetd
-  copy: src=xinetd_vnc dest=/etc/xinetd.d/vnc
+  template: src=xinetd_vnc.j2 dest=/etc/xinetd.d/vnc
 
 - include: create_simple_service.yml src_file='novnc'
