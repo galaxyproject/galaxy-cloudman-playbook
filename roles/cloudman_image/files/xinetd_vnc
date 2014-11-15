@@ -1,0 +1,12 @@
+service vnc
+{
+   disable     = no
+   socket_type = stream
+   protocol    = tcp
+   wait        = no
+   user        = ubuntu
+   server      = /usr/bin/Xvnc
+   server_args = -inetd -once -query localhost -geometry 1024x768 -depth 16 passwordFile=/home/ubuntu/.vnc/passwd
+   type        = UNLISTED
+   port        = 5901
+}
