@@ -69,6 +69,7 @@
     - libfuse2
     - libpcre3-dev
     - libreadline6-dev
+    - libslurm-dev
     - libssl-dev
     - libtool  # s3fs required
     - libxml2-dev  # s3fs required
