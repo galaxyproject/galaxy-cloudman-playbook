@@ -502,6 +502,6 @@ tools:
   tool_panel_section_id: ngs:_chip-seq
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name:ncbi_sra_toolkit
-  owner: matt-shirley
+  owner: !!python/unicode 'matt-shirley'
   tool_panel_section_id: getext
   tool_shed_url: https://toolshed.g2.bx.psu.edu
