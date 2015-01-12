@@ -31,7 +31,9 @@
     - iotop
     - ipython
     - libffi-dev
+    - liblapack-dev
     - libncurses5-dev
+    - libopenblas-dev
     - libpam0g-dev
     - libpq-dev
     - libsparsehash-dev
