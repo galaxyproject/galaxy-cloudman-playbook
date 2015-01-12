@@ -25,6 +25,7 @@ galaxy_config:
     port: 8080
     host: 127.0.0.1
   "app:main":
+    admin_users: cloud@galaxyproject.org
     database_connection: postgresql://{{ galaxy_user_name }}@localhost:{{ galaxy_db_port }}/galaxy
     install_database_connection: sqlite:///{{ galaxy_mutable_config_dir }}/galaxy_install_db.sqlite?isolation_level=IMMEDIATE
     database_engine_option_pool_size: 20
@@ -56,6 +57,7 @@ galaxy_config:
     file_path: "{{ galaxyFS_base_dir }}/files"
     tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
     len_file_path: "{{ len_file_path }}"
+    tool_data_path: /mnt/galaxyIndices/tool-data
 
     tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/shed_tool_conf_cloud.xml,{{ galaxy_shed_tool_conf_file }}"
     tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
