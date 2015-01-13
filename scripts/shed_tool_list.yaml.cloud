@@ -505,3 +505,11 @@ tools:
   owner: !!python/unicode 'matt-shirley'
   tool_panel_section_id: getext
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: fastq_trimmer
+  owner: devteam
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: fastq_trimmer_by_quality
+  owner: devteam
+  tool_panel_section_id: NGS_QC
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
