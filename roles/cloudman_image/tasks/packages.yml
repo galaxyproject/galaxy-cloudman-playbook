@@ -10,7 +10,7 @@
   apt_repository: repo='deb http://get.docker.io/ubuntu docker main' update_cache=no
 
 - name: Update APT cache
-  apt: update_cache=yes cache_valid_time=3600
+  apt: update_cache=yes
 
 - name: Install required system packages
   apt: pkg={{ item }} state=latest
@@ -21,7 +21,6 @@
     - bioperl
     - cmake
     - curl
-    - default-jdk
     - g++
     - gcc
     - gfortran

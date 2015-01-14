@@ -17,7 +17,10 @@
   # gather_facts: False  # Uncomment during dev only
   sudo: yes
   roles:
-    - cloudman_image
+    - role: smola.java
+      java_packages:
+        - oracle-java7-installer
+    - cloudman_image  # This must be done as the last role in the playbook
   tags: machine-image
 
 # To build the galaxyFS, use this role via the following command (make sure
@@ -42,7 +45,7 @@
        sudo: yes
        sudo_user: postgres
      - galaxyprojectdotorg.galaxy
-     - galaxyprojectdotorg.pulsar
+     # - galaxyprojectdotorg.pulsar
      - trackster
   post_tasks:
     - name: Create Galaxy Install DB
