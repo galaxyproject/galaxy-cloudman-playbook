@@ -137,6 +137,48 @@ def _tools_to_install(owners=['devteam', 'iuc'], return_formatted=False):
     return tti
 
 
+def _parse_tool_list(tl):
+    """
+    A convenience method for parsing the output from an API call to a Galaxy
+    instance listing all the tools installed on the given instance and
+    formatting it for use by functions in this file. Sample API call:
+    `https://test.galaxyproject.org/api/tools?in_panel=true`
+
+    :type tl: list
+    :param tl: A list of dicts with info about the tools
+
+    :rtype: tuple of lists
+    :return: The returned tuple contains two lists: the first one being a list
+             of tools that were installed on the target Galaxy instance from
+             the Tool Shed and the second one being a list of custom-installed
+             tools. The ToolShed-list is YAML-formatted.
+
+    Note that this method is rather coarse and likely to need some handholding.
+    """
+    ts_tools = []
+    custom_tools = []
+
+    for ts in tl:
+        # print "%s (%s): %s" % (ts['name'], ts['id'], len(ts.get('elems', [])))
+        for t in ts.get('elems', []):
+            tid = t['id'].split('/')
+            if len(tid) > 3:
+                tool_already_added = False
+                for added_tool in ts_tools:
+                    if tid[3] in added_tool['name']:
+                        tool_already_added = True
+                if not tool_already_added:
+                    ts_tools.append({'tool_shed_url': "https://{0}".format(tid[0]),
+                                     'owner': tid[2],
+                                     'name': tid[3],
+                                     'tool_panel_section_id': ts['id']})
+                # print "\t%s, %s, %s" % (tid[0], tid[2], tid[3])
+            else:
+                # print "\t%s" % t['id']
+                custom_tools.append(t['id'])
+    return ts_tools, custom_tools
+
+
 def main():
     """
     Parse the default input file and proceed to install listed tools.
