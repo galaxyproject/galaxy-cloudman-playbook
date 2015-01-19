@@ -513,3 +513,11 @@ tools:
   owner: devteam
   tool_panel_section_id: NGS_QC
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: htseq_count
+  owner: lparsons
+  tool_panel_section_id: samtools
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: differential_count_models
+  owner: fubar
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
