@@ -1,5 +1,5 @@
 ---
-# Setup Galaxy databases
+# Setup a PostgreSQL database for Galaxy CloudMan
 
 - name: Initialize Galaxy database
   shell: "{{ postgresql_bin_dir }}/initdb -D {{ galaxy_db_dir }} creates={{ galaxy_db_dir }}/postgresql.conf"

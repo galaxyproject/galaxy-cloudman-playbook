@@ -8,12 +8,6 @@
 - include: packages.yml
   when: cm_install_packages and not only_cleanup
 
-- include: libraries.yml
-  when: cm_install_libraries and not only_cleanup
-
-- include: system_users.yml
-  when: cm_add_system_users and not only_cleanup
-
 - include: install_venvburrito.yml username='galaxy' user_home='/home/galaxy'
   when: cm_venvburrito and not only_cleanup
 

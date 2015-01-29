@@ -4,23 +4,29 @@
 
 # Before running roles inside this playbook, copy
 # ``inventory/builders.sample`` as ``inventory/builders`` and edit it
-# to provide info about your instance(s)
+# to provide info about your build instance(s)
 
-# To build the base image, use this role via the following command (make sure
-# you provided an instance IP in ``inventory/builders`` for
-# ``image-builder`` host group):
+# The base image can be built in a more automated fashio using Packer
+# (see README but basically just adjust any variables in `packer.json`
+# and issue ths command: ``% packer build packer.json``)
+# or via the following command (in which case make sure you provided
+# instance access details in ``inventory/builders`` for
+# ``image-builder`` host group and uncommented ``image-builder`` below):
 #
 #   % ansible-playbook -i inventory/builders cloud.yml --tags "machine-image"
-#     --extra-vars vnc_password=<make_up_a_pwd> [--extra-vars cleanup=yes]
+#     --extra-vars vnc_password=<a_password>
+#     --extra-vars psql_galaxyftp_password=<a_different_password>
+#     [--extra-vars cleanup=yes]
 #
-- hosts: image-builder
+# - hosts: image-builder
+- hosts: localhost
+  connection: local
   # gather_facts: False  # Uncomment during dev only
   sudo: yes
   roles:
-    - role: smola.java
-      java_packages:
-        - oracle-java7-installer
-    - cloudman_image  # This must be done as the last role in the playbook
+    - role: galaxyprojectdotorg.cloudman-img
+      # vnc_password: <a_password>  # Or specify via the command
+      # psql_galaxyftp_password: <a_different_password>  # Or specify via the command
   tags: machine-image
 
 # To build the galaxyFS, use this role via the following command (make sure
@@ -41,12 +47,12 @@
       file: path={{ galaxy_db_dir }} state=directory owner=postgres group=postgres
       sudo_user: root
   roles:
-     - role: database
+     - role: galaxyprojectdotorg.cloudman-db
        sudo: yes
        sudo_user: postgres
      - galaxyprojectdotorg.galaxy
      # - galaxyprojectdotorg.pulsar
-     - trackster
+     - role: galaxyprojectdotorg.trackster
   post_tasks:
     - name: Create Galaxy Install DB
       command: "{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/create_db.py -c {{ galaxy_config_file }} install chdir={{ galaxy_server_dir }}"

@@ -1,0 +1,34 @@
+---
+# Default varaibles used during the image build process.
+# Some of these can be used to control the execution flow of the
+# role.
+# Some of these variables are reused/relied on as part of a larger
+# ecosystem with Galaxy so care should be taken to keep those in sync.
+
+# Controls which tasks are included, in case you want to execute/update
+# only certain parts of the role.
+cm_install_packages: yes
+cm_venvburrito: yes
+cm_system_environment: yes  # Also requires cm_venvburrito to be set
+cm_install_s3fs: yes
+cm_configure_nginx: yes
+cm_install_proftpd: yes
+cm_install_novnc: no
+cleanup: no
+# If only_cleanup is set, only the cleanup tasks will run and no other.
+# This is intended to be set as a command line variable.
+only_cleanup: no
+
+# Galaxy application details
+# **NOTE** that these variables are also used by Galaxy role
+galaxy_user_name: galaxy
+galaxyFS_base_dir: /mnt/galaxy
+galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
+
+# Postgres database details
+# **NOTE** that these variables are also used by Galaxy role
+galaxy_db_dir: "{{ galaxyFS_base_dir }}/db"
+galaxy_db_port: 5930
+postgresql_bin_dir: /usr/lib/postgresql/9.3/bin
+
+nginx_upload_store_path: "{{ galaxyFS_base_dir }}/upload_store"

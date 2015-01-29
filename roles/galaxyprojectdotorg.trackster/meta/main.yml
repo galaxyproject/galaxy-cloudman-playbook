@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: The Galaxy Project
+  description: Setup a Trackster for Galaxy
+  company: The Galaxy Project
+  license: MIT
+  min_ansible_version: 1.6
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - CloudMan
+  - Galaxy
+dependencies: []

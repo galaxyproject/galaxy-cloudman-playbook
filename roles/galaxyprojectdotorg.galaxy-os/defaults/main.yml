@@ -1,0 +1,14 @@
+---
+# Default varaibles used during the OS build process.
+# Some of these can be used to control the execution flow of the
+# role.
+# Some of these variables are reused/relied on as part of a larger
+# ecosystem with Galaxy so care should be taken to keep those in sync.
+
+# Controls which tasks are included, in case you want to execute/update
+# only certain parts of the role.
+install_packages: yes
+add_system_users: yes
+
+galaxy_user_name: galaxy
+galaxy_user_uid: 1001

@@ -1,0 +1,48 @@
+---
+# Install system packages
+
+- name: Add Cloudera repository
+  get_url:
+    url=http://archive.cloudera.com/cm5/ubuntu/trusty/amd64/cm/cloudera.list
+    dest=/etc/apt/sources.list.d/cloudera_trusty.list
+
+- name: Add Cloudera's apt key
+  apt_key: url=http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key
+
+- name: Update APT cache
+  apt: update_cache=yes
+
+- name: Install CloudMan-required system packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - automake  # s3fs required
+    - build-essential  # s3fs required
+    - cloudera-manager-daemons  # Cloudera Manager
+    - cloudera-manager-server  # Cloudera Manager
+    - fail2ban
+    - fuse
+    - glusterfs-client
+    - libcurl4-openssl-dev  # s3fs required
+    - libfuse-dev  # s3fs required
+    - libfuse2
+    - libmysql-java  # Cloudera Manager required
+    - libpcre3-dev
+    - libreadline6-dev
+    - libslurm-dev
+    - libssl-dev
+    - libtool  # s3fs required
+    - libxml2-dev  # s3fs required
+    - libmunge-dev
+    - mime-support  # s3fs required
+    - munge
+    - nfs-common
+    - nfs-kernel-server
+    - ntp  # Cloudera Manager required
+    - pkg-config
+    - postgresql-server-dev-9.3
+    - python-pip
+    - python-tk  # for IPython %cpaste magic function
+    - rabbitmq-server
+    - slurm-llnl
+    - xfsprogs
+    - nginx-extras

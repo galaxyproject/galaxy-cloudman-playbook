@@ -5,9 +5,9 @@
 
 # Controls which tasks are included, in case you want to execute/update
 # only certain parts of the role.
+install_libraries: yes
+add_system_users: yes
 cm_install_packages: yes
-cm_install_libraries: yes
-cm_add_system_users: yes
 cm_venvburrito: yes
 cm_system_environment: yes  # Also requires cm_venvburrito to be set
 cm_install_s3fs: yes

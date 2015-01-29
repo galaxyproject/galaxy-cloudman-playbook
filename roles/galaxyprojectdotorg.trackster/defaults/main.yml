@@ -1,0 +1,6 @@
+---
+galaxy_manage_trackster: yes
+galaxy_user_name: galaxy
+len_file_path: "{{ galaxyFS_base_dir }}/configuration_data/len"
+bedtools_version: 2.20.1
+galaxyFS_base_dir: /mnt/galaxy

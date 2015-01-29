@@ -36,8 +36,10 @@
     - libpam0g-dev
     - libpq-dev
     - libsparsehash-dev
+    - lxc-docker
     - make
     - mercurial
+    - nginx-extras
     - nmon
     - openssh-server
     - patch
@@ -45,11 +47,16 @@
     - postgresql
     - postgresql-client
     - postgresql-plpython-9.3
+    - python-boto
     - python-dev
     - python-prettytable
     - python-psycopg2
+    - python-virtualenv
+    - python-pip
+    - postgresql-server-dev-9.3
     - rsync
     - slurm-drmaa-dev
+    - supervisor
     - swig
     - sysstat
     - unzip
@@ -57,34 +64,5 @@
     - wget
     - zlib1g-dev
 
-- name: Install CloudMan-required system packages
-  apt: pkg={{ item }} state=latest
-  with_items:
-    - automake  # s3fs required
-    - build-essential  # s3fs required
-    - fail2ban
-    - fuse
-    - glusterfs-client
-    - libcurl4-openssl-dev  # s3fs required
-    - libfuse-dev  # s3fs required
-    - libfuse2
-    - libpcre3-dev
-    - libreadline6-dev
-    - libslurm-dev
-    - libssl-dev
-    - libtool  # s3fs required
-    - libxml2-dev  # s3fs required
-    - libmunge-dev
-    - lxc-docker
-    - mime-support  # s3fs required
-    - munge
-    - nfs-common
-    - nfs-kernel-server
-    - pkg-config
-    - postgresql-server-dev-9.3
-    - python-pip
-    - python-tk  # for IPython %cpaste magic function
-    - rabbitmq-server
-    - slurm-llnl
-    - xfsprogs
-    - nginx-extras
+- name: Allow galaxy user to run docker
+  lineinfile: "dest=/etc/sudoers line='{{ galaxy_user_name }}  ALL = (root) NOPASSWD: SETENV: /usr/bin/docker'"

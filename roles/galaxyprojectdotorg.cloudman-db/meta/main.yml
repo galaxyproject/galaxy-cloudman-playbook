@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: The Galaxy Project
+  description: Setup a PostgreSQL database for Galaxy CloudMan
+  company: The Galaxy Project
+  license: MIT
+  min_ansible_version: 1.6
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - database
+  - CloudMan
+  - Galaxy
+dependencies: []

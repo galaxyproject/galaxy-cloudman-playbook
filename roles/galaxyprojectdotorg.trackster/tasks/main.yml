@@ -1,6 +1,5 @@
 ---
-# Main tasks file for managing Galaxy Trackster
+# Setup Trackster for Galaxy
 
 - include: setup_trackster.yml
   when: galaxy_manage_trackster
-

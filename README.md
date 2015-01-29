@@ -1,9 +1,6 @@
-A playbook for building the *Galaxy on the Cloud* or *Galaxy Server*
-====================================================================
-
 This [Ansible][ansible] playbook is used to build the components required to run
-[CloudMan][cloudman], [Galaxy on the Cloud][goc], or Galaxy Server. The playbook is
-used by the [Galaxy project][gp] itself and is intended for anyone
+[CloudMan][cloudman], [Galaxy on the Cloud][goc], or Galaxy Server. The playbook
+is used by the [Galaxy project][gp] itself and is intended for anyone
 wanting to deploy their own instance of the listed platforms.
 
 There are several roles contained in this playbook; the roles manage
@@ -11,21 +8,28 @@ the build process of different components:
  * *CloudMan*: you only need to build the Machine Image
  * *Galaxy on the Cloud*: you need to build the Machine Image first, then the galaxyFS
  * *Galaxy Server*: you only need to build the Galaxy Server
- * *Galaxy Tools*: see the `scripts` directory
+ * *Install a suite of Galaxy Tools*: see the `scripts` directory
 
 Additional instructions about the build process can be found [here][building].
 
-These roles are intended to be run on a Ubuntu system.
+These roles are intended to be run on a Ubuntu (14.04) system.
 
 Machine Image
 -------------
-To build an image, make sure the default values provided in the `group_vars/all`
-and `group_vars/image-builder.yml` files suite you. Make sure to change the value
-of `psql_galaxyftp_password` in `group_vars/all`! Next, create a copy of
-`inventory/builders.sample` as `inventory/builders`, launch a new
-instance (this role has been developed and tested on Ubuntu 14.04) and set the
-instance IP address under `image-builder` host group in the `builders` file.
-Finally, run the role with
+The easiest method for building the base machine image is to use [Packer][packer].
+Once you have it installed, check any variables specified at the top of
+`packer.json`, check the formatting of the file with `packer validate packer.json`,
+and run it with `packer build packer.json`. The command will provison an instance,
+run the Ansible image build role, and create an AMI. For the time being, this
+applies to AWS only and it will run with the default options. Custom options
+can be set by editing `packer.json`, under `extra_arguments` section.
+
+To build an image without Packer, make sure the default values provided in the
+`group_vars/all` and `group_vars/image-builder.yml` files suite you. Create
+a copy of `inventory/builders.sample` as `inventory/builders`, launch a new
+instance and set the instance IP address under `image-builder` host group in the
+`builders` file. Also, set `hosts` line in `cloud.yml` to `image-builder` while
+commenting out `connection: local` line. Finally, run the role with
 
     ansible-playbook -i inventory/builders cloud.yml --tags "machine-image" --extra-vars vnc_password=<choose a password> --extra-vars cleanup=yes
 
@@ -77,7 +81,7 @@ roles in the playbook are stored in `group_vars/all`.
 Galaxy Server
 -------------
 This role will build a standalone Galaxy Server that is configured to be
-[production-ready][production]. The Server does not contain any of the coud or
+[production-ready][production]. The Server does not contain any of the cloud or
 CloudMan components but instead focuses on providing a well-configured standalone
 instance of the Galaxy application for a dedicated server. As part of the
 installation, Galaxy will be configured to use the local job runner. Note that
@@ -105,3 +109,4 @@ Once the run has completed and you'd like to install Galaxy tools, take a look a
 [gp]: http://galaxyproject.org/
 [building]: https://wiki.galaxyproject.org/CloudMan/Building
 [production]: https://wiki.galaxyproject.org/Admin/Config/Performance/ProductionServer
+[packer]: https://packer.io/
