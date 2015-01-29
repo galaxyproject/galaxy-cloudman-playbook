@@ -1,0 +1,52 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "vnc_pwd": "{{env `CM_VNC_PWD`}}",
+    "gftp_pwd": "{{env `CM_GALAXY_FTP_PWD`}}",
+    "ami_name": "Galaxy CloudMan {{timestamp}}",
+    "source_ami": "ami-98aa1cf0",
+    "instance_type": "t1.micro"
+  },
+
+
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-east-1",
+    "ssh_username": "ubuntu",
+    "source_ami": "{{user `source_ami`}}",
+    "instance_type": "{{user `instance_type`}}",
+    "ami_name": "{{user `ami_name`}}"
+  }],
+  "provisioners": [
+  {
+    "type": "shell",
+    "inline": [
+      "sleep 30",
+      "sudo add-apt-repository ppa:rquillo/ansible -y",
+      "sudo apt-get update",
+      "sudo apt-get install -y ansible"
+    ]
+  },
+  {
+    "type": "ansible-local",
+    "playbook_file": "cloud.yml",
+    "role_paths": [
+      "roles/galaxyprojectdotorg.cloudman-img",
+      "roles/galaxyprojectdotorg.galaxy-os",
+      "roles/smola.java"
+    ],
+    "extra_arguments": [
+       "--extra-vars",
+       "vnc_password='{{user `vnc_pwd`}}'",
+       "--extra-vars",
+       "psql_galaxyftp_password='{{user `gftp_pwd`}}'",
+       "--tags",
+       "machine-image",
+       "--extra-vars",
+       "cleanup=yes"
+    ]
+  }]
+}
