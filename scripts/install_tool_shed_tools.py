@@ -216,6 +216,12 @@ def main():
     default_err_msg = 'All repositories that you are attempting to install have been previously installed.'
     for r in tools_info:
         already_installed = False
+        if 'install_tool_dependencies' not in r:
+            r['install_tool_dependencies'] = True
+        if 'install_repository_dependencies' not in r:
+            r['install_repository_dependencies'] = True
+        if 'tool_shed_url' not in r:
+            r['tool_shed_url'] = 'https://toolshed.g2.bx.psu.edu'
         # Check if the tool is already installed
         for it in itl:
             if r['name'] == it['name'] and r['owner'] == it['owner'] and \
@@ -227,12 +233,6 @@ def main():
                 break
         if not already_installed:
             # Set the payload
-            if 'install_tool_dependencies' not in r:
-                r['install_tool_dependencies'] = True
-            if 'install_repository_dependencies' not in r:
-                r['install_repository_dependencies'] = True
-            if 'tool_shed_url' not in r:
-                r['tool_shed_url'] = 'https://toolshed.g2.bx.psu.edu'
             ts = ToolShedInstance(url=r['tool_shed_url'])
             if 'revision' not in r:
                 r['revision'] = ts.repositories.get_ordered_installable_revisions(
@@ -240,17 +240,17 @@ def main():
             # Initate tool installation
             start = dt.datetime.now()
             log.debug('(%s/%s) Installing tool %s from %s to section %s' % (counter,
-                total_num_tools, r['name'], r['owner'], r['tool_panel_section_id']))
+                total_num_tools, r['name'], r['owner'], r.get('tool_panel_section_id', 'N/A')))
             try:
                 response = tsc.install_repository_revision(r['tool_shed_url'], r['name'],
                     r['owner'], r['revision'], r['install_tool_dependencies'],
-                    r['install_repository_dependencies'], r['tool_panel_section_id'])
+                    r['install_repository_dependencies'], r.get('tool_panel_section_id', ''))
                 tool_id = None
                 if len(response) > 0:
                     tool_id = response[0].get('id', None)
                     tool_status = response[0].get('status', None)
                 # Possibly an infinite loop here. Introduce a kick-out counter?
-                while not tool_status in ['Installed', 'Error']:
+                while tool_status not in ['Installed', 'Error']:
                     log.debug('\tTool still installing...')
                     time.sleep(10)
                     tool_status = update_tool_status(tsc, tool_id)
@@ -282,4 +282,3 @@ if __name__ == "__main__":
     global log
     log = _setup_global_logger()
     main()
-    pass
