@@ -47,6 +47,9 @@ playbook (e.g., `image-builder` for the sample playbook provided below).
     PostgreSQL binary files are stored. This path will be added to `$PATH`.
  - `nginx_upload_store_path`: (default: `"{{ galaxyFS_base_dir }}/upload_store"`)
     the path to which Nginx's configuration for the `upload_store` will be set
+ - `indicesFS_base_dir`: (default: `/mnt/galaxyIndices`) the path where Galaxy
+    reference genomes indices will be stored. Also Galaxy Data Managers will be
+    installed here (via the Tool Shed, as designed by Galaxy).
 
 ### Control flow variables ###
 The following variables can be set to either `yes` or `no` to indicate if the

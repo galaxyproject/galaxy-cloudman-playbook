@@ -15,7 +15,23 @@
     - "export PATH={{ galaxyFS_base_dir }}/tools/bin:{{ postgresql_bin_dir }}:$PATH"  #"
 
 - name: Create a symlink placeholder to the Galaxy app dir
-  shell: ln -s {{ galaxy_server_dir }} ~/galaxy
+  shell: "ln -s {{ galaxy_server_dir }} ~/galaxy-app"
+  sudo_user: "{{ item }}"
+  ignore_errors: yes
+  with_items:
+    - "{{ default_user }}"
+    - "{{ galaxy_user_name }}"
+
+- name: Create a symlink placeholder to the Galaxy indices dir
+  shell: "ln -s {{ indicesFS_base_dir }} ~/galaxy-indices"
+  sudo_user: "{{ item }}"
+  ignore_errors: yes
+  with_items:
+    - "{{ default_user }}"
+    - "{{ galaxy_user_name }}"
+
+- name: Create a symlink placeholder to the Galaxy tools dir
+  shell: "ln -s {{ galaxyFS_base_dir }}/tools ~/galaxy-tools"
   sudo_user: "{{ item }}"
   ignore_errors: yes
   with_items:

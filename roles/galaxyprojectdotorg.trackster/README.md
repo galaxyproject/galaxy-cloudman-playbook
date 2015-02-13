@@ -14,7 +14,7 @@ Note that some of these variables should match equaly named ones from the
  - `galaxy_user_name`: (default: `galaxy`) system username used for Galaxy
  - `galaxyFS_base_dir`: (default: `/mnt/galaxy`) the base path under which the
     galaxy file system is planned to be placed
- - `len_file_path`: (default: `"{{ galaxyFS_base_dir }}/configuration_data/len"`)
+ - `len_file_path`: (default: `"{{ galaxyFS_base_dir }}/galaxy-app/config/len"`)
     the default location where Trackster's `.len` files should be placed
  - `bedtools_version`: (default: `2.20.1`) the version of BED tools to download
     and `make`

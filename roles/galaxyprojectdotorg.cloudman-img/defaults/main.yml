@@ -24,6 +24,7 @@ only_cleanup: no
 galaxy_user_name: galaxy
 galaxyFS_base_dir: /mnt/galaxy
 galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
+indicesFS_base_dir: /mnt/galaxyIndices
 
 # Postgres database details
 # **NOTE** that these variables are also used by Galaxy role
