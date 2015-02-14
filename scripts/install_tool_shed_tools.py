@@ -36,14 +36,44 @@ logging.getLogger('bioblend').setLevel(logging.ERROR)
 logging.getLogger('requests').setLevel(logging.ERROR)
 
 
+class ProgressConsoleHandler(logging.StreamHandler):
+    """
+    A handler class which allows the cursor to stay on
+    one line for selected messages
+    """
+    on_same_line = False
+
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            stream = self.stream
+            same_line = hasattr(record, 'same_line')
+            if self.on_same_line and not same_line:
+                stream.write('\r\n')
+            stream.write(msg)
+            if same_line:
+                stream.write('.')
+                self.on_same_line = True
+            else:
+                stream.write('\r\n')
+                self.on_same_line = False
+            self.flush()
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except:
+            self.handleError(record)
+
+
 def _setup_global_logger():
     formatter = logging.Formatter('%(asctime)s %(levelname)-5s - %(message)s')
+    progress = ProgressConsoleHandler()
     console = logging.StreamHandler()
     console.setFormatter(formatter)
-    new_logger = logging.root
-    new_logger.addHandler(console)
-    new_logger.setLevel(logging.DEBUG)
-    return new_logger
+
+    logger = logging.getLogger('test')
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(progress)
+    return logger
 
 
 def load_input_file(tool_list_file='tool_shed_tool_list.yaml'):
@@ -179,15 +209,20 @@ def _parse_tool_list(tl):
     return ts_tools, custom_tools
 
 
-def main():
+def _parse_cli_options():
     """
-    Parse the default input file and proceed to install listed tools.
+    Parse command line options, returning `options` from `OptionParser`
     """
-    parser = OptionParser(usage="usage: python %prog [options]")
-    parser.add_option("-f", "--toolsfile",
+    parser = OptionParser(usage="usage: python %prog <options>")
+    parser.add_option("-t", "--toolsfile",
                       dest="tool_list_file",
-                      default="shed_tool_list.yaml",
+                      default=None,
                       help="Tools file to use (see shed_tool_list.yaml.sample)",)
+    parser.add_option("-d", "--dbkeysfile",
+                      dest="dbkeys_list_file",
+                      default=None,
+                      help="Reference genome dbkeys to install (see "
+                           "dbkeys_list.yaml.sample)",)
     parser.add_option("-a", "--apikey",
                       dest="api_key",
                       default=None,
@@ -197,7 +232,85 @@ def main():
                       default=None,
                       help="URL for the Galaxy instance",)
     (options, args) = parser.parse_args()
+    return options
 
+
+def run_data_managers(options):
+    """
+    Run Galaxy Data Manager to download, index, and install reference genome
+    data into Galaxy.
+
+    :type options: OptionParser object
+    :param options: command line arguments parsed by OptionParser
+    """
+    dbkeys_list_file = options.dbkeys_list_file
+    kl = load_input_file(dbkeys_list_file)  # Input file contents
+    dbkeys = kl['dbkeys']  # The list of dbkeys to install
+    dms = kl['data_managers']  # The list of data managers to run
+    galaxy_url = options.galaxy_url or kl['galaxy_instance']
+    api_key = options.api_key or kl['api_key']
+    gi = galaxy_instance(galaxy_url, api_key)
+
+    istart = dt.datetime.now()
+    errored_dms = []
+    dbkey_counter = 0
+    for dbkey in dbkeys:
+        dbkey_counter += 1
+        dbkey_name = dbkey.get('dbkey')
+        dm_counter = 0
+        for dm in dms:
+            dm_counter += 1
+            dm_tool = dm.get('id')
+            # Initate tool installation
+            start = dt.datetime.now()
+            log.debug('[dbkey {0}/{1}; DM: {2}/{3}] Installing dbkey {4} with '
+                      'DM {5}'.format(dbkey_counter, len(dbkeys), dm_counter,
+                      len(dms), dbkey_name, dm_tool))
+            tool_input = dbkey
+            try:
+                response = gi.tools.run_tool('', dm_tool, tool_input)
+                jobs = response.get('jobs', [])
+                # Check if a job is actually running
+                if len(jobs) == 0:
+                    log.warning("\t(!) No '{0}' job found for '{1}'".format(dm_tool,
+                                dbkey_name))
+                    errored_dms.append({'dbkey': dbkey_name, 'DM': dm_tool})
+                else:
+                    # Monitor the job(s)
+                    log.debug("\tJob running", extra={'same_line': True})
+                    done_count = 0
+                    while done_count < len(jobs):
+                        done_count = 0
+                        for job in jobs:
+                            job_id = job.get('id')
+                            job_state = gi.jobs.show_job(job_id).get('state', '')
+                            if job_state == 'ok':
+                                done_count += 1
+                            elif job_state == 'error':
+                                done_count += 1
+                                errored_dms.append({'dbkey': dbkey_name, 'DM': dm_tool})
+                        log.debug("", extra={'same_line': True})
+                        time.sleep(10)
+                    log.debug("\tDbkey '{0}' installed successfully in '{1}'".format(
+                              dbkey.get('dbkey'), dt.datetime.now() - start))
+            except ConnectionError, e:
+                response = None
+                end = dt.datetime.now()
+                log.error("\t* Error installing dbkey {0} for DM {1} (after {2}): {3}"
+                          .format(dbkey_name, dm_tool, end - start, e.body))
+                errored_dms.append({'dbkey': dbkey_name, 'DM': dm_tool})
+    log.info("All dbkeys & DMs listed in '{0}' have been processed.".format(dbkeys_list_file))
+    log.info("Errored DMs: {0}".format(errored_dms))
+    log.info("Total run time: {0}".format(dt.datetime.now() - istart))
+
+
+def install_tools(options):
+    """
+    Parse the default input file and proceed to install listed tools.
+
+    :type options: OptionParser object
+    :param options: command line arguments parsed by OptionParser
+    """
     istart = dt.datetime.now()
     tool_list_file = options.tool_list_file
     tl = load_input_file(tool_list_file)  # Input file contents
@@ -246,17 +359,23 @@ def main():
                     r['owner'], r['revision'], r['install_tool_dependencies'],
                     r['install_repository_dependencies'], r.get('tool_panel_section_id', ''))
                 tool_id = None
+                tool_status = None
                 if len(response) > 0:
                     tool_id = response[0].get('id', None)
                     tool_status = response[0].get('status', None)
-                # Possibly an infinite loop here. Introduce a kick-out counter?
-                while tool_status not in ['Installed', 'Error']:
-                    log.debug('\tTool still installing...')
-                    time.sleep(10)
-                    tool_status = update_tool_status(tsc, tool_id)
-                end = dt.datetime.now()
-                log.debug("\tTool %s installed successfully (in %s) at revision %s" % (r['name'],
-                    str(end - start), r['revision']))
+                if tool_id and tool_status:
+                    # Possibly an infinite loop here. Introduce a kick-out counter?
+                    log.debug("\tTool installing", extra={'same_line': True})
+                    while tool_status not in ['Installed', 'Error']:
+                        log.debug("", extra={'same_line': True})
+                        time.sleep(10)
+                        tool_status = update_tool_status(tsc, tool_id)
+                    end = dt.datetime.now()
+                    log.debug("\tTool %s installed successfully (in %s) at revision %s"
+                              % (r['name'], str(end - start), r['revision']))
+                else:
+                    end = dt.datetime.now()
+                    log.error("\tCould not retrieve tool status for {0}".format(r['name']))
             except ConnectionError, e:
                 response = None
                 end = dt.datetime.now()
@@ -281,4 +400,10 @@ def main():
 if __name__ == "__main__":
     global log
     log = _setup_global_logger()
-    main()
+    options = _parse_cli_options()
+    if options.tool_list_file:
+        install_tools(options)
+    elif options.dbkeys_list_file:
+        run_data_managers(options)
+    else:
+        log.error("Must provide tool list file or dbkeys list file. Look at usage.")

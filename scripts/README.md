@@ -8,15 +8,25 @@ using the GUI due to all the necessary clicking. For that reason, the Tool
 Shed offers an [API][bb] that allows us to install any number of tools in an
 automated way via a script.
 
-`install_tool_shed_tools.py` is an example of such script. The tools to be
-installed via the script should be provided in a file called `shed_tool_list.yaml`.
-See `shed_tool_list.yaml.sample` for an example of the format of the file. To
-run the script, create a copy of the sample file, list the desired tools, and
-run the script via `python install_tool_shed_tools.py`.
+`install_tool_shed_tools.py` is an example of such script. The script can be
+used to install the tools and/or to run Galaxy [Data Managers][dm].
+
+To install the tools, list the tools in a file that specify the tool name,
+Tool Shed owner, and the Tool Shed url (see `shed_tool_list.yaml.sample` for an
+example of the exact format). Run the script as follows:
+
+    python install_tool_shed_tools.py -t <tool list file>
 
 File `shed_tool_list.yaml.cloud` contains the list of tool that are installed
 for the *Galaxy on the Cloud*.
 
+To run the Data Managers, create a file listing the genome dbkeys of interest
+and a list of Data Managers that you'd like to run and invoke the script (see
+`dbkeys_list.yaml.sample` for an example of the format):
+
+    python install_tool_shed_tools.py -d <dbkey list file>
+
 
 [ts]: http://genomebiology.com/2014/15/2/403
 [bb]: http://bioblend.readthedocs.org/en/latest/api_docs/galaxy/all.html#module-bioblend.galaxy.toolshed
+[dm]: https://wiki.galaxyproject.org/Admin/Tools/DataManagers

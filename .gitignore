@@ -6,3 +6,4 @@ syntax: glob
 *.DS_Store
 inventory/builders
 scripts/shed_tool_list.yaml
+scripts/dbkeys_tool_list.yaml
