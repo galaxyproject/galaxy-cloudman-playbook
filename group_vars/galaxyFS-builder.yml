@@ -8,6 +8,8 @@
 galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
 
+cm_install_data: no
+
 galaxy_config_dir: "{{ galaxy_server_dir }}/config"
 galaxy_mutable_config_dir: "{{ galaxy_server_dir }}/config"
 galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
@@ -15,7 +17,7 @@ galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
 galaxy_db_log: /tmp/pSQL.log
 
 galaxy_manage_trackster: yes
-len_file_path: "{{ galaxy_config_dir }}/tool-data/len"
+len_file_path: "{{ galaxy_server_dir }}/tool-data/len"
 bedtools_version: 2.20.1
 
 galaxy_config:
@@ -54,8 +56,9 @@ galaxy_config:
     file_path: "{{ galaxyFS_base_dir }}/files"
     tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
     len_file_path: "{{ len_file_path }}"
-    tool_data_path: "{{ indicesFS_base_dir }}"
+    tool_data_path: /mnt/galaxyIndices
 
+    builds_file_path: "{{ galaxy_server_dir }}/tool-data/shared/ucsc/builds.txt"
     tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/shed_tool_conf_cloud.xml,{{ galaxy_shed_tool_conf_file }}"
     tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
     datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"

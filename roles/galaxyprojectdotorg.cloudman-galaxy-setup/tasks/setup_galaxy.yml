@@ -1,0 +1,9 @@
+---
+
+- name: Make sure galaxy-app dir is owned by the galaxy user
+  file: dest={{ galaxy_server_dir }} owner={{ galaxy_user_name }} group={{ galaxy_user_name }}
+  sudo_user: root
+
+- name: Copy Galaxy setup files (static)
+  copy: src={{ item.src }} dest={{ item.dest }} backup=yes
+  with_items: cmg_setup_files

@@ -1,0 +1,29 @@
+---
+# Defaults for setting up Galaxy for CloudMan
+
+# Control-flow variables
+cm_setup_galaxy: yes
+cm_install_tools: yes
+cm_install_data: yes
+
+# Configuration options
+cmg_setup_files:
+  - src: galaxy/welcome.html
+    dest: "{{ galaxy_server_dir }}/static/welcome.html"
+  - src: galaxy/cloud.gif
+    dest: "{{ galaxy_server_dir }}/static/images/cloud.gif"
+  - src: galaxy/cloud_text.png
+    dest: "{{ galaxy_server_dir }}/static/images/cloud_text.png"
+  - src: galaxy/shed_tool_conf.xml.cloud
+    dest: "{{ galaxy_server_dir }}/config/shed_tool_conf_cloud.xml"
+  - src: galaxy/job_conf.xml.cloud
+    dest: "{{ galaxy_server_dir }}/config/job_conf.xml"
+
+galaxy_user_name: galaxy
+galaxy_admin_user: cloud@galaxyproject.org
+galaxy_server_dir: /mnt/galaxy/galaxy-app
+galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
+galaxy_config_file: "{{ galaxy_server_dir }}/config/galaxy.ini"
+
+shed_tool_list_file: shed_tool_list.yaml.cloud
+dbkeys_list_file: dbkeys_list.yaml.cloud

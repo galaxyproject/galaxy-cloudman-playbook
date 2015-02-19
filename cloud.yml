@@ -14,8 +14,8 @@
 # ``image-builder`` host group and uncommented ``image-builder`` below):
 #
 #   % ansible-playbook -i inventory/builders cloud.yml --tags "machine-image"
-#     --extra-vars vnc_password=<a_password>
-#     --extra-vars psql_galaxyftp_password=<a_different_password>
+#     --extra-vars vnc_password=$CM_VNC_PWD
+#     --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD
 #     [--extra-vars cleanup=yes]
 #
 # - hosts: image-builder
@@ -34,12 +34,16 @@
 # ``galaxyFS-builder`` host group):
 #
 #   % ansible-playbook -i inventory/builders cloud.yml --tags "galaxyFS"
+#     --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD
 #
 - hosts: galaxyFS-builder
   gather_facts: False  # Not making system-level changes so skip
   pre_tasks:
     - name: Assure galaxyFS dir exists
       file: path={{ galaxyFS_base_dir }} state=directory owner={{ galaxy_user_name }} group={{ galaxy_user_name }}
+      sudo_user: root
+    - name: Assure indicesFS dir exists
+      file: path={{ indicesFS_base_dir }} state=directory owner={{ galaxy_user_name }} group={{ galaxy_user_name }}
       sudo_user: root
     - name: Create shed tools dir
       file: state=directory path={{ galaxy_shed_tools_dir }}
@@ -51,8 +55,8 @@
        sudo: yes
        sudo_user: postgres
      - galaxyprojectdotorg.galaxy
-     # - galaxyprojectdotorg.pulsar
-     - role: galaxyprojectdotorg.trackster
+     - galaxyprojectdotorg.trackster
+     - galaxyprojectdotorg.cloudman-galaxy-setup
   post_tasks:
     - name: Create Galaxy Install DB
       command: "{{ galaxy_venv_dir }}/bin/python {{ galaxy_server_dir }}/scripts/create_db.py -c {{ galaxy_config_file }} install chdir={{ galaxy_server_dir }}"
