@@ -7,15 +7,11 @@ larger [CloudMan playbook][cmpb]
 
 Variables
 ---------
-Use the following control-flow variables to decide which parts of the role
-you'd like to run:
+##### Required variables #####
+ - `galaxy_admin_user_password`: a string to be used for the bootstrap Galaxy
+    admin user
 
- - `cm_setup_galaxy`: (default: `yes`) whether to run the Galaxy setup step
- - `cm_install_tools`: (default: `yes`) whether to install Galaxy tools. Also
-    see `shed_tool_list_file`
- - `cm_install_data`: (default: `yes`) whether to install Galaxy reference
-    data. Also see `dbkeys_list_file`
-
+##### Optional variables #####
 Note that some of these variables should match equaly named ones from the
 [CloudMan playbook][cmpb].
 
@@ -37,6 +33,16 @@ Note that some of these variables should match equaly named ones from the
     reference genomes and desired formats to be installed via Galaxy
     [Data Managers][dm]. See the default file for sample of the format.
 
+##### Control-flow variables #####
+Use the following control-flow variables to decide which parts of the role
+you'd like to run:
+
+ - `cm_setup_galaxy`: (default: `yes`) whether to run the Galaxy setup step
+ - `cm_install_tools`: (default: `yes`) whether to install Galaxy tools. Also
+    see `shed_tool_list_file`
+ - `cm_install_data`: (default: `yes`) whether to install Galaxy reference
+    data. Also see `dbkeys_list_file`
+
 Dependencies
 ------------
 None.
@@ -52,6 +58,7 @@ role has been placed into directory
       roles:
         - role: galaxyprojectdotorg.cloudman-galaxy-setup
           sudo_user: "{{ galaxy_user_name }}"
+          galaxy_admin_user_password: <a_password>
 
 Next, create a `hosts` file:
 

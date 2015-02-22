@@ -8,7 +8,7 @@
     - "{{ shed_tool_list_file }}"
 
 - name: Create Galaxy bootstrap user
-  command: chdir={{ galaxy_server_dir }} {{ galaxy_venv_dir }}/bin/python manage_bootstrap_user.py -c {{ galaxy_config_file }} create
+  command: chdir={{ galaxy_server_dir }} {{ galaxy_venv_dir }}/bin/python manage_bootstrap_user.py -c {{ galaxy_config_file }} create -e {{ galaxy_admin_user }} -p {{ galaxy_admin_user_password }}
   register: api_key
 
 - name: Set bootstrap user as Galaxy Admin

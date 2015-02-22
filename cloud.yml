@@ -31,10 +31,12 @@
 
 # To build the galaxyFS, use this role via the following command (make sure
 # you provided an instance IP in ``inventory/builders`` for
-# ``galaxyFS-builder`` host group):
+# ``galaxyFS-builder`` host group and that you have the specified
+# environment variables defined with desired values):
 #
 #   % ansible-playbook -i inventory/builders cloud.yml --tags "galaxyFS"
 #     --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD
+#     --extra-vars galaxy_admin_user_password=$CM_GALAXY_ADMIN_PWD
 #
 - hosts: galaxyFS-builder
   gather_facts: False  # Not making system-level changes so skip
