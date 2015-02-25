@@ -67,12 +67,14 @@ class ProgressConsoleHandler(logging.StreamHandler):
 def _setup_global_logger():
     formatter = logging.Formatter('%(asctime)s %(levelname)-5s - %(message)s')
     progress = ProgressConsoleHandler()
+    file_handler = logging.FileHandler('/tmp/galaxy_tool_install.log')
     console = logging.StreamHandler()
     console.setFormatter(formatter)
 
     logger = logging.getLogger('test')
     logger.setLevel(logging.DEBUG)
     logger.addHandler(progress)
+    logger.addHandler(file_handler)
     return logger
 
 
