@@ -5,10 +5,15 @@
 
 #-- Galaxy configs
 # Just the default values from the underlying role but required for post_tasks
+galaxy_vcs: git
+galaxy_changeset_id: master
 galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
 
+cm_install_tools: yes
+shed_tool_list_file: files/shed_tool_list.yaml.cloud
 cm_install_data: no
+dbkeys_list_file: files/dbkeys_list.yaml.cloud
 
 galaxy_config_dir: "{{ galaxy_server_dir }}/config"
 galaxy_mutable_config_dir: "{{ galaxy_server_dir }}/config"
