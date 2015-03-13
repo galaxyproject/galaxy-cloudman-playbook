@@ -8,7 +8,14 @@
 # Controls which tasks are included, in case you want to execute/update
 # only certain parts of the role.
 install_packages: yes
+# If install_packages is 'yes', following determines if they are updated
+# ('latest') or left alone ('present') if they are already installed but
+# not updated.
+apt_package_state: latest
 add_system_users: yes
 
 galaxy_user_name: galaxy
 galaxy_user_uid: 1001
+
+configure_docker: yes
+docker_package: lxc-docker
