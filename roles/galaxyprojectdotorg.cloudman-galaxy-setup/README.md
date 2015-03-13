@@ -26,10 +26,12 @@ Note that some of these variables should match equaly named ones from the
     The location of Galaxy's main configuration file
  - `cmg_setup_files`: A list of files to be copied from this role into Galaxy's
     source tree. See `defaults/main.yml` for the defaults.
- - `shed_tool_list_file`: (default `shed_tool_list.yaml.cloud`) The list of
-    tools to be installed from the Tool Shed into the given Galaxy instance.
+ - `shed_tool_list_file`: (default `scripts/shed_tool_list.yaml.sample` - note
+    that the default path is relative `files` subdirectory) The list of tools
+    to be installed from the Tool Shed into the given Galaxy instance.
     See the default file for sample of the format.
- - `dbkeys_list_file`: (default: `dbkeys_list.yaml.cloud`) The list of
+ - `dbkeys_list_file`: (default: `scripts/dbkeys_list.yaml.sample` - note
+    that the default path is relative `files` subdirectory) The list of
     reference genomes and desired formats to be installed via Galaxy
     [Data Managers][dm]. See the default file for sample of the format.
 

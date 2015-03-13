@@ -5,7 +5,9 @@
   with_items:
     - manage_bootstrap_user.py
     - install_tool_shed_tools.py
-    - "{{ dbkeys_list_file }}"
+
+- name: Copy data list file
+  copy: src={{ dbkeys_list_file }} dest={{ galaxy_server_dir }}/dbkeys_list.yaml owner={{ galaxy_user_name }}
 
 - name: Create Galaxy bootstrap user
   command: chdir={{ galaxy_server_dir }} {{ galaxy_venv_dir }}/bin/python manage_bootstrap_user.py -c {{ galaxy_config_file }} create -e {{ galaxy_admin_user }} -p {{ galaxy_admin_user_password }}
@@ -17,12 +19,12 @@
 - include: restart_galaxy.yml
 
 - name: Install reference data via Data Managers
-  command: chdir={{ galaxy_server_dir }} {{ galaxy_venv_dir }}/bin/python install_tool_shed_tools.py -d {{ dbkeys_list_file }} -a {{ api_key.stdout_lines[0] }} -g http://127.0.0.1:8080/
+  command: chdir={{ galaxy_server_dir }} {{ galaxy_venv_dir }}/bin/python install_tool_shed_tools.py -d dbkeys_list.yaml -a {{ api_key.stdout_lines[0] }} -g http://127.0.0.1:8080/
   ignore_errors: true
 
-- name: Remove tool management scripts
+- name: Remove tool management scripts/file
   file: dest={{ galaxy_server_dir }}/{{ item }} state=absent
   with_items:
     - manage_bootstrap_user.py
     - install_tool_shed_tools.py
-    - "{{ dbkeys_list_file }}"
+    - dbkeys_list.yaml
