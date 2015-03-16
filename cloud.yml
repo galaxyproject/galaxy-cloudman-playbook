@@ -27,6 +27,9 @@
     - role: galaxyprojectdotorg.cloudman-img
       # vnc_password: <a_password>  # Or specify via the command
       # psql_galaxyftp_password: <a_different_password>  # Or specify via the command
+  post_tasks:
+      - name: Remove virtualburrito setuptools (too new for some Galaxy tools)
+        file: dest=/home/ubuntu/.venvburrito/lib/python2.7/site-packages/setuptools* state=absent
   tags: machine-image
 
 # To build the galaxyFS, use this role via the following command (make sure
