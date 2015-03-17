@@ -534,3 +534,9 @@ tools:
   owner: devteam
 - name: data_manager_fetch_genome_dbkeys_all_fasta
   owner: devteam
+- name: data_manager_rsync_g2
+  owner: blankenberg
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+- name: data_manager_bowtie2_index_builder
+  owner:  jjohnson
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
