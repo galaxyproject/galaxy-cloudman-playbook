@@ -42,7 +42,7 @@
   },
   {
     "type": "ansible-local",
-    "playbook_file": "cloud.yml",
+    "playbook_file": "image.yml",
     "role_paths": [
       "roles/galaxyprojectdotorg.cloudman-img",
       "roles/galaxyprojectdotorg.galaxy-os",
@@ -53,8 +53,6 @@
        "vnc_password='{{user `vnc_pwd`}}'",
        "--extra-vars",
        "psql_galaxyftp_password='{{user `gftp_pwd`}}'",
-       "--tags",
-       "machine-image",
        "--extra-vars",
        "cleanup=yes"
     ]

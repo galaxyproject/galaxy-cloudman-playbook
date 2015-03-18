@@ -31,7 +31,7 @@ instance and set the instance IP address under `image-builder` host group in the
 `builders` file. Also, set `hosts` line in `cloud.yml` to `image-builder` while
 commenting out `connection: local` line. Finally, run the role with
 
-    ansible-playbook -i inventory/builders cloud.yml --tags "machine-image" --extra-vars vnc_password=<choose a password> --extra-vars cleanup=yes
+    ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> psql_galaxyftp_password=<a_different_password> --extra-vars cleanup=yes
 
 On average, the build time takes about 30 minutes. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
@@ -57,7 +57,7 @@ of `psql_galaxyftp_password` in `group_vars/all` and set the launched instance
 IP in `inventory/builders` under `galaxyFS-builder` host group and run the
 role with
 
-    ansible-playbook -i inventory/builders cloud.yml --tags "galaxyFS"
+    ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<a password> --extra-vars galaxy_admin_user_password=<psql_galaxyftp_password from image above>
 
 After the run has completed (typically ~15 minutes), you can start the Galaxy
 application by hand and install desired tools via the Tool Shed. To start Galaxy,

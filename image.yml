@@ -1,0 +1,30 @@
+---
+# Before running roles inside this playbook, copy
+# ``inventory/builders.sample`` as ``inventory/builders`` and edit it
+# to provide info about your build instance(s)
+
+# The base image can be built in a more automated fashio using Packer
+# (see README but basically just adjust any variables in `packer.json`
+# and issue ths command: ``% packer build packer.json``)
+# or via the following command (in which case make sure you provided
+# instance access details in ``inventory/builders`` for
+# ``image-builder`` host group and uncommented ``image-builder``
+# below):
+#
+#   % ansible-playbook -i inventory/builders image.yml
+#     --extra-vars vnc_password=$CM_VNC_PWD
+#     --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD
+#     [--extra-vars cleanup=yes]
+#
+# - hosts: image-builder
+- hosts: localhost
+  connection: local
+  # gather_facts: False  # Uncomment during dev only
+  sudo: yes
+  roles:
+    - role: galaxyprojectdotorg.cloudman-img
+      # vnc_password: <a_password>  # Or specify via the command
+      # psql_galaxyftp_password: <a_different_password>  # Or specify via the command
+  post_tasks:
+      - name: Remove virtualburrito setuptools (too new for some Galaxy tools)
+        file: dest=/home/ubuntu/.venvburrito/lib/python2.7/site-packages/setuptools* state=absent
