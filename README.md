@@ -19,7 +19,7 @@ Machine Image
 The easiest method for building the base machine image is to use [Packer][packer].
 Once you have it installed, check any variables specified at the top of
 `packer.json`, check the formatting of the file with `packer validate packer.json`,
-and run it with `packer build packer.json`. The command will provison an instance,
+and run it with `packer build packer.json`. The command will provision an instance,
 run the Ansible image build role, and create an AMI. For the time being, this
 applies to AWS only and it will run with the default options. Custom options
 can be set by editing `packer.json`, under `extra_arguments` section.
@@ -77,6 +77,27 @@ The configuration options have been aggregated under
 Keep in mind that changing the options that influence how the system is deployed
 and/or managed may also require changes in CloudMan. Common variables for all the
 roles in the playbook are stored in `group_vars/all`.
+
+### Playbook-specific variables
+Each of the included roles have their own README file capturing the available
+variables. The list of variables provided below represents only the variables
+that are specific to this playbook and do not otherwise show up in the
+included roles. These variables can be changed in
+`group_vars/galaxyFS-builder.yml` file.
+ - `cm_create_archive`: (default: `yes`) if set, create a a tarball archive
+    of the galaxyFS filesystem
+ - `galaxy_archive_path`: (default: `/mnt/galaxyFS_archive`) the directory
+    where to place the filesystem tarball archive. Keep in mind that this
+    directory needs to have sufficient disk space to hold the archive.
+ - `galaxy_archive_name`: (default: `galaxyFS.tar.gz`) the file name for the
+    archive
+ - `galaxy_archive_bucket`: (default: `cloudman/fs-archives`) after it's
+    created, the archive will be uploaded to S3. Specify the bucket (and folder)
+    where to upload the archive.
+ - `aws_access_key`: (default: `{{ lookup('env','AWS_ACCESS_KEY') }}`) the AWS
+    access key. The default value will lookup specified environment variable.
+ - `aws_secret_key`: (default: `{{ lookup('env','AWS_SECRET_KEY') }}`) the AWS
+    secret key. The default value will lookup specified environment variable.
 
 Galaxy Server
 -------------

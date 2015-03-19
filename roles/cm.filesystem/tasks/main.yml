@@ -1,0 +1,6 @@
+---
+# Create an archive (tar ball) of the galaxy file system and upload it
+# to an object store.
+
+- include: create_archive.yml
+  when: cm_create_archive

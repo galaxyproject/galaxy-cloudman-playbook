@@ -1,0 +1,35 @@
+---
+
+- name: Stop Galaxy
+  shell: "{{ galaxy_server_dir }}/run.sh --stop-daemon"
+  ignore_errors: true
+
+- name: Stop PostgreSQL
+  shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} stop"
+  sudo_user: postgres
+  ignore_errors: true
+
+- name: Create Galaxy archive target directory
+  file: dest="{{ galaxy_archive_path }}" owner={{ galaxy_user_name }} group={{ galaxy_user_name }} state=directory  #"
+
+- name: Remove existing archive
+  file: dest="{{ galaxy_archive_path }}/{{ galaxy_archive_name }}" state=absent  #"
+
+- name: Create new filesystem archive
+  command: chdir={{ galaxyFS_base_dir }} tar -czf {{ galaxy_archive_path }}/{{ galaxy_archive_name }} -C {{ galaxyFS_base_dir }} .
+  sudo_user: root
+
+- name: Install s3cmd library
+  pip: name=s3cmd
+
+- name: Upload filesystem archive
+  command: s3cmd --access_key={{ aws_access_key }} --secret_key={{ aws_secret_key }} --reduced-redundancy --acl-public put {{ galaxy_archive_path }}/{{ galaxy_archive_name }} s3://{{ galaxy_archive_bucket }}
+
+- name: Get archive md5
+  command:  s3cmd --access_key={{ aws_access_key }} --secret_key={{ aws_secret_key }} ls s3://{{ galaxy_archive_bucket }}/{{ galaxy_archive_name }} --list-md5 --human-readable-sizes
+  register: md5
+  ignore_errors: true
+
+# Display md5 for the uploaded archive
+- debug: msg="{{ md5.stdout }}"
+  ignore_errors: true
