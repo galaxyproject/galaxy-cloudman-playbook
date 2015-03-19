@@ -15,6 +15,8 @@ Variables
 Note that some of these variables should match equaly named ones from the
 [CloudMan playbook][cmpb].
 
+ - `galaxyFS_base_dir`: (default: `/mnt/galaxy`) the base path under which the
+    galaxy file system is planned to be placed
  - `galaxy_user_name`: (default: `galaxy`) system username used for Galaxy
  - `galaxy_admin_user`: (default: `cloud@galaxyprojec.org`) a Galaxy Admin
     user that will be created and used when installing the tools/data
