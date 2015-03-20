@@ -4,9 +4,10 @@
     "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
     "vnc_pwd": "{{env `CM_VNC_PWD`}}",
     "gftp_pwd": "{{env `CM_GALAXY_FTP_PWD`}}",
-    "ami_name": "Galaxy CloudMan {{timestamp}}",
-    "source_ami": "ami-98aa1cf0",
-    "instance_type": "m3.medium"
+    "gadmin_pwd": "{{env `CM_GALAXY_ADMIN_PWD`}}",
+    "ami_name": "Galaxy-CloudMan-{{timestamp}}",
+    "source_ami": "ami-9a562df2",
+    "instance_type": "c3.large"
   },
 
 
@@ -16,38 +17,35 @@
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "us-east-1",
     "ssh_username": "ubuntu",
+    "ami_virtualization_type": "hvm",
     "source_ami": "{{user `source_ami`}}",
     "instance_type": "{{user `instance_type`}}",
     "ami_name": "{{user `ami_name`}}",
     "ami_block_device_mappings": [ {
-            "device_name": "/dev/sda1",
-            "volume_size": 20,
-            "delete_on_termination": true
-        } ],
-        "launch_block_device_mappings": [ {
-            "device_name": "/dev/sda1",
-            "volume_size": 20,
-            "delete_on_termination": true
-        } ]
+        "device_name": "/dev/sda1",
+        "volume_size": 20,
+        "delete_on_termination": true
+    } ],
+    "launch_block_device_mappings": [ {
+        "device_name": "/dev/sda1",
+        "volume_size": 20,
+        "delete_on_termination": true
+    } ]
   }],
   "provisioners": [
   {
     "type": "shell",
     "inline": [
       "sleep 30",
-      "sudo add-apt-repository ppa:rquillo/ansible -y",
       "sudo apt-get update",
-      "sudo apt-get install -y ansible"
+      "sudo apt-get install -y python-pip python-dev build-essential",
+      "sudo pip install --upgrade ansible"
     ]
   },
   {
     "type": "ansible-local",
     "playbook_file": "image.yml",
-    "role_paths": [
-      "roles/galaxyprojectdotorg.cloudman-img",
-      "roles/galaxyprojectdotorg.galaxy-os",
-      "roles/smola.java"
-    ],
+    "playbook_dir": ".",
     "extra_arguments": [
        "--extra-vars",
        "vnc_password='{{user `vnc_pwd`}}'",
