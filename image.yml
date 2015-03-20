@@ -19,12 +19,8 @@
 # - hosts: image-builder
 - hosts: localhost
   connection: local
-  # gather_facts: False  # Uncomment during dev only
   sudo: yes
   roles:
-    - role: galaxyprojectdotorg.cloudman-img
+    - role: galaxyprojectdotorg.cloudman-image
       # vnc_password: <a_password>  # Or specify via the command
       # psql_galaxyftp_password: <a_different_password>  # Or specify via the command
-  post_tasks:
-      - name: Remove virtualburrito setuptools (too new for some Galaxy tools)
-        file: dest=/home/ubuntu/.venvburrito/lib/python2.7/site-packages/setuptools* state=absent
