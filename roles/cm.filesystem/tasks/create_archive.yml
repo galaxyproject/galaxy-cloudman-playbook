@@ -10,7 +10,8 @@
   ignore_errors: true
 
 - name: Create Galaxy archive target directory
-  file: dest="{{ galaxy_archive_path }}" owner={{ galaxy_user_name }} group={{ galaxy_user_name }} state=directory  #"
+  file: dest={{ galaxy_archive_path }} owner={{ galaxy_user_name }} group={{ galaxy_user_name }} state=directory
+  sudo_user: root
 
 - name: Remove existing archive
   file: dest="{{ galaxy_archive_path }}/{{ galaxy_archive_name }}" state=absent  #"
@@ -21,9 +22,13 @@
 
 - name: Install s3cmd library
   pip: name=s3cmd
+  sudo_user: root
+
+- name: Upload timestamped filesystem archive
+  command: s3cmd --access_key={{ aws_access_key }} --secret_key={{ aws_secret_key }} --reduced-redundancy --acl-public put {{ galaxy_archive_path }}/{{ galaxy_archive_name }} s3://{{ galaxy_archive_bucket }}/{{ galaxy_timestamped_archive_name }}
 
 - name: Upload filesystem archive
-  command: s3cmd --access_key={{ aws_access_key }} --secret_key={{ aws_secret_key }} --reduced-redundancy --acl-public put {{ galaxy_archive_path }}/{{ galaxy_archive_name }} s3://{{ galaxy_archive_bucket }}
+  command: s3cmd --access_key={{ aws_access_key }} --secret_key={{ aws_secret_key }} --reduced-redundancy --acl-public put {{ galaxy_archive_path }}/{{ galaxy_archive_name }} s3://{{ galaxy_archive_bucket }}/
 
 - name: Get archive md5
   command:  s3cmd --access_key={{ aws_access_key }} --secret_key={{ aws_secret_key }} ls s3://{{ galaxy_archive_bucket }}/{{ galaxy_archive_name }} --list-md5 --human-readable-sizes
