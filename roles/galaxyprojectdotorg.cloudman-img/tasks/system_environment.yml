@@ -1,6 +1,12 @@
 ---
 # Setup system environment
 
+- name: Add cloudgene user
+  user: name=cloudgene shell=/bin/bash
+
+- name: Set vm.swappiness to 0
+  command: /sbin/sysctl vm.swappiness=0
+
 - name: Allow galaxy user to run docker
   lineinfile: "dest=/etc/sudoers line='{{ galaxy_user_name }}  ALL = (root) NOPASSWD: SETENV: /usr/bin/docker'"
 

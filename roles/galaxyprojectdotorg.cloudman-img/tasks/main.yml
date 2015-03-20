@@ -1,33 +1,30 @@
 ---
-# file: roles/cloudman_image/tasks/main.yml
 #   Build the base machine image
 #
-#   See /cloudman_image/defaults/cloudman.yml for enabling/disabling
-#   individual task groups
 
 - include: packages.yml
-  when: cm_install_packages and not only_cleanup
+  when: cm_install_packages and not only_cleanup|bool
 
 - include: install_venvburrito.yml username='galaxy' user_home='/home/galaxy'
-  when: cm_venvburrito and not only_cleanup
+  when: cm_venvburrito and not only_cleanup|bool
 
 - include: install_venvburrito.yml username='{{ default_user }}' user_home='{{ default_user_home }}'  #'
-  when: cm_venvburrito and not only_cleanup
+  when: cm_venvburrito and not only_cleanup|bool
 
 - include: system_environment.yml
-  when: cm_system_environment and cm_venvburrito and not only_cleanup
+  when: cm_system_environment and cm_venvburrito and not only_cleanup|bool
 
 - include: s3fs.yml
-  when: cm_install_s3fs and not only_cleanup
+  when: cm_install_s3fs and not only_cleanup|bool
 
 - include: nginx.yml
-  when: cm_configure_nginx and not only_cleanup
+  when: cm_configure_nginx and not only_cleanup|bool
 
 - include: proftpd.yml
-  when: cm_install_proftpd and not only_cleanup
+  when: cm_install_proftpd and not only_cleanup|bool
 
 - include: novnc.yml
-  when: cm_install_novnc and not only_cleanup
+  when: cm_install_novnc and not only_cleanup|bool
 
 - include: cleanup.yml
-  when: cleanup or only_cleanup
+  when: cleanup|bool or only_cleanup|bool

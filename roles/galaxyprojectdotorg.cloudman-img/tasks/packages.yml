@@ -19,6 +19,7 @@
     - build-essential  # s3fs required
     - cloudera-manager-daemons  # Cloudera Manager
     - cloudera-manager-server  # Cloudera Manager
+    - cloudera-manager-agent  # Cloudera Manager
     - fail2ban
     - fuse
     - glusterfs-client
@@ -42,6 +43,7 @@
     - postgresql-server-dev-9.3
     - python-pip
     - python-tk  # for IPython %cpaste magic function
+    - python-yaml
     - rabbitmq-server
     - slurm-llnl
     - xfsprogs
