@@ -1,7 +1,9 @@
 ---
 # group_vars/all
-#
-#   Common variables across all roles
+
+
+#####
+#   Common variables across multiple roles
 
 galaxy_user_name: galaxy
 galaxyFS_base_dir: /mnt/galaxy
@@ -12,3 +14,153 @@ indicesFS_base_dir: /mnt/galaxyIndices
 galaxy_db_dir: "{{ galaxyFS_base_dir }}/db"
 galaxy_db_port: 5930
 postgresql_bin_dir: /usr/lib/postgresql/9.3/bin
+
+
+#####
+#   Variables used during the image build process
+
+# Controls which tasks are included, in case you want to execute/update
+# only certain parts of the role.
+install_libraries: yes
+add_system_users: yes
+cm_install_packages: yes
+cm_venvburrito: yes
+cm_system_environment: yes  # Also requires cm_venvburrito to be set
+cm_install_s3fs: yes
+cm_configure_nginx: yes
+cm_install_proftpd: yes
+cm_install_novnc: no
+cleanup: no
+# If `only_cleanup` is set, only the cleanup tasks will run and no other.
+# This is intended to be set as a command line argument.
+only_cleanup: no
+
+# System user details
+galaxy_user_uid: 1001
+default_user: ubuntu
+default_user_home: /home/ubuntu
+
+# CloudMan details
+cm_hg_repo: https://bitbucket.org/galaxy/cloudman/raw/tip
+
+# Details about additional software being installed
+s3fs_version: 1.77
+proftpd_package_url: https://s3.amazonaws.com/cloudman/galaxy-proftpd-1.3.5_gxycm-20140910b01-trusty_amd64.deb
+nginx_package_url: https://s3.amazonaws.com/cloudman/galaxy-nginx-1.4.7_gxycm-20140902b01-trusty_amd64.deb
+nginx_upload_store_path: /mnt/galaxy/upload_store
+
+# novnc setup details
+novnc_install_dir: /opt/galaxy/novnc
+vnc_user: ubuntu
+vnc_display: 1
+vnc_depth: 16
+vnc_geometry: 1024x768
+
+
+#####
+#   Variables used when building galaxyFS
+
+#-- galaxyFS playbook configs
+cm_install_tools: yes
+shed_tool_list_file: files/shed_tool_list.yaml.cloud
+cm_install_data: no
+dbkeys_list_file: files/dbkeys_list.yaml.cloud
+
+cm_create_archive: yes
+galaxy_archive_path: /mnt/galaxyFS_archive
+galaxy_archive_name: galaxyFS-latest.tar.gz
+galaxy_timestamped_archive_name: galaxyFS-{{ lookup('pipe', 'date +%Y%m%d') }}.tar.gz
+galaxy_archive_bucket: cloudman/fs-archives
+aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
+aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
+
+galaxy_manage_trackster: yes
+len_file_path: "{{ galaxy_server_dir }}/tool-data/len"
+bedtools_version: 2.20.1
+
+#-- Galaxy role configs
+# Just the default values from the underlying role but required for post_tasks
+# galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
+# galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
+
+galaxy_vcs: git
+galaxy_changeset_id: master
+
+galaxy_config_dir: "{{ galaxy_server_dir }}/config"
+galaxy_mutable_config_dir: "{{ galaxy_server_dir }}/config"
+galaxy_shed_tools_dir: "{{ galaxyFS_base_dir }}/shed_tools"
+
+galaxy_config:
+  "server:main":
+    port: 8080
+    host: 127.0.0.1
+  "app:main":
+    admin_users: cloud@galaxyproject.org
+    database_connection: postgresql://{{ galaxy_user_name }}@localhost:{{ galaxy_db_port }}/galaxy
+    install_database_connection: sqlite:///{{ galaxy_mutable_config_dir }}/galaxy_install_db.sqlite?isolation_level=IMMEDIATE
+    database_engine_option_pool_size: 20
+    database_engine_option_max_overflow: 50
+    database_engine_option_server_side_cursors: True
+    database_engine_option_strategy: threadlocal
+    rsync_url: rsync://scofield.bx.psu.edu/indexes
+    static_enabled: False
+    nginx_x_accel_redirect_base: /_x_accel_redirect
+    nginx_upload_store: "{{ galaxyFS_base_dir }}/upload_store"
+    nginx_upload_path: /_upload
+    library_import_dir: "{{ galaxyFS_base_dir }}/tmp/library_import_dir"
+    allow_library_path_paste: True
+    allow_user_dataset_purge: True
+    enable_openid: True
+    enable_unique_workflow_defaults: True
+    ftp_upload_dir: "{{ galaxyFS_base_dir }}/tmp/ftp"
+    track_jobs_in_database: True
+    enable_job_recovery: True
+    set_metadata_externally: True
+    retry_metadata_internally: True
+    outputs_to_working_directory: False
+    cleanup_job: onsuccess
+    cluster_job_queue_workers: 3
+    use_pbkdf2: False
+    allow_user_deletion: True
+
+    file_path: "{{ galaxyFS_base_dir }}/files"
+    tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
+    len_file_path: "{{ len_file_path }}"
+    shed_tool_data_path: "{{ galaxy_server_dir }}/tool-data/dm"
+    galaxy_data_manager_data_path: /mnt/galaxyIndices
+
+    builds_file_path: "{{ galaxy_server_dir }}/tool-data/shared/ucsc/builds.txt"
+    tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/shed_tool_conf_cloud.xml,{{ galaxy_shed_tool_conf_file }}"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+    datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
+    migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
+    shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
+    tool_sheds_config_file: "{{ galaxy_mutable_config_dir }}/tool_sheds_conf.xml.sample"
+
+  "filter:gzip":
+    use: egg:Paste#gzip
+  "filter:proxy-prefix":
+    use: egg:PasteDeploy#prefix
+    prefix: /galaxy
+
+galaxy_config_files:
+  - src: files/galaxy/builds.txt
+    dest: "{{ galaxy_config['app:main']['builds_file_path'] }}"
+
+galaxy_mutable_configs:
+  - src: "{{ galaxy_server_dir }}/config/shed_tool_conf.xml.sample"
+    dest: "{{ galaxy_shed_tool_conf_file }}"
+  - src: "{{ galaxy_server_dir }}/config/migrated_tools_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['migrated_tools_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'migrated_tools_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['migrated_tools_config'] }}"
+  - src: "{{ galaxy_server_dir }}/config/shed_data_manager_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['shed_data_manager_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_data_manager_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_data_manager_config_file'] }}"
+  - src: "{{ galaxy_server_dir }}/config/shed_tool_data_table_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['shed_tool_data_table_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_tool_data_table_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_tool_data_table_config'] }}"
+  - src: "{{ galaxy_server_dir }}/config/datatypes_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['datatypes_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'datatypes_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['datatypes_config_file'] }}"
+  - src: "{{ galaxy_server_dir }}/config/tool_data_table_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['tool_data_table_config_path'] }}"
+  - src: "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
+    dest: "{{ galaxy_config_dir }}/tool_conf.xml"
+  - src: "{{ galaxy_server_dir }}/config/tool_sheds_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['tool_sheds_config_file'] }}"

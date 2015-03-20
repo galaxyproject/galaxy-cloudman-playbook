@@ -13,7 +13,9 @@
 #     --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD
 #     --extra-vars galaxy_admin_user_password=$CM_GALAXY_ADMIN_PWD
 #
-- hosts: galaxyFS-builder
+# - hosts: galaxyFS-builder
+- hosts: localhost
+  connection: local
   gather_facts: False  # Not making system-level changes so skip
   sudo: yes
   sudo_user: "{{ galaxy_user_name }}"
@@ -30,7 +32,7 @@
       file: path={{ galaxy_db_dir }} state=directory owner=postgres group=postgres
       sudo_user: root
   roles:
-     - role: galaxyprojectdotorg.cloudman-db
+     - role: galaxyprojectdotorg.cloudman-database
        sudo: yes
        sudo_user: postgres
      - galaxyprojectdotorg.galaxy
