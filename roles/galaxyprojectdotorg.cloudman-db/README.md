@@ -28,8 +28,6 @@ Note that these variables should match equaly named ones from the
  - `galaxy_db_port`: (default: `5930`) the port set for Galaxy's PostgrSQL database
  - `postgresql_bin_dir`: (default: `/usr/lib/postgresql/9.3/bin`) the path where
     PostgreSQL binary files are stored. This path will be added to `$PATH`
- - `galaxy_db_log`: (default: `/tmp/pSQL.log`) the location for the log file for
-    this database.
 
 Dependencies
 ------------

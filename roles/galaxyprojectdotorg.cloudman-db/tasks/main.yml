@@ -12,11 +12,11 @@
   register: postgres_running
 
 - name: Restart Postgres
-  shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l {{ galaxy_db_log }} restart"
+  shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l /tmp/pgSQL.log restart"
   when: postgres_running.stat.exists
 
 - name: Start Postgres
-  shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l {{ galaxy_db_log }} start"
+  shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l /tmp/pgSQL.log start"
   when: not postgres_running.stat.exists
 
 - name: Create galaxy role
