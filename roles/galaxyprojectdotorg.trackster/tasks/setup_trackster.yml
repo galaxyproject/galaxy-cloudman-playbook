@@ -7,7 +7,7 @@
   file: state=directory path="{{ len_file_path }}"  #"
 
 - name: Download .len files
-  get_url: url=https://s3.amazonaws.com/cloudman/files/len-files.tar.gz dest=/tmp/len-files.tar.gz
+  get_url: url=https://s3.amazonaws.com/cloudman/files/len-files.tar.gz dest=/tmp/len-files.tar.gz timeout=30
 
 - name: Unarchive .len files
   unarchive: copy=no src=/tmp/len-files.tar.gz dest={{ len_file_path }}
