@@ -57,7 +57,7 @@ of `psql_galaxyftp_password` in `group_vars/all` and set the launched instance
 IP in `inventory/builders` under `galaxyFS-builder` host group and run the
 role with
 
-    ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<a password> --extra-vars galaxy_admin_user_password=<psql_galaxyftp_password from image above>
+    ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
 After the run has completed (typically ~15 minutes), you can start the Galaxy
 application by hand and install desired tools via the Tool Shed. To start Galaxy,
@@ -89,8 +89,12 @@ included roles. These variables can be changed in
  - `galaxy_archive_path`: (default: `/mnt/galaxyFS_archive`) the directory
     where to place the filesystem tarball archive. Keep in mind that this
     directory needs to have sufficient disk space to hold the archive.
- - `galaxy_archive_name`: (default: `galaxyFS.tar.gz`) the file name for the
-    archive
+ - `galaxy_archive_name`: (default: `galaxyFS-latest.tar.gz`) the file name
+    for the archive
+ - `galaxy_timestamped_archive_name`: (default:
+    `galaxyFS-{{ lookup('pipe', 'date +%Y%m%d') }}.tar.gz`) timestamped
+    file name for the archive that will be uploaded to S3 in addition to
+    `galaxy_archive_name`
  - `galaxy_archive_bucket`: (default: `cloudman/fs-archives`) after it's
     created, the archive will be uploaded to S3. Specify the bucket (and folder)
     where to upload the archive.
