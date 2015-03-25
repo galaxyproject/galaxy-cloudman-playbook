@@ -5,9 +5,11 @@
     "vnc_pwd": "{{env `CM_VNC_PWD`}}",
     "gftp_pwd": "{{env `CM_GALAXY_FTP_PWD`}}",
     "gadmin_pwd": "{{env `CM_GALAXY_ADMIN_PWD`}}",
-    "ami_name": "Galaxy-CloudMan-{{timestamp}}",
+    "image_name": "Galaxy-CloudMan-{{timestamp}}",
     "source_ami": "ami-9a562df2",
-    "instance_type": "c3.large"
+    "instance_type": "c3.large",
+    "os_source_image": "d57696ba-5ed2-43fe-bf78-a587829973a9",
+    "os_flavor": "1"
   },
 
 
@@ -20,7 +22,7 @@
     "ami_virtualization_type": "hvm",
     "source_ami": "{{user `source_ami`}}",
     "instance_type": "{{user `instance_type`}}",
-    "ami_name": "{{user `ami_name`}}",
+    "ami_name": "{{user `image_name`}}",
     "ami_block_device_mappings": [ {
         "device_name": "/dev/sda1",
         "volume_size": 20,
@@ -31,7 +33,18 @@
         "volume_size": 20,
         "delete_on_termination": true
     } ]
-  }],
+  },
+  {
+    "type": "openstack",
+    "openstack_provider": "Compute Service",
+    "region": "Melbourne",
+    "ssh_username": "ubuntu",
+    "source_image": "{{user `os_source_image`}}",
+    "flavor": "{{user `os_flavor`}}",
+    "image_name": "{{user `image_name`}}",
+    "security_groups": [ "default" ]
+  }
+  ],
   "provisioners": [
   {
     "type": "shell",
