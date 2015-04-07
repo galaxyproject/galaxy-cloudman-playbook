@@ -70,11 +70,3 @@
   with_items:
     - "{{ docker_package }}"
   when: configure_docker and install_packages
-
-- name: Allow galaxy user to run docker with sudo
-  lineinfile: "dest=/etc/sudoers line='{{ galaxy_user_name }}  ALL = (root) NOPASSWD: SETENV: /usr/bin/docker'"
-  when: configure_docker
-
-- name: Add Galaxy user to docker group - allowing sudoless docker usage
-  user: name={{ galaxy_user_name }} groups=docker append=yes
-  when: configure_docker

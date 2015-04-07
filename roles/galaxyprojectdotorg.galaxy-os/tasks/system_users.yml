@@ -10,5 +10,13 @@
 - name: Add galaxy user
   user: name={{ galaxy_user_name }} uid={{ galaxy_user_uid }} shell=/bin/bash groups={{ galaxy_user_name }},shadow
 
+- name: Allow galaxy user to run docker with sudo
+  lineinfile: "dest=/etc/sudoers line='{{ galaxy_user_name }}  ALL = (root) NOPASSWD: SETENV: /usr/bin/docker'"
+  when: configure_docker
+
+- name: Add Galaxy user to docker group - allowing sudoless docker usage
+  user: name={{ galaxy_user_name }} groups=docker append=yes
+  when: configure_docker
+
 - name: Add nobody user to shadow group
   user: name=nobody groups=shadow
