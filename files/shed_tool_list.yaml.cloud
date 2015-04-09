@@ -100,7 +100,7 @@ tools:
 - name: lastz
   owner: devteam
   tool_panel_section_id: solexa_tools
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: megablast_xml_parser
   owner: devteam
   tool_panel_section_id: solexa_tools
@@ -160,7 +160,7 @@ tools:
 - name: stringtie
   owner: iuc
   tool_panel_section_id: ngs-rna-tools
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: sam_to_bam
   owner: devteam
   tool_panel_section_id: samtools
@@ -212,7 +212,7 @@ tools:
 - name: samtools_phase
   owner: devteam
   tool_panel_section_id: samtools
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: samtool_filter2
   owner: devteam
   tool_panel_section_id: samtools
@@ -248,11 +248,11 @@ tools:
 - name: phylorelatives
   owner: boris
   tool_panel_section_id: variant_detection
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: getalleleseq
   owner: boris
   tool_panel_section_id: variant_detection
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: vcfbedintersect
   owner: anton
   tool_panel_section_id: vcf_tools
@@ -520,27 +520,31 @@ tools:
 # Data Managers
 - name: data_manager_fetch_genome_all_fasta
   owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_snpeff
   owner: iuc
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_bwa_index_builder
   owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_gatk_picard_index_builder
   owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_sam_fasta_index_builder
   owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_fetch_genome_dbkeys_all_fasta
   owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_rsync_g2
   owner: blankenberg
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: data_manager_bowtie2_index_builder
-  owner:  jjohnson
+  owner:  devteam
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 - name: data_manager_bwa_mem_index_builder
   owner: devteam
-- name: data_manager_ucsc_twobit_index_builder
-  owner: jjohnson
-  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
-- name: data_manager_sam_fa_index_builder
-  owner: blankenberg
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_picard_index_builder
+  owner: devteam
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu
