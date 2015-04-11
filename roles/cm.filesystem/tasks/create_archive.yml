@@ -1,7 +1,7 @@
 ---
 
 - name: Stop Galaxy
-  shell: "{{ galaxy_server_dir }}/run.sh --stop-daemon"
+  shell: "{{ galaxy_server_dir }}/run.sh --pid-file=main.pid --log-file=main.log --stop-daemon"
   ignore_errors: true
 
 - name: Stop PostgreSQL
