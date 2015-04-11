@@ -137,6 +137,10 @@ galaxy_config:
     shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
     tool_sheds_config_file: "{{ galaxy_mutable_config_dir }}/tool_sheds_conf.xml.sample"
 
+    dynamic_proxy_manage: False
+    dynamic_proxy_bind_port: 8800
+    interactive_environment_plugins_directory: config/plugins/interactive_environments
+
   "filter:gzip":
     use: egg:Paste#gzip
   "filter:proxy-prefix":
