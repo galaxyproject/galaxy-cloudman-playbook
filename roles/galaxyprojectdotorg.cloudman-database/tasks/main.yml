@@ -3,28 +3,36 @@
 
 - name: Initialize Galaxy database
   shell: "{{ postgresql_bin_dir }}/initdb -D {{ galaxy_db_dir }} creates={{ galaxy_db_dir }}/postgresql.conf"
+  sudo_user: "{{ db_owner }}"
 
 - name: Set Postgres port number
   lineinfile: dest={{ galaxy_db_dir }}/postgresql.conf regexp='^#port\ =\ 5432' line='port = {{ galaxy_db_port }}'
+  sudo_user: "{{ db_owner }}"
 
 - name: Check if PostgreSQL server is running
   stat: path={{ galaxy_db_dir }}/postmaster.pid
   register: postgres_running
+  sudo_user: "{{ db_owner }}"
 
 - name: Restart Postgres
   shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l /tmp/pgSQL.log restart"
   when: postgres_running.stat.exists
+  sudo_user: "{{ db_owner }}"
 
 - name: Start Postgres
   shell: "{{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l /tmp/pgSQL.log start"
   when: not postgres_running.stat.exists
+  sudo_user: "{{ db_owner }}"
 
 - name: Create galaxy role
   postgresql_user: port={{ galaxy_db_port }} name={{ galaxy_user_name }} role_attr_flags=CREATEDB,LOGIN
+  sudo_user: "{{ db_owner }}"
 
 - name: Create galaxyftp role
   postgresql_user: port={{ galaxy_db_port }} name=galaxyftp role_attr_flags=LOGIN password={{ psql_galaxyftp_password }}
+  sudo_user: "{{ db_owner }}"
 
 - name: Create galaxy database
   postgresql_db: port={{ galaxy_db_port }} name=galaxy owner={{ galaxy_user_name }}
+  sudo_user: "{{ db_owner }}"
 

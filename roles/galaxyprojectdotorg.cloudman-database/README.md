@@ -28,6 +28,10 @@ Note that these variables should match equaly named ones from the
  - `galaxy_db_port`: (default: `5930`) the port set for Galaxy's PostgrSQL database
  - `postgresql_bin_dir`: (default: `/usr/lib/postgresql/9.3/bin`) the path where
     PostgreSQL binary files are stored. This path will be added to `$PATH`
+ - `db_owner`: (default: `postgres`) system user as who this role will be run.
+    Note that this will be honored only if `sudo: yes` is set in the playbook
+    using this role. Otherwise, the role will be executed as the login user
+    irrespective of the value of this variable.
 
 Dependencies
 ------------

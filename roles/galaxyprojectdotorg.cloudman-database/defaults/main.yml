@@ -7,3 +7,5 @@ galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
 galaxy_db_dir: "{{ galaxyFS_base_dir }}/db"
 galaxy_db_port: 5930
 postgresql_bin_dir: /usr/lib/postgresql/9.3/bin
+
+db_owner: postgres
