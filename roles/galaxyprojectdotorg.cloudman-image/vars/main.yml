@@ -1,12 +1,12 @@
 ---
-# Variables used during the image build-process
+# Variables used during the image building process
 
 # System user details
 default_user: ubuntu
 default_user_home: /home/ubuntu
 
 # CloudMan details
-cm_hg_repo: https://bitbucket.org/galaxy/cloudman/raw/tip
+cm_source_repo: https://github.com/galaxyproject/cloudman/blob/master/
 
 # Details about additional software being installed
 s3fs_version: 1.77
