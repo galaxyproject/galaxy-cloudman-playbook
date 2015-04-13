@@ -28,6 +28,9 @@ Note that some of these variables should match equaly named ones from the
     The location of Galaxy's main configuration file
  - `cmg_setup_files`: A list of files to be copied from this role into Galaxy's
     source tree. See `defaults/main.yml` for the defaults.
+ - `cmg_extra_files`: Provides a hook to copy a list of extra, user-defined files
+    into Galaxy's source tree. The default is an empty list, but should be in a
+    format similar to cmg_setup_files.
  - `shed_tool_list_file`: (default `scripts/shed_tool_list.yaml.sample` - note
     that the default path is relative `files` subdirectory) The list of tools
     to be installed from the Tool Shed into the given Galaxy instance.

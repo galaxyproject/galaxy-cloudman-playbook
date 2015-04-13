@@ -24,6 +24,9 @@ cmg_setup_files:
   - src: galaxy/job_conf.xml.cloud
     dest: "{{ galaxy_server_dir }}/config/job_conf.xml"
 
+# Extra, user defined files to copy, with src and dest properties
+cmg_extra_files: []
+
 galaxy_user_name: galaxy
 galaxy_admin_user: cloud@galaxyproject.org
 galaxyFS_base_dir: /mnt/galaxy
