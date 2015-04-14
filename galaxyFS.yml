@@ -32,10 +32,9 @@
       file: path={{ galaxy_db_dir }} state=directory owner=postgres group=postgres
       sudo_user: root
   roles:
-     - role: galaxyprojectdotorg.cloudman-database
-       sudo: yes
-       sudo_user: postgres
-     - galaxyprojectdotorg.galaxy
+     - galaxyprojectdotorg.cloudman-database
+     - role: galaxyprojectdotorg.galaxy
+       tags: galaxy
      - galaxyprojectdotorg.trackster
      - galaxyprojectdotorg.cloudman-galaxy-setup
      - cm.filesystem
