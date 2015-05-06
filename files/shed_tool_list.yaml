@@ -13,10 +13,6 @@ tools:
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'convert'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
-- name: !!python/unicode 'fastq_to_fasta'
-  owner: !!python/unicode 'devteam'
-  tool_panel_section_id: !!python/unicode 'convert'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: !!python/unicode 'fastqtofasta'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'convert'
@@ -154,10 +150,6 @@ tools:
   tool_panel_section_id: !!python/unicode 'ngs_mapping'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: !!python/unicode 'bwa_wrappers'
-  owner: !!python/unicode 'devteam'
-  tool_panel_section_id: !!python/unicode 'ngs_mapping'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu
-- name: !!python/unicode 'bowtie_wrappers'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'ngs_mapping'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
