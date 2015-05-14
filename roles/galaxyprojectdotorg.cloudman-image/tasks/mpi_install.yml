@@ -1,0 +1,29 @@
+---
+# Install MPI
+
+- name: Download MPI
+  get_url:
+    url=https://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.1.tar.gz
+    dest=/tmp/mpi.tar.gz
+
+- name: Create temporary directory
+  command: mktemp -d
+  register: tempdir
+
+- name: Unarchive MPI
+  unarchive: src=/tmp/mpi.tar.gz dest={{ tempdir.stdout }} copy=no
+
+- name: Install MPI required system packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - libibnetdisc-dev
+
+- name: Install MPI
+  command: "{{ item }} chdir='{{ tempdir.stdout }}/openmpi-1.8.1'"
+  with_items:
+    - ./configure
+    - make
+    - make install
+
+- name: Make sure LD_LIBRARY_PATH is set
+  lineinfile: dest=/etc/bash.bashrc line='export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib/"'

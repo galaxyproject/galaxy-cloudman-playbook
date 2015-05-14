@@ -26,5 +26,11 @@
 - include: novnc.yml
   when: cm_install_novnc and not only_cleanup|bool
 
+- include: mpi_install.yml
+  when: cm_install_mpi and not only_cleanup|bool
+
+- include: r_packages.yml
+  when: cm_install_r_packages and not only_cleanup|bool
+
 - include: cleanup.yml
   when: cleanup|bool or only_cleanup|bool

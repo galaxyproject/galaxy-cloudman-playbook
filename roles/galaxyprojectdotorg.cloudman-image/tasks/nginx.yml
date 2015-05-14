@@ -20,4 +20,4 @@
   file: state=directory path={{ nginx_upload_store_path }}
 
 - name: Reload nginx config
-  shell: nginx -s reload
+  service: name=nginx state=reloaded

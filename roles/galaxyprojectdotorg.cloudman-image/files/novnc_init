@@ -22,7 +22,7 @@ NAME=novnc
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 DAEMON=/usr/bin/env
-DAEMON_ARGS="python $NOVNC_HOME/utils/wsproxy.py --web $NOVNC_HOME $PORT $VNC_DEST"
+DAEMON_ARGS="$NOVNC_HOME/utils/launch.sh --vnc $VNC_DEST"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 

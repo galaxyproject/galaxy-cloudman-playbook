@@ -49,6 +49,7 @@
     - python-tk  # for IPython %cpaste magic function
     - python-yaml
     - rabbitmq-server
+    - r-base
     - screen
     - slurm-llnl
     - uwsgi

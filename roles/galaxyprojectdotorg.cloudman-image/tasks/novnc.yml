@@ -17,6 +17,9 @@
 - name: Clone novnc
   git: repo=https://github.com/kanaka/noVNC.git dest={{ novnc_install_dir }}
 
+- name: Clone websockify
+  git: repo=https://github.com/kanaka/websockify dest={{ novnc_install_dir }}/utils/websockify
+
 - name: Create ~/.vnc dir
   file: path=~/.vnc state=directory
   sudo_user: "{{ default_user }}"

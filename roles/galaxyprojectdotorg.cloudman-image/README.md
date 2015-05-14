@@ -65,6 +65,8 @@ given part of the role should be executed:
  - `cm_install_novnc`: (default: `no`) whether to install and configure VNC and
     noVNC bridge for in-browser remote desktop. *Note* that there are issues
     with setting this on AWS due to how AWS exposes graphics card hardware.
+ - `cm_install_r_packages`: (default: `yes`) whether to install R and Bioconductor
+    packages
  - `cleanup`: (default: `no`) whether to clean up the instance and make it ready
     for bundling into an image. This must be set before an image is created!
  - `only_cleanup`: (default: `no`) when set, only the cleanup tasks will run and

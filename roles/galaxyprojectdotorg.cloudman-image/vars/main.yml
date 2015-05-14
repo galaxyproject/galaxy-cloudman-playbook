@@ -6,7 +6,7 @@ default_user: ubuntu
 default_user_home: /home/ubuntu
 
 # CloudMan details
-cm_source_repo: https://github.com/galaxyproject/cloudman/blob/master/
+cm_source_repo: https://raw.githubusercontent.com/galaxyproject/cloudman/master
 
 # Details about additional software being installed
 s3fs_version: 1.77
