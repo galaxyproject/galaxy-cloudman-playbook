@@ -1,17 +1,18 @@
 """
-A script to automate installation of tool repositories from a Galaxy Tool Shed
-into an instance of Galaxy.
+A script to automate installation of tool repositories from a Galaxy Toolshed
+and reference genomic data via Galaxy Data Managers into an instance of Galaxy.
 
 Galaxy instance details and the installed tools need to be provided in YAML
 format in a file called ``shed_tool_list.yaml``. See
 ``shed_tool_list.yaml.sample`` for a sample of such a file.
 
-The script expects any `tool_panel_section_id` provided in the input file to
-already exist on the target Galaxy instance. If the section does not exist,
-the tool will be installed outside any section. As part of the `galaxyFS`
-tagged role(s), a sample file (`shed_tool_conf_cloud.xml`) with a number of
-sections is uploaded to the target Galaxy instance and Galaxy's config file
-updated to reflect this configuration.
+When installing tools, this script expects any `tool_panel_section_id` provided
+in the input file to already exist on the target Galaxy instance. If the section
+does not exist, the tool will be installed outside any section. See
+`shed_tool_conf.xml.sample` in this directory for a sample of such file. Before
+running this script to install the tools, make sure to place such file into
+Galaxy's configuration directory and set Galaxy configuration option
+`tool_config_file` to include it.
 
 Usage:
 
@@ -154,7 +155,7 @@ def _tools_to_install(owners=['devteam', 'iuc'], return_formatted=False):
 
     *Note*: there is no way to programatically get a category a tool belongs in
     a Tool Shed so the returned list cannot simply be used as the input file but
-    (manual!?!) adjustment is necessesary to provide tool categort for each tool.
+    (manual!?!) adjustment is necessesary to provide tool category for each tool.
     """
     tsi = ToolShedInstance('https://toolshed.g2.bx.psu.edu')
     repos = tsi.repositories.get_repositories()
@@ -169,12 +170,15 @@ def _tools_to_install(owners=['devteam', 'iuc'], return_formatted=False):
     return tti
 
 
-def _parse_tool_list(tl):
+def parse_tool_list(tl):
     """
     A convenience method for parsing the output from an API call to a Galaxy
     instance listing all the tools installed on the given instance and
-    formatting it for use by functions in this file. Sample API call:
-    `https://test.galaxyproject.org/api/tools?in_panel=true`
+    formatting it for use by functions in this file.
+
+    Sample GET call: `https://test.galaxyproject.org/api/tools?in_panel=true`.
+    Via the API, call `gi.tools.get_tool_panel()` to get the list of tools on
+    a given Galaxy instance `gi`.
 
     :type tl: list
     :param tl: A list of dicts with info about the tools
@@ -209,6 +213,18 @@ def _parse_tool_list(tl):
                 # print "\t%s" % t['id']
                 custom_tools.append(t['id'])
     return ts_tools, custom_tools
+
+
+def _list_tool_categories(tl):
+    """
+    Given a list of dicts `tl` as returned by the `parse_tool_list` method and
+    where each list element holds a key `tool_panel_section_id`, return a list
+    of unique section IDs.
+    """
+    category_list = []
+    for t in tl:
+        category_list.append(t.get('tool_panel_section_id'))
+    return set(category_list)
 
 
 def _parse_cli_options():
@@ -267,7 +283,7 @@ def run_data_managers(options):
             start = dt.datetime.now()
             log.debug('[dbkey {0}/{1}; DM: {2}/{3}] Installing dbkey {4} with '
                       'DM {5}'.format(dbkey_counter, len(dbkeys), dm_counter,
-                      len(dms), dbkey_name, dm_tool))
+                                      len(dms), dbkey_name, dm_tool))
             tool_input = dbkey
             try:
                 response = gi.tools.run_tool('', dm_tool, tool_input)
@@ -342,7 +358,7 @@ def install_tools(options):
             if r['name'] == it['name'] and r['owner'] == it['owner'] and \
                it['tool_shed'] in r['tool_shed_url'] and it['latest']:
                 log.debug("({0}/{1}) Tool {2} already installed. Skipping..."
-                       .format(counter, total_num_tools, r['name']))
+                          .format(counter, total_num_tools, r['name']))
                 skipped_tools.append({'name': r['name'], 'owner': r['owner']})
                 already_installed = True
                 break
@@ -354,12 +370,14 @@ def install_tools(options):
                     r['name'], r['owner'])[-1]
             # Initate tool installation
             start = dt.datetime.now()
-            log.debug('(%s/%s) Installing tool %s from %s to section %s' % (counter,
-                total_num_tools, r['name'], r['owner'], r.get('tool_panel_section_id', 'N/A')))
+            log.debug('(%s/%s) Installing tool %s from %s to section %s (TRT: %s)' %
+                      (counter, total_num_tools, r['name'], r['owner'],
+                       r.get('tool_panel_section_id', 'N/A'), dt.datetime.now() - istart))
             try:
-                response = tsc.install_repository_revision(r['tool_shed_url'], r['name'],
-                    r['owner'], r['revision'], r['install_tool_dependencies'],
-                    r['install_repository_dependencies'], r.get('tool_panel_section_id', ''))
+                response = tsc.install_repository_revision(
+                    r['tool_shed_url'], r['name'], r['owner'], r['revision'],
+                    r['install_tool_dependencies'], r['install_repository_dependencies'],
+                    r.get('tool_panel_section_id', ''))
                 tool_id = None
                 tool_status = None
                 if len(response) > 0:
@@ -382,20 +400,23 @@ def install_tools(options):
                 response = None
                 end = dt.datetime.now()
                 if default_err_msg in e.body:
-                    log.debug("\tTool %s already installed (at revision %s)" % (r['name'],
-                           r['revision']))
+                    log.debug("\tTool %s already installed (at revision %s)" %
+                              (r['name'], r['revision']))
                 else:
                     log.error("\t* Error installing a tool (after %s)! Name: %s,"
-                              "owner: %s, revision: %s, error: %s" % (r['name'],
-                              str(end - start), r['owner'], r['revision'], e.body))
+                              "owner: %s, revision: %s, error: %s" %
+                              (r['name'], str(end - start), r['owner'],
+                               r['revision'], e.body))
                     errored_tools.append({'name': r['name'], 'owner': r['owner'],
                                           'revision': r['revision'], 'error': e.body})
             outcome = {'tool': r, 'response': response, 'duration': str(end - start)}
             responses.append(outcome)
         counter += 1
 
-    log.info("Skipped tools: {0}".format(skipped_tools))
-    log.info("Errored tools: {0}".format(errored_tools))
+    log.info("Skipped tools ({0}): {1}".format(
+             len(skipped_tools), [t.get('name') for t in skipped_tools]))
+    log.info("Errored tools ({0}): {1}".format(
+             len(errored_tools), [t.get('name') for t in errored_tools]))
     log.info("All tools listed in '{0}' have been processed.".format(tool_list_file))
     log.info("Total run time: {0}".format(dt.datetime.now() - istart))
 
