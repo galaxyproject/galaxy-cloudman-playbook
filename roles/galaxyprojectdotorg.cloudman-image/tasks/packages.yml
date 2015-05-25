@@ -24,6 +24,7 @@
     - fail2ban
     - fuse
     - glusterfs-client
+    - jsvc  # Cloudgene required
     - libcurl4-openssl-dev  # s3fs required
     - libfuse-dev  # s3fs required
     - libfuse2
