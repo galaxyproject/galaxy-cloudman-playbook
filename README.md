@@ -1,4 +1,4 @@
-This [Ansible][ansible] playbook is used to build [Galaxy on the Cloud][goc] 
+This [Ansible][ansible] playbook is used to build [Galaxy on the Cloud][goc]
 system or any of its components. The playbook
 is used by the [Galaxy project][gp] and is intended for anyone
 wanting to deploy their own version of Galaxy on the Cloud, whether it is
@@ -8,11 +8,11 @@ This playbook is intended to be run on a Ubuntu (14.04) system.
 
 Building *Galaxy on the Cloud*
 ------------------------------
-The *Galaxy on the Cloud* system is composed of several components that are all necessary 
-before the complete system can be used. This playbook was created to build those as 
+The *Galaxy on the Cloud* system is composed of several components that are all necessary
+before the complete system can be used. This playbook was created to build those as
 simply as possible. We strongly recommend reading through [this page][building] before
-starting the build process as it has more background information. Overall, 
-after you have gotten some of the preliminaries completed, all the components can be 
+starting the build process as it has more background information. Overall,
+after you have gotten some of the preliminaries completed, all the components can be
 built with the following command (more information about Packer, including how to
 install it, is available [here][packer]):
 
@@ -20,14 +20,14 @@ install it, is available [here][packer]):
 
 Above command will launch a builder an instance, configure it for use by Galaxy and
 [CloudMan][cloudman], build the galaxy file system (`galaxyFS`; see below), upload
-an archive of the file system to an S3 bucket, build an AMI, and clean 
-everything up. Having said that, this process assumes all the Galaxy tools and data 
+an archive of the file system to an S3 bucket, build an AMI, and clean
+everything up. Having said that, this process assumes all the Galaxy tools and data
 (assuming those are being installed; see *galaxyFS* notes
 below) get installed properly and require no manual intervention. If that is not the
-case, see below for installing components individually. 
-*At the end of the run, to be able to launch instances of 
+case, see below for installing components individually.
+*At the end of the run, to be able to launch instances of
 the system, it is necessary to update the launch information. See 'Tying it all
-together section' below.* 
+together section' below.*
 
 #### Required configuration
 All the following configuration options are stored in `group_vars/all` and they need to
@@ -36,7 +36,7 @@ be updated before using this playbook:
  - Create an S3 bucket where the galaxyFS will be uploaded and provide
  the bucket name for `galaxy_archive_bucket` variable;
  - Export the following local environment variables (or explicitly provide
- the values in the config file): 
+ the values in the config file):
    - `AWS_ACCESS_KEY`: your Amazon Web Services access key
    - `AWS_SECRET_KEY`: your Amazon Web Services secret key
    - `CM_VNC_PWD`: a throwaway password used for a bridge between VNC and noVNC
@@ -44,7 +44,7 @@ be updated before using this playbook:
    - `CM_GALAXY_ADMIN_PWD`: a Galaxy admin account password for a user that will be
    	  created to install any Galaxy tools during the build process
  - For building components on an OpenStack cloud, it is also necessary to define the
- 	following environment varaibles (additional config options can also be defined; 
+ 	following environment varaibles (additional config options can also be defined;
  	see [Packer documentation for OpenStack][pos] for more): `OS_PASSWORD`,
  	`OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`.
 
@@ -55,10 +55,10 @@ of the available options are provided in README files for individual roles that
 are included in this playbook.
 
 #### Multiple Clouds ####
-The Packer system and the build scripts support the ability to build the image on 
-multiple destinations simultaneously. This is the default behavior. The destinations 
+The Packer system and the build scripts support the ability to build the image on
+multiple destinations simultaneously. This is the default behavior. The destinations
 are defined as `builders` sections inside the `image.json` file. At the moment,
-`builders` define the following two destinations: AWS (us-east-1) and 
+`builders` define the following two destinations: AWS (us-east-1) and
 OpenStack ([NeCTAR][nectar], Melbourne). To build only select destinatinos, use:
 
 	packer build -only=[amazon-ebs, openstack] galaxy_on_the_cloud.json
@@ -78,18 +78,18 @@ To build the machine image only, simply run the following command (this will run
 build process for all clouds defined in `image.json`, see *Multiple Clouds* above):
 
     packer build [--only amazon-ebs|openstack] image.json
-    
+
 Note that this command requires the same environment variables to be defined as
-specified above. Additional options can be set by editing `image.json`, under 
-`extra_arguments` section. If you have made changes to `image.json` configuration file, 
-before you run the `build` command, it's a good idea to execute 
-`packer validate image.json` and make sure things are formatted correctly. The 
-`build` command will rovision an instance, run the Ansible `cloudman-image` role, 
+specified above. Additional options can be set by editing `image.json`, under
+`extra_arguments` section. If you have made changes to `image.json` configuration file,
+before you run the `build` command, it's a good idea to execute
+`packer validate image.json` and make sure things are formatted correctly. The
+`build` command will rovision an instance, run the Ansible `cloudman-image` role,
 and create an AMI. The image build process typically takes about 45	 minutes.
 
 #### Running without Packer ####
 To build an image without Packer, make sure the default values provided in the
-`group_vars/all` file suite you. Create a copy of `inventory/builders.sample` as 
+`group_vars/all` file suite you. Create a copy of `inventory/builders.sample` as
 `inventory/builders`, manually launch a new instance and set the instance IP address
 under `image-builder` host group in the `builders` file. This option also requires
 you to edit `image.yml` file to set `hosts` line to `image-builder` while
@@ -100,7 +100,7 @@ commenting out `connection: local` line. Finally, run the role with
 On average, the build time takes about 30 minutes. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
 you still need to ssh, set `--extra-vars cleanup=no` in the above command.
-Before creating the image, however, you must rerun the entire playbook with that 
+Before creating the image, however, you must rerun the entire playbook with that
 flag set or run it with `--extra-vars only_cleanup=yes` to run the cleanup tasks only.
 
 ### Customizing
@@ -112,27 +112,27 @@ and you want to rerun only it or if you're just trying to run a certain steps.
 
 Galaxy File System (*galaxyFS*)
 -----------------------------
-The galaxyFS can be built two different ways: as a archive or a volume. The 
+The galaxyFS can be built two different ways: as an archive or a volume. The
 archive option creates a tarball of the entire galaxyFS and uploads it to S3.
 When instances are launched, the archive is downloaded and extracted onto a
 local file system. Note that a single archive can be downloaded from multiple
 cloud availability zones and even multiple clouds. Future *Galaxy on the Cloud*
 releases (2015 onwards) will use this option and this is the default action
-for this playbook. 
+for this playbook.
 
-Alternatively, galaxyFS can be built as a volume and converted into a snapshot.
+Alternatively, *galaxyFS* can be built as a volume and converted into a snapshot.
 The created snapshot can then be shared (or made public). Launched instances
 will, at runtime, create a volume based on the available snapshot. For this
 option, a volume snapshot needs to exist in each region and on every cloud
 instances want to be deployed.
 
-In addition to the conceptual choices, his role requires a number of configuration
-options for the Galaxy application, CloudMan application, PostgreSQL the database, 
-as well as the glue linking those. The configuration options have been aggregated 
+In addition to the conceptual choices, this role requires a number of configuration
+options for the Galaxy application, CloudMan application, PostgreSQL database,
+as well as the glue linking those. The configuration options have been aggregated
 under `group_vars/all` and represent reasonable defaults but you can change them
-as you feel is more appropriate. Keep in mind that changing the options that 
-influence how the system is deployed and/or managed may also require changes in 
-CloudMan. 
+as you feel is more appropriate. Keep in mind that changing the options that
+influence how the system is deployed and/or managed may also require changes in
+CloudMan.
 
 #### Playbook-specific variables
 Each of the included roles have their own README file capturing the available
@@ -167,7 +167,7 @@ from a Toolshed needs to be provided. A sample of the file can be found in
 `files/shed_tool_list.yaml.cloud`. Which file to use can be specified via
 `shed_tool_list_file` variable in file `group_vars/all`. If you do not wish to have
 the tools installed as part of the build process, set variable `cm_install_tools`
-to `no` in file `group_vars/all`. 
+to `no` in file `group_vars/all`.
 
 If you wish to use this playbook only to install some Galaxy tools, comment out
 all roles except `galaxyprojectdotorg.cloudman-galaxy-setup` in `galaxyFS.yml`
@@ -177,16 +177,16 @@ are running this.
 *Warning:* If you run the role for installing the tools more than once (or
 if you have installed tools via the Toolshed by other means), the role
 will place a clean copy of `shed_tool_conf_cloud.xml` into the `config` dir
-possibly replacing the file that contains information about already existing 
+possibly replacing the file that contains information about already existing
 tool installations.
 
 ### Building galaxyFS
-Either build option starts by launching an instance of the image created above. 
+Either build option starts by launching an instance of the image created above.
 Once CloudMan starts, choose `Test` cluster type. Then, is is necessary to edit
 `galaxyFS.yml` to set `galaxyFS-builder` for `hosts` field and comment out
 `connection: local` entry. Next, set the launched instance IP address
 under `galaxyFS-builder` host group in the `inventory/builders` file and invoke
-the following command:
+the following command (having filled in the required variables):
 
 	ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
@@ -196,23 +196,43 @@ depending on the number of tools you are installing, this build process may take
 several hours.
 
 #### galaxyFS as a volume
-After you have launched an instance, go to CloudMan's Admin page and add a 
+After you have launched an instance, go to CloudMan's Admin page and add a
 new-volume-based file system of desired size (e.g., 10GB). Set variable
-`cm_create_archive` to `no`. Then, run the above `ansible-playbook` command. 
-After the process has completed, back on CloudMan's Admin page, create a 
-snapshot of the file system.  
+`cm_create_archive` to `no`. Then, run the above `ansible-playbook` command.
+After the process has completed, back on CloudMan's Admin page, create a
+snapshot of the file system.
 
 ### Accessing Galaxy on the build system
-After the build process has completed, you can access the Galaxy application. 
+After the build process has completed, you can access the Galaxy application.
 To do so, visit CloudMan's Admin page. First, disable CloudMan's service
 dependency framework (under *System Controls*). Then, start Postgres, ProFTPd,
-and Galaxy services - in that order while waiting for each of them to enter
+and Galaxy services - in that order, while waiting for each of them to enter
 `Running` state before staring the next one.
+
+### Troubleshooting
+Despite the best effort, especially when installing tools, it is likely that
+the build process will not go quite as expected and manual intervention will
+be necessary. In this case, start Galaxy as described in the previous
+sub-section, and login as the bootstrap user (use the login info you defined
+for variables `galaxy_admin_user` and `galaxy_admin_user_password`). Tools can
+then be 'repaired' from the Galaxy Admin page.
+
+Keep in mind that whatever actions you perform in Galaxy at this stage will be
+preserved in the final build. For example, if you create a user, upload data,
+or run jobs - all of these will be preserved after the file system build
+process is completed. It it thus a good idea to see what has broken, find a
+permanent fix for it, update the build process and build everything again.
+Unfortunately, this does not apply to tools installed from the Toolshed becasue
+it is likely you will not have control over those tools. Those tools need to be
+repaired manually/via Galaxy.
+
+After you are done troubleshooting, stop Galaxy, ProFTPd, and Postgres from
+CloudMan's Admin page and run the playbook with only `cm_create_archive` enabled.
 
 Tying it all together
 ---------------------
 After all the components have been built, we need a little bit of glue to tie
-it all together. This needs to be done irrespective of whether you built 
+it all together. This needs to be done irrespective of whether you built
 every component separately or all at once. The first part is to tell the
 launcher application what AMI to use. Once that is set, it is necessary to
 update (or create) file `snaps.yaml` in the default bucket and specify the
