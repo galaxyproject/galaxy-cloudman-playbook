@@ -733,6 +733,30 @@ tools:
   owner: !!python/unicode 'matt-shirley'
   tool_panel_section_id: getext
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: join
+  owner: devteam
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: annotation_profiler
+  owner: devteam
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: subtract
+  owner: devteam
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: intersect
+  owner: devteam
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: complement
+  owner: devteam
+  tool_panel_section_id: bxops
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: htseq_bams_to_count_matrix
+  owner: fubar
+  tool_panel_section_id: ngs-rna-tools
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu
 # Data Managers
 - name: data_manager_snpeff
   owner: iuc
@@ -747,6 +771,9 @@ tools:
   owner: devteam
   tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_fetch_genome_dbkeys_all_fasta
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_fetch_genome_all_fasta
   owner: devteam
   tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: data_manager_rsync_g2
