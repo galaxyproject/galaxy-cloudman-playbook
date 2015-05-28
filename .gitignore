@@ -7,3 +7,4 @@ syntax: glob
 inventory/builders
 scripts/shed_tool_list.yaml
 scripts/dbkeys_tool_list.yaml
+files/shed_tool_list.yaml.test
