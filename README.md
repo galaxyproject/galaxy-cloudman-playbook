@@ -91,8 +91,9 @@ and create an AMI. The image build process typically takes about 45	 minutes.
 To build an image without Packer, make sure the default values provided in the
 `group_vars/all` file suite you. Create a copy of `inventory/builders.sample` as
 `inventory/builders`, manually launch a new instance and set the instance IP address
-under `image-builder` host group in the `builders` file. This option also requires
-you to edit `image.yml` file to set `hosts` line to `image-builder` while
+under `image-builder` host group in the `builders` file. Also set the path to your
+private ssh key for the `ansible_ssh_private_key_file` variable. This option also 
+requires you to edit `image.yml` file to set `hosts` line to `image-builder` while
 commenting out `connection: local` line. Finally, run the role with
 
     ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> psql_galaxyftp_password=<a_different_password> --extra-vars cleanup=yes
