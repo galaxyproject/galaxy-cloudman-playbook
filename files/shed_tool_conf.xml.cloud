@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<toolbox tool_path="../shed_tools">
+  <section id="bxops" name="Operate on Genomic Intervals">
+  </section>
+  <section id="hgv" name="Phenotype Association">
+  </section>
+  <section id="snpeff" name="snpEff">
+  </section>
+  <section id="bedtools" name="BEDtools">
+  </section>
+  <section id="genome_diversity" name="Genome Diversity">
+  </section>
+  <section id="EMBOSSLite" name="EMBOSS">
+  </section>
+  <section id="regVar" name="Regional Variation">
+  </section>
+  <section id="fasta_manipulation" name="FASTA manipulation">
+  </section>
+  <section id="hyphy" name="Evolution">
+  </section>
+  <section id="clustal" name="Multiple Alignments">
+  </section>
+  <section id="tax_manipulation" name="Metagenomic analyses">
+  </section>
+  <section id="motifs" name="Motif Tools">
+  </section>
+  <section id="cshl_library_information" name="NGS: QC and manipulation">
+  </section>
+  <section id="ngs_mapping" name="NGS: Mapping">
+  </section>
+  <section id="ngs:_bam_tools" name="NGS: BAM Tools">
+  </section>
+  <section id="ngs:_picard" name="NGS: Picard">
+  </section>
+  <section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation">
+  </section>
+  <section id="samtools" name="NGS: SAM Tools">
+  </section>
+  <section id="peak_calling" name="NGS: Peak Calling">
+  </section>
+  <section id="variant_detection" name="NGS: Variant Detection">
+  </section>
+  <section id="ngs-rna-tools" name="NGS: RNA Analysis">
+  </section>
+  <section id="ngs:_chip-seq" name="NGS: ChIP-seq">
+  </section>
+  <section id="gatk" name="NGS: GATK Tools">
+  </section>
+</toolbox>
