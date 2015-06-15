@@ -39,9 +39,6 @@ galaxy_user_uid: 1001
 default_user: ubuntu
 default_user_home: /home/ubuntu
 
-# CloudMan details
-cm_hg_repo: https://bitbucket.org/galaxy/cloudman/raw/tip
-
 # Details about additional software being installed
 s3fs_version: 1.77
 proftpd_package_url: https://s3.amazonaws.com/cloudman/galaxy-proftpd-1.3.5_gxycm-20140910b01-trusty_amd64.deb
