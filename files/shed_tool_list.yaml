@@ -553,30 +553,91 @@ tools:
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: 'd04d9f1c6791'
 - name: !!python/unicode 'samtools_flagstat'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '0072bf593791'
 - name: !!python/unicode 'samtools_mpileup'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '44a18a94d7a9'
+- name: !!python/unicode 'samtools_mpileup'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: 'aa0ef6f0ee89'
 - name: !!python/unicode 'samtools_rmdup'
   owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '3735f950b2f5'
+- name: !!python/unicode 'samtool_filter2'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '2d4ae2f8231e'
+- name: !!python/unicode 'bcftools_view'
+  owner: !!python/unicode 'gregory-minevich'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: !!python/unicode 'samtools_slice_bam'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
-- name: !!python/unicode 'samtool_filter2'
+  revision: '68ba55e96489'
+- name: !!python/unicode 'samtools_slice_bam'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
-- name: !!python/unicode 'bcftools_view'
-  owner: !!python/unicode 'gregory-minevich'
+  revision: '68ba55e96489'
+- name: !!python/unicode 'sam_merge'
+  owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'samtools'
   tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '1f18d80df2a5'
+- name: !!python/unicode 'sam_merge'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: 'a7a49d31c5cf'
+- name: !!python/unicode 'samtools_idxstats'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '87398ae795c7'
+- name: !!python/unicode 'samtools_bedcov'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '8c3472790020'
+- name: !!python/unicode 'samtools_calmd'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '1ebb4ecdc1ef'
+- name: !!python/unicode 'samtools_sort'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: 'a430da4f04cd'
+- name: !!python/unicode 'samtools_stats'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '0d71d9467847'
+- name: !!python/unicode 'samtools_split'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '57f3e32f809d'
+- name: !!python/unicode 'samtools_reheader'
+  owner: !!python/unicode 'devteam'
+  tool_panel_section_id: !!python/unicode 'samtools'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+  revision: '020e144b5f78'
 - name: !!python/unicode 'macs'
   owner: !!python/unicode 'devteam'
   tool_panel_section_id: !!python/unicode 'peak_calling'
