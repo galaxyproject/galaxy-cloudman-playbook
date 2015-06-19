@@ -9,6 +9,14 @@
   sudo_user: postgres
   ignore_errors: true
 
+- name: Delete Galaxy log files
+  shell: rm -f {{ galaxy_server_dir }}/*.log*
+  ignore_errors: true
+
+- name: Clear out Galaxy's tmp folder
+  shell: rm -rf {{ galaxyFS_base_dir }}/tmp/*
+  ignore_errors: true
+
 - name: Create Galaxy archive target directory
   file: dest={{ galaxy_archive_path }} owner={{ galaxy_user_name }} group={{ galaxy_user_name }} state=directory
   sudo_user: root
