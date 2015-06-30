@@ -1019,7 +1019,7 @@ tools:
 # Cloud-only tools
 - name: ncbi_sra_toolkit
   owner: 'matt-shirley'
-  tool_panel_section_id: getext
+  tool_panel_section_id: convert
   tool_shed_url: https://toolshed.g2.bx.psu.edu
 - name: htseq_bams_to_count_matrix
   owner: fubar
