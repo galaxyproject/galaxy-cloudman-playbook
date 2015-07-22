@@ -20,33 +20,35 @@ install it, is available [here][packer]):
 
 Above command will launch a builder an instance, configure it for use by Galaxy and
 [CloudMan][cloudman], build the galaxy file system (`galaxyFS`; see below), upload
-an archive of the file system to an S3 bucket, build an AMI, and clean
+an archive of the file system to an S3 bucket, build an machine image, and clean
 everything up. Having said that, this process assumes all the Galaxy tools and data
 (assuming those are being installed; see *galaxyFS* notes
 below) get installed properly and require no manual intervention. If that is not the
-case, see below for installing components individually.
+case or you would like to have more insight into the process, see below for
+building components individually.
 *At the end of the run, to be able to launch instances of
 the system, it is necessary to update the launch information. See 'Tying it all
 together section' below.*
 
 #### Required configuration
-All the following configuration options are stored in `group_vars/all` and they need to
-be updated before using this playbook:
+The playbook configuration options are stored in `group_vars/all` and they need to
+be updated before using this playbook. Additional cloud configuration options are
+stored in `image.json` and `galaxy_on_the_cloud.json`. The following options must be
+set before running the playbook:
 
  - Create an S3 bucket where the galaxyFS will be uploaded and provide
  the bucket name for `galaxy_archive_bucket` variable;
- - Export the following local environment variables (or explicitly provide
- the values in the config file):
+ - Export the following local environment variables:
    - `AWS_ACCESS_KEY`: your Amazon Web Services access key
    - `AWS_SECRET_KEY`: your Amazon Web Services secret key
    - `CM_VNC_PWD`: a throwaway password used for a bridge between VNC and noVNC
    - `CM_GALAXY_FTP_PWD`: a password Galaxy will use to auth to PostgreSQL DB for FTP
    - `CM_GALAXY_ADMIN_PWD`: a Galaxy admin account password for a user that will be
-   	  created to install any Galaxy tools during the build process
+      created to install any Galaxy tools during the build process
  - For building components on an OpenStack cloud, it is also necessary to define the
- 	following environment varaibles (additional config options can also be defined;
- 	see [Packer documentation for OpenStack][pos] for more): `OS_PASSWORD`,
- 	`OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`.
+  following environment varaibles (additional config options can also be defined;
+  see [Packer documentation for OpenStack][pos] for more): `OS_PASSWORD`,
+  `OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`.
 
 #### Optional configration options ####
 Majority of the configuration options are stored in `group_vars/all` and they represent
@@ -61,7 +63,7 @@ are defined as `builders` sections inside the `image.json` file. At the moment,
 `builders` define the following two destinations: AWS (us-east-1) and
 OpenStack ([NeCTAR][nectar], Melbourne). To build only select destinatinos, use:
 
-	packer build -only=[amazon-ebs, openstack] galaxy_on_the_cloud.json
+  packer build -only=[amazon-ebs, openstack] galaxy_on_the_cloud.json
 
 Building individual components
 ------------------------------
@@ -85,14 +87,14 @@ specified above. Additional options can be set by editing `image.json`, under
 before you run the `build` command, it's a good idea to execute
 `packer validate image.json` and make sure things are formatted correctly. The
 `build` command will rovision an instance, run the Ansible `cloudman-image` role,
-and create an AMI. The image build process typically takes about 45	 minutes.
+and create an AMI. The image build process typically takes about an hour.
 
 #### Running without Packer ####
 To build an image without Packer, make sure the default values provided in the
 `group_vars/all` file suite you. Create a copy of `inventory/builders.sample` as
 `inventory/builders`, manually launch a new instance and set the instance IP address
 under `image-builder` host group in the `builders` file. Also set the path to your
-private ssh key for the `ansible_ssh_private_key_file` variable. This option also 
+private ssh key for the `ansible_ssh_private_key_file` variable. This option also
 requires you to edit `image.yml` file to set `hosts` line to `image-builder` while
 commenting out `connection: local` line. Finally, run the role with
 
@@ -117,8 +119,8 @@ The galaxyFS can be built two different ways: as an archive or a volume. The
 archive option creates a tarball of the entire galaxyFS and uploads it to S3.
 When instances are launched, the archive is downloaded and extracted onto a
 local file system. Note that a single archive can be downloaded from multiple
-cloud availability zones and even multiple clouds. Future *Galaxy on the Cloud*
-releases (2015 onwards) will use this option and this is the default action
+cloud availability zones and even multiple clouds. *Galaxy on the Cloud*
+releases (Mid 2015 onwards) use this option and this is the default action
 for this playbook.
 
 Alternatively, *galaxyFS* can be built as a volume and converted into a snapshot.
@@ -141,7 +143,7 @@ variables. The list of variables provided below represents only the variables
 that are specific to this playbook and do not otherwise show up in the
 included roles. These variables can be changed in `group_vars/all` file:
 
- - `cm_create_archive`: (default: `yes`) if set, create a a tarball archive
+ - `cm_create_archive`: (default: `yes`) if set, create a tarball archive
     of the galaxyFS filesystem
  - `galaxy_archive_path`: (default: `/mnt/galaxyFS_archive`) the directory
     where to place the filesystem tarball archive. Keep in mind that this
@@ -165,7 +167,7 @@ included roles. These variables can be changed in `group_vars/all` file:
 Before building the file system, you may choose to have Galaxy tools automatiaclly
 installed as part of the build process. If so, the list of tools to be installed
 from a Toolshed needs to be provided. A sample of the file can be found in
-`files/shed_tool_list.yaml.cloud`. Which file to use can be specified via
+`files/shed_tool_list.yaml`. Which file to use can be specified via
 `shed_tool_list_file` variable in file `group_vars/all`. If you do not wish to have
 the tools installed as part of the build process, set variable `cm_install_tools`
 to `no` in file `group_vars/all`.
@@ -183,13 +185,15 @@ tool installations.
 
 ### Building galaxyFS
 Either build option starts by launching an instance of the image created above.
-Once CloudMan starts, choose `Test` cluster type. Then, is is necessary to edit
-`galaxyFS.yml` to set `galaxyFS-builder` for `hosts` field and comment out
+Once CloudMan starts, choose `Cluster only` with `Transient storage` cluster type
+if you're building an archive or `Persistent storage` if you're building a
+volume/snapshot.
+Then, edit `galaxyFS.yml` to set `galaxyFS-builder` `hosts` field and comment out
 `connection: local` entry. Next, set the launched instance IP address
 under `galaxyFS-builder` host group in the `inventory/builders` file and invoke
 the following command (having filled in the required variables):
 
-	ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
+  ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
 This will download and configure Galaxy as well as install any specified tools.
 At the end, a file system archive will be created and uploaded to S3. Note that
@@ -233,51 +237,10 @@ CloudMan's Admin page and run the playbook with only `cm_create_archive` enabled
 Tying it all together
 ---------------------
 After all the components have been built, we need a little bit of glue to tie
-it all together. This needs to be done irrespective of whether you built
-every component separately or all at once. The first part is to tell the
-launcher application what AMI to use. Once that is set, it is necessary to
-update (or create) file `snaps.yaml` in the default bucket and specify the
-details about the file system(s). For the archive case, specify the following
-(of course, provide your URL/snapshot ID):
-
-```
-   - name: galaxy
-     roles: galaxyTools,galaxyData
-     archive_url: http://s3.amazonaws.com/cloudman/fs-archives/galaxyFS-latest.tar.gz
-     type: archive
-     size: 10  # Must be at least as big as the unarchived file system
-```
-
-For the volume-based file system, specify:
-
-```
-   - name: galaxy
-     roles: galaxyTools,galaxyData
-     snap_id: snap-4e8d69c5
-```
-
-This is all in the context of a larger entry for the cloud, for example:
-
-```
-  clouds:
-  - name: amazon
-    regions:
-    - deployments:
-      - name: GalaxyCloud
-        filesystems:
-        - name: galaxy
-          roles: galaxyTools,galaxyData
-          snap_id: snap-4e8d69c5
-        - name: galaxyIndices
-          roles: galaxyIndices
-          snap_id: snap-4b20f451
-        default_mi: ami-858ff8ec
-        bucket: cloudman  # Default S3 bucket name (you need access to this)
-      name: us-east-1
-```
+it all together. See [this page][building] for the required details.
 
 
-Galaxy Server - this is probably not working any more
+Galaxy Server Branch - this is probably not working any more
 -------------
 This role will build a standalone Galaxy Server that is configured to be
 [production-ready][production]. The Server does not contain any of the cloud or
