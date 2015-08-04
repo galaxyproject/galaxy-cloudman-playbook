@@ -29,13 +29,13 @@
   unarchive: copy=no src=/tmp/bedtools2.tar.gz dest=/tmp/
 
 - name: Make bedtools
-  command: chdir=/tmp/bedtools2-{{ bedtools_version }} make
+  command: chdir=/tmp/bedtools2 make
 
 - name: Copy bedtools binaries
-  shell: cp /tmp/bedtools2-{{ bedtools_version }}/bin/* {{ galaxyFS_base_dir }}/tools/bin/.
+  shell: cp /tmp/bedtools2/bin/* {{ galaxyFS_base_dir }}/tools/bin/.
 
 - name: Remove downloaded bedtools tarball
   file: path=/tmp/bedtools2.tar.gz state=absent
 
 - name: Remove tmp bedtools dir
-  file: path=/tmp/bedtools2-{{ bedtools_version }} state=absent
+  file: path=/tmp/bedtools2 state=absent
