@@ -3,7 +3,8 @@ This role is used to setup Galaxy for use with CloudMan.
 Requirements
 ------------
 None explicitly, but it's largely intended to be used in the context of the
-larger [CloudMan playbook][cmpb]
+larger [CloudMan playbook][cmpb]. Also see the [Tools role][tr] as it is useful
+to run it after this role has been run.
 
 Variables
 ---------
@@ -18,7 +19,7 @@ Note that some of these variables should match equaly named ones from the
  - `galaxyFS_base_dir`: (default: `/mnt/galaxy`) the base path under which the
     galaxy file system is planned to be placed
  - `galaxy_user_name`: (default: `galaxy`) system username used for Galaxy
- - `galaxy_admin_user`: (default: `cloud@galaxyprojec.org`) a Galaxy Admin
+ - `galaxy_admin_user`: (default: `cloud@galaxyproject.org`) a Galaxy Admin
     user that will be created and used when installing the tools/data
  - `galaxy_server_dir`: (default: `/mnt/galaxy/galaxy-app`) The default
     location where the Galaxy application is stored
@@ -31,24 +32,12 @@ Note that some of these variables should match equaly named ones from the
  - `cmg_extra_files`: Provides a hook to copy a list of extra, user-defined files
     into Galaxy's source tree. The default is an empty list, but should be in a
     format similar to cmg_setup_files.
- - `shed_tool_list_file`: (default `scripts/shed_tool_list.yaml.sample` - note
-    that the default path is relative `files` subdirectory) The list of tools
-    to be installed from the Tool Shed into the given Galaxy instance.
-    See the default file for sample of the format.
- - `dbkeys_list_file`: (default: `scripts/dbkeys_list.yaml.sample` - note
-    that the default path is relative `files` subdirectory) The list of
-    reference genomes and desired formats to be installed via Galaxy
-    [Data Managers][dm]. See the default file for sample of the format.
 
 ##### Control-flow variables #####
 Use the following control-flow variables to decide which parts of the role
 you'd like to run:
 
  - `cm_setup_galaxy`: (default: `yes`) whether to run the Galaxy setup step
- - `cm_install_tools`: (default: `yes`) whether to install Galaxy tools. Also
-    see `shed_tool_list_file`
- - `cm_install_data`: (default: `yes`) whether to install Galaxy reference
-    data. Also see `dbkeys_list_file`
 
 Dependencies
 ------------
@@ -78,4 +67,4 @@ Finally, run the playbook as follows:
 
 
 [cmpb]: https://github.com/galaxyproject/cloudman-image-playbook
-[dm]: https://wiki.galaxyproject.org/Admin/Tools/DataManagers
+[tr]: https://github.com/afgane/ansible-tools

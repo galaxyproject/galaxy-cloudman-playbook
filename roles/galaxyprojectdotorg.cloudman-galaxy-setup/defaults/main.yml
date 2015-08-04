@@ -4,13 +4,6 @@
 # Control-flow variables
 cm_setup_galaxy: yes
 
-cm_install_tools: yes
-shed_tool_list_file: scripts/shed_tool_list.yaml.sample
-
-cm_install_data: yes
-dbkeys_list_file: scripts/dbkeys_list.yaml.sample
-
-
 # Configuration options
 cmg_setup_files:
   - src: galaxy/welcome.html

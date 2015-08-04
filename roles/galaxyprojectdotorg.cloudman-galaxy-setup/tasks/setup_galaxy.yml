@@ -22,4 +22,18 @@
   command: npm install chdir="{{ galaxy_server_dir }}/lib/galaxy/web/proxy/js"
 
 - name: Place ipython.ini file
-  copy: src=galaxy/ipython.ini dest="{{ galaxy_server_dir }}/config/plugins/interactive_environments/ipython/config/ipython.ini" owner={{ galaxy_user_name }}
+  copy: src=galaxy/ipython.ini dest="{{ galaxy_server_dir }}/config/plugins/interactive_environments/ipython/config/ipython.ini" owner={{ galaxy_user_name }}  #"
+
+- name: Copy user management script
+  copy: src=scripts/manage_bootstrap_user.py dest={{ galaxy_server_dir }}/manage_bootstrap_user.py owner={{ galaxy_user_name }}
+
+- name: Create Galaxy bootstrap user
+  command: chdir={{ galaxy_server_dir }} {{ galaxy_venv_dir }}/bin/python manage_bootstrap_user.py -c {{ galaxy_config_file }} create -e {{ galaxy_admin_user }} -p {{ galaxy_admin_user_password }}
+  register: cm_galaxy_api_key
+
+- set_fact: api_key="{{ cm_galaxy_api_key.stdout_lines[0] }}" # Variable required by the Tools role"
+
+- name: Set bootstrap user as Galaxy Admin
+  lineinfile: dest={{ galaxy_config_file }} state=present insertafter="app:main" regexp="admin_users =" line="admin_users = {{ galaxy_admin_user }}"  #"
+
+- include: restart_galaxy.yml

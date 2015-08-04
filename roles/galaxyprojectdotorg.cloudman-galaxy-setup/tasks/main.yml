@@ -1,17 +1,5 @@
 ---
 # Setup Galaxy for CloudMan
 
-- name: Install packages required to run the install script
-  pip: name={{ item }} virtualenv="{{ galaxy_venv_dir }}"
-  with_items:
-    - pyyaml
-    - bioblend
-
 - include: setup_galaxy.yml
   when: cm_setup_galaxy
-
-- include: install_galaxy_tools.yml
-  when: cm_install_tools
-
-- include: install_galaxy_data.yml
-  when: cm_install_data
