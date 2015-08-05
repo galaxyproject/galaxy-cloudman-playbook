@@ -21,10 +21,10 @@
   file: dest={{ galaxy_archive_path }} owner={{ galaxy_user_name }} group={{ galaxy_user_name }} state=directory
   sudo_user: root
 
-- name: Remove existing archive
+- name: Remove the existing file system archive
   file: dest="{{ galaxy_archive_path }}/{{ galaxy_archive_name }}" state=absent  #"
 
-- name: Create new filesystem archive
+- name: Create a new filesystem archive
   command: chdir={{ galaxyFS_base_dir }} tar -czf {{ galaxy_archive_path }}/{{ galaxy_archive_name }} -C {{ galaxyFS_base_dir }} .
   sudo_user: root
 

@@ -16,7 +16,7 @@ after you have gotten some of the preliminaries completed, all the components ca
 built with the following command (more information about Packer, including how to
 install it, is available [here][packer]):
 
-    packer build galaxy_on_the_cloud.json
+  packer build galaxy_on_the_cloud.json
 
 Above command will launch a builder an instance, configure it for use by Galaxy and
 [CloudMan][cloudman], build the galaxy file system (`galaxyFS`; see below), upload
@@ -164,34 +164,38 @@ included roles. These variables can be changed in `group_vars/all` file:
 
 -
 ### Installing Galaxy tools
-Before building the file system, you may choose to have Galaxy tools automatiaclly
-installed as part of the build process. If so, the list of tools to be installed
-from a Toolshed needs to be provided. A sample of the file can be found in
-`files/shed_tool_list.yaml`. Which file to use can be specified via
-`shed_tool_list_file` variable in file `group_vars/all`. If you do not wish to have
-the tools installed as part of the build process, set variable `cm_install_tools`
-to `no` in file `group_vars/all`.
+Before building the file system, you may choose to have Galaxy tools automatically
+installed as part of the build process (by setting the value of variable
+`galaxy_install_tools` to `yes` in file `group_vars/all`. The list of tools to
+be installed from a Tool Shed needs to be provided. A sample of the file can be
+found in `files/shed_tool_list.yaml`. Which file to use can be specified via
+`tool_list_file` variable in file `group_vars/all`. If you do not wish to have
+the tools installed as part of the build process, set the variable
+`galaxy_install_tools` to `no`.
 
 If you wish to use this playbook only to install some Galaxy tools, comment out
-all roles except `galaxyprojectdotorg.cloudman-galaxy-setup` in `galaxyFS.yml`
+all roles except `galaxyprojectdotorg.tools` in `galaxyFS.yml`
 file. You may also want to comment out the `pre_tasks`, depending on where you
 are running this.
 
-*Warning:* If you run the role for installing the tools more than once (or
+*Warning:* If you run the `cloudman-galaxy-setup` role more than once (or
 if you have installed tools via the Toolshed by other means), the role
 will place a clean copy of `shed_tool_conf_cloud.xml` into the `config` dir
 possibly replacing the file that contains information about already existing
 tool installations.
 
-### Building galaxyFS
-Either build option starts by launching an instance of the image created above.
+### Building or updating galaxyFS
+For either build option, start by launching an instance of the image created above.
 Once CloudMan starts, choose `Cluster only` with `Transient storage` cluster type
-if you're building an archive or `Persistent storage` if you're building a
-volume/snapshot.
-Then, edit `galaxyFS.yml` to set `galaxyFS-builder` `hosts` field and comment out
-`connection: local` entry. Next, set the launched instance IP address
-under `galaxyFS-builder` host group in the `inventory/builders` file and invoke
-the following command (having filled in the required variables):
+if you're building an archive or `Persistent storage` with desired volume size
+if you're building a volume/snapshot. If you are updating an existing file system,
+launch an instance with the functional file system and run this playbook 'over'
+it.
+
+Once an instance has launched, edit `galaxyFS.yml` to set `galaxyFS-builder`
+`hosts` field and comment out `connection: local` entry. Next, set the launched
+instance IP address under `galaxyFS-builder` host group in the `inventory/builders`
+file and invoke the following command (having filled in the required variables):
 
   ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
@@ -212,7 +216,8 @@ After the build process has completed, you can access the Galaxy application.
 To do so, visit CloudMan's Admin page. First, disable CloudMan's service
 dependency framework (under *System Controls*). Then, start Postgres, ProFTPd,
 and Galaxy services - in that order, while waiting for each of them to enter
-`Running` state before staring the next one.
+`Running` state before staring the next one. Unce Galaxy is running, the
+*Access Galaxy* button will become active.
 
 ### Troubleshooting
 Despite the best effort, especially when installing tools, it is likely that

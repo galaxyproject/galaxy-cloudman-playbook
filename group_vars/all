@@ -28,6 +28,7 @@ cm_system_environment: yes  # Also requires cm_venvburrito to be set
 cm_install_s3fs: yes
 cm_configure_nginx: yes
 cm_install_proftpd: yes
+cm_install_bedtools: yes
 cm_install_novnc: no
 cleanup: no
 # If `only_cleanup` is set, only the cleanup tasks will run and no other.
@@ -56,12 +57,7 @@ vnc_geometry: 1024x768
 #####
 #   Variables used when building galaxyFS
 
-#-- galaxyFS playbook configs
-cm_install_tools: yes
-shed_tool_list_file: files/shed_tool_list.yaml
-cm_install_data: no
-dbkeys_list_file: files/dbkeys_list.yaml.cloud
-
+#-- cm.filesystem role configs
 cm_create_archive: yes
 galaxy_archive_path: /mnt/galaxyFS_archive
 galaxy_archive_name: galaxyFS-latest.tar.gz
@@ -72,7 +68,11 @@ aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
 
 galaxy_manage_trackster: yes
 len_file_path: "{{ galaxy_server_dir }}/tool-data/len"
-bedtools_version: 2.20.1
+bedtools_version: 2.24.0
+
+#-- Tools role configs
+galaxy_install_tools: yes
+# tool_list_file: files/tool_list.yaml.test
 
 #-- Galaxy role configs
 # Just the default values from the underlying role but required for post_tasks
