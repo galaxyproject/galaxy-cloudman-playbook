@@ -18,5 +18,9 @@
   user: name={{ galaxy_user_name }} groups=docker append=yes
   when: configure_docker
 
+- name: Set DOCKER_OPTS
+  lineinfile: dest=/etc/default/docker line='DOCKER_OPTS="--storage-driver=devicemapper"'
+  when: configure_docker
+
 - name: Add nobody user to shadow group
   user: name=nobody groups=shadow
