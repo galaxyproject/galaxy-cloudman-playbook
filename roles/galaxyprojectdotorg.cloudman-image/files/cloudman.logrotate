@@ -1,5 +1,5 @@
 # Use logrotate to regularly rotate CloudMan's log file
-/mnt/cm/paster.log {
+/var/log/cloudman/cloudman.log {
     missingok
     copytruncate
     weekly

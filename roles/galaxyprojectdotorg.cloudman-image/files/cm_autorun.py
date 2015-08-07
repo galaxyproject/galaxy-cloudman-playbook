@@ -35,7 +35,7 @@ log = None
 
 USER_DATA_URL = 'http://169.254.169.254/latest/user-data'
 # Local path destination used for storing/reading any files created herein
-LOCAL_PATH = '/tmp/cm'
+LOCAL_PATH = '/opt/cloudman/boot'
 # Local file with user data (UD) formatted by this script
 USER_DATA_FILE_NAME = 'userData.yaml'
 # The final/processed UD file
@@ -570,7 +570,9 @@ def _handle_yaml(user_data):
         ud['boot_script_name'] = DEFAULT_BOOT_SCRIPT_NAME
     ud['boot_script_path'] = LOCAL_PATH  # Marks where boot script was saved
 
-    log.debug("Composed user data: %s" % ud)
+    filtered_keys = ['password', 'freenxpass', 'access_key', 'secret_key']
+    log.debug("Composed user data (with the following keys filtered out %s): %s"
+              % (filtered_keys, dict((k, ud[k]) for k in ud if k not in filtered_keys)))
     with open(USER_DATA_FILE, 'w') as ud_yaml:
         yaml.dump(ud, ud_yaml, default_flow_style=False)
 
@@ -594,7 +596,8 @@ def _parse_user_data(ud):
 
 def main():
     if not os.path.exists(LOCAL_PATH):
-        os.mkdir(LOCAL_PATH)
+        os.makedirs(LOCAL_PATH)
+    os.chmod(LOCAL_PATH, 400)
     global log
     log = _setup_logging()
     ud = _get_user_data()

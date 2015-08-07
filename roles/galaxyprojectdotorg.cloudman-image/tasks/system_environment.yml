@@ -96,10 +96,10 @@
 - name: Configure logrotate
   copy: src=cloudman.logrotate dest=/etc/logrotate.d/cloudman
 
-- name: Copy CloudMan's ec2autorun
-  copy: src=ec2autorun.py dest=/usr/bin/ mode=0744
+- name: Copy CloudMan's cm_autorun
+  copy: src=cm_autorun.py dest=/usr/bin/ mode=0744
 
-- name: Configure ec2autorun as an upstart job
+- name: Configure cm_autorun as an upstart job
   copy: src=cloudman.conf dest=/etc/init/cloudman.conf
 
 - name: Disable ipv6
@@ -108,3 +108,20 @@
     - "net.ipv6.conf.all.disable_ipv6 = 1"
     - "net.ipv6.conf.default.disable_ipv6 = 1"
     - "net.ipv6.conf.lo.disable_ipv6 = 1"
+
+- name: Copy the firewall rules
+  copy: src=iptables.firewall.rules dest=/etc/iptables.firewall.rules
+
+- name: Apply firewall rules
+  shell: iptables-restore < /etc/iptables.firewall.rules
+  sudo_user: root
+
+- name: Autostart firewall on startup
+  copy: src=startup_firewall.sh dest=/etc/network/if-pre-up.d/firewall mode="u+x"
+
+- name: Set max number of open files for galaxy system user
+  lineinfile: dest=/etc/security/limits.conf line="{{ item }}"
+  with_items:
+    - "galaxy hard nofile 16384"
+    - "galaxy soft nofile 16384"
+  sudo_user: root

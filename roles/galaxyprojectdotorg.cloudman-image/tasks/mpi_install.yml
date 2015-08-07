@@ -3,7 +3,7 @@
 
 - name: Download MPI
   get_url:
-    url=https://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.1.tar.gz
+    url=http://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.1.tar.gz
     dest=/tmp/mpi.tar.gz
 
 - name: Create temporary directory

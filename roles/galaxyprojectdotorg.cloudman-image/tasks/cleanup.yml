@@ -25,7 +25,7 @@
   with_items:
     - /var/lib/rabbitmq/mnesia
     - /mnesia
-    - /usr/bin/ec2autorun.log
+    - /usr/bin/cm_autorun.log
     - "{{ default_user_home }}/.bash_history"
     - /etc/supervisor/supervisord.conf
   ignore_errors: yes

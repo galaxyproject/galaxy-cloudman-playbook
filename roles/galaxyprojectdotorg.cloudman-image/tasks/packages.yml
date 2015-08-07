@@ -56,3 +56,6 @@
     - uwsgi
     - uwsgi-plugin-python
     - xfsprogs
+
+- name: Upgrade system packages
+  apt: upgrade=yes
