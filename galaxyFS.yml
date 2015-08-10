@@ -34,7 +34,11 @@
   roles:
      - galaxyprojectdotorg.cloudman-database
      - role: galaxyprojectdotorg.galaxy
-       tags: galaxy
+       tags: galaxy, update
      - galaxyprojectdotorg.trackster
-     - galaxyprojectdotorg.cloudman-galaxy-setup
-     - cm.filesystem
+     - role: galaxyprojectdotorg.cloudman-galaxy-setup
+       tags: setup, update
+     - role: galaxyprojectdotorg.tools
+       tags: tools, update
+     - role: cm.filesystem
+       tags: filesystem
