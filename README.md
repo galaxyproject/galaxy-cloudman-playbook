@@ -162,7 +162,6 @@ included roles. These variables can be changed in `group_vars/all` file:
  - `aws_secret_key`: (default: `{{ lookup('env','AWS_SECRET_KEY') }}`) the AWS
     secret key. The default value will lookup specified environment variable.
 
--
 ### Installing Galaxy tools
 Before building the file system, you may choose to have Galaxy tools automatically
 installed as part of the build process (by setting the value of variable
@@ -178,11 +177,13 @@ all roles except `galaxyprojectdotorg.tools` in `galaxyFS.yml`
 file. You may also want to comment out the `pre_tasks`, depending on where you
 are running this.
 
-*Warning:* If you run the `cloudman-galaxy-setup` role more than once (or
-if you have installed tools via the Toolshed by other means), the role
-will place a clean copy of `shed_tool_conf_cloud.xml` into the `config` dir
-possibly replacing the file that contains information about already existing
-tool installations.
+*Warning:* When running the `galaxy` role, a clean copy of
+`shed_tool_conf_cloud.xml` is placed into the `config` dir.
+The implication is that if you have already installed tools (e.g., by hand or
+by having run this role earlier), it will replace that file (and
+this file contains information about already existing tool installations). To
+prevent the role from replacing this file, comment out the file name in
+`group_vars/all` under `galaxy_config_files`.
 
 ### Building or updating galaxyFS
 For either build option, start by launching an instance of the image created above.
@@ -190,19 +191,29 @@ Once CloudMan starts, choose `Cluster only` with `Transient storage` cluster typ
 if you're building an archive or `Persistent storage` with desired volume size
 if you're building a volume/snapshot. If you are updating an existing file system,
 launch an instance with the functional file system and run this playbook 'over'
-it.
+it (see more below).
 
 Once an instance has launched, edit `galaxyFS.yml` to set `galaxyFS-builder`
 `hosts` field and comment out `connection: local` entry. Next, set the launched
 instance IP address under `galaxyFS-builder` host group in the `inventory/builders`
 file and invoke the following command (having filled in the required variables):
 
-  ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
+ > If you are updating an existing file system, note the Warning
+ > note in the previous section. You also probably already have
+ > a Galaxy admin user so provide the admin user API key as follows:
+ > `--extra-keys api_key=<API KEY>`. Finally, run only the subset of
+ > roles by adding the following option to the command below:
+ > `--tags "update"`.
+
+    ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
 This will download and configure Galaxy as well as install any specified tools.
-At the end, a file system archive will be created and uploaded to S3. Note that
-depending on the number of tools you are installing, this build process may take
-several hours.
+Note that depending on the number of tools you are installing, this build process
+may take several hours. At the end, a file system archive will be created and
+uploaded to S3. It is often desirable (and necessary) to do double check that
+tools installed properly and repair any failed ones. In that case, after we've
+made the changes, we can just create the archive and upload it to the object
+store. To achieve this, rerun the above command with `--tags "filesystem".
 
 #### galaxyFS as a volume
 After you have launched an instance, go to CloudMan's Admin page and add a
