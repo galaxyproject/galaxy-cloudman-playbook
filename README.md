@@ -74,9 +74,13 @@ components:
  * *galaxyFS*: the file system used by *Galaxy on the Cloud*; it contains the Galaxy
     application and all of the Galaxy tools
 
+Particularly when building the system for the first time, it is advisable to
+build individual components rather than all the pieces at once because it gives
+more insight into what is going.
+
 Machine Image
 -------------
-To build the machine image only, simply run the following command (this will run the
+To build the machine image, run the following command (this will run the
 build process for all clouds defined in `image.json`, see *Multiple Clouds* above):
 
     packer build [--only amazon-ebs|openstack] image.json
@@ -86,8 +90,10 @@ specified above. Additional options can be set by editing `image.json`, under
 `extra_arguments` section. If you have made changes to `image.json` configuration file,
 before you run the `build` command, it's a good idea to execute
 `packer validate image.json` and make sure things are formatted correctly. The
-`build` command will rovision an instance, run the Ansible `cloudman-image` role,
-and create an AMI. The image build process typically takes about an hour.
+`build` command will provision an instance, run the Ansible `cloudman-image` role,
+create an AMI, and terminate the builder instance. The image build process
+typically takes about an hour. You can also run the build command with
+`-debug` option to get more feedback during the build process.
 
 #### Running without Packer ####
 To build an image without Packer, make sure the default values provided in the
@@ -100,7 +106,7 @@ commenting out `connection: local` line. Finally, run the role with
 
     ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> psql_galaxyftp_password=<a_different_password> --extra-vars cleanup=yes
 
-On average, the build time takes about 30 minutes. *Note that after the playbook
+On average, the build time takes about an hour. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
 you still need to ssh, set `--extra-vars cleanup=no` in the above command.
 Before creating the image, however, you must rerun the entire playbook with that
@@ -213,7 +219,7 @@ may take several hours. At the end, a file system archive will be created and
 uploaded to S3. It is often desirable (and necessary) to do double check that
 tools installed properly and repair any failed ones. In that case, after we've
 made the changes, we can just create the archive and upload it to the object
-store. To achieve this, rerun the above command with `--tags "filesystem".
+store. To achieve this, rerun the above command with `--tags "filesystem"`.
 
 #### galaxyFS as a volume
 After you have launched an instance, go to CloudMan's Admin page and add a
@@ -253,7 +259,8 @@ CloudMan's Admin page and run the playbook with only `cm_create_archive` enabled
 Tying it all together
 ---------------------
 After all the components have been built, we need a little bit of glue to tie
-it all together. See [this page][building] for the required details.
+it all together. See [this page][building] (section `Tie it all together`) for
+the required details.
 
 
 Galaxy Server Branch - this is probably not working any more
