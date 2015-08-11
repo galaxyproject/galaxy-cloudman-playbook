@@ -6,8 +6,16 @@ on a private or public cloud.
 
 This playbook is intended to be run on a Ubuntu (14.04) system.
 
-Building *Galaxy on the Cloud*
-------------------------------
+## Table of Contents
+
+- [Build the entire *Galaxy on the Cloud*](#Build_the_entire_Galaxy_on_the_Cloud)
+- [Building individual components](#Building_individual_components)
+  - [Machine Image](#Machine_Image)
+  - [Galaxy File System](#Galaxy_File_System_(galaxyFS))
+- [Tying it all together](#Tying_it_all_together)
+
+Build the entire *Galaxy on the Cloud*
+--------------------------------------
 The *Galaxy on the Cloud* system is composed of several components that are all necessary
 before the complete system can be used. This playbook was created to build those as
 simply as possible. We strongly recommend reading through [this page][building] before
@@ -16,7 +24,7 @@ after you have gotten some of the preliminaries completed, all the components ca
 built with the following command (more information about Packer, including how to
 install it, is available [here][packer]):
 
-  packer build galaxy_on_the_cloud.json
+    packer build galaxy_on_the_cloud.json
 
 Above command will launch a builder an instance, configure it for use by Galaxy and
 [CloudMan][cloudman], build the galaxy file system (`galaxyFS`; see below), upload
@@ -63,7 +71,7 @@ are defined as `builders` sections inside the `image.json` file. At the moment,
 `builders` define the following two destinations: AWS (us-east-1) and
 OpenStack ([NeCTAR][nectar], Melbourne). To build only select destinatinos, use:
 
-  packer build -only=[amazon-ebs, openstack] galaxy_on_the_cloud.json
+    packer build -only=[amazon-ebs, openstack] galaxy_on_the_cloud.json
 
 Building individual components
 ------------------------------
@@ -80,10 +88,11 @@ more insight into what is going.
 
 Machine Image
 -------------
-To build the machine image, run the following command (this will run the
-build process for all clouds defined in `image.json`, see *Multiple Clouds* above):
+To build the machine image, run the following command (unless parameterized,
+this will run the build process for all clouds defined in `image.json`, see
+*Multiple Clouds* above):
 
-    packer build [--only amazon-ebs|openstack] image.json
+    packer build [-only=amazon-ebs|openstack] image.json
 
 Note that this command requires the same environment variables to be defined as
 specified above. Additional options can be set by editing `image.json`, under
@@ -120,7 +129,7 @@ steps of the image building process run. This can be quite useful if a step fail
 and you want to rerun only it or if you're just trying to run a certain steps.
 
 Galaxy File System (*galaxyFS*)
------------------------------
+-------------------------------
 The galaxyFS can be built two different ways: as an archive or a volume. The
 archive option creates a tarball of the entire galaxyFS and uploads it to S3.
 When instances are launched, the archive is downloaded and extracted onto a
