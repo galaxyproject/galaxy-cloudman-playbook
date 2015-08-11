@@ -8,11 +8,11 @@ This playbook is intended to be run on a Ubuntu (14.04) system.
 
 ## Table of Contents
 
-- [Build the entire *Galaxy on the Cloud*](#Build_the_entire_Galaxy_on_the_Cloud)
-- [Building individual components](#Building_individual_components)
-  - [Machine Image](#Machine_Image)
-  - [Galaxy File System](#Galaxy_File_System_(galaxyFS))
-- [Tying it all together](#Tying_it_all_together)
+- [Build the entire *Galaxy on the Cloud*](#build-the-entire-galaxy-on-the-cloud)
+- [Building individual components](#building-individual-components)
+  - [Machine Image](#machine-image)
+  - [Galaxy File System](#galaxy-file-system)
+- [Tying it all together](#tying-it-all-together)
 
 Build the entire *Galaxy on the Cloud*
 --------------------------------------
@@ -89,7 +89,7 @@ more insight into what is going.
 Machine Image
 -------------
 To build the machine image, run the following command (unless parameterized,
-this will run the build process for all clouds defined in `image.json`, see
+this will run the build process for all the clouds defined in `image.json`, see
 *Multiple Clouds* above):
 
     packer build [-only=amazon-ebs|openstack] image.json
@@ -128,13 +128,13 @@ of the image configuration options, this file allows you to easily control which
 steps of the image building process run. This can be quite useful if a step fails
 and you want to rerun only it or if you're just trying to run a certain steps.
 
-Galaxy File System (*galaxyFS*)
--------------------------------
-The galaxyFS can be built two different ways: as an archive or a volume. The
-archive option creates a tarball of the entire galaxyFS and uploads it to S3.
-When instances are launched, the archive is downloaded and extracted onto a
-local file system. Note that a single archive can be downloaded from multiple
-cloud availability zones and even multiple clouds. *Galaxy on the Cloud*
+Galaxy File System
+------------------
+The Galaxy File System (galaxyFS) can be built two different ways: as an archive
+or a volume. The archive option creates a tarball of the entire galaxyFS and
+uploads it to S3. When instances are launched, the archive is downloaded and
+extracted onto a local file system. Note that a single archive can be downloaded
+from multiple cloud availability zones and even multiple clouds. *Galaxy on the Cloud*
 releases (Mid 2015 onwards) use this option and this is the default action
 for this playbook.
 
