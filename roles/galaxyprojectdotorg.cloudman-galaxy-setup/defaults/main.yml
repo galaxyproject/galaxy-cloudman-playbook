@@ -19,7 +19,6 @@ cmg_setup_files:
 cmg_extra_files: []
 
 galaxy_user_name: galaxy
-galaxy_admin_user: cloud@galaxyproject.org
 galaxyFS_base_dir: /mnt/galaxy
 galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
 galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"

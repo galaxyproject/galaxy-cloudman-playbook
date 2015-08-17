@@ -3,15 +3,11 @@ This role is used to setup Galaxy for use with CloudMan.
 Requirements
 ------------
 None explicitly, but it's largely intended to be used in the context of the
-larger [CloudMan playbook][cmpb]. Also see the [Tools role][tr] as it is useful
-to run it after this role has been run.
+larger [CloudMan playbook][cmpb]. Also see the [Galaxy Tools role][tr] as it
+is useful to run it after this role has been run.
 
 Variables
 ---------
-##### Required variables #####
- - `galaxy_admin_user_password`: a string to be used for the bootstrap Galaxy
-    admin user
-
 ##### Optional variables #####
 Note that some of these variables should match equaly named ones from the
 [CloudMan playbook][cmpb].
@@ -19,8 +15,6 @@ Note that some of these variables should match equaly named ones from the
  - `galaxyFS_base_dir`: (default: `/mnt/galaxy`) the base path under which the
     galaxy file system is planned to be placed
  - `galaxy_user_name`: (default: `galaxy`) system username used for Galaxy
- - `galaxy_admin_user`: (default: `cloud@galaxyproject.org`) a Galaxy Admin
-    user that will be created and used when installing the tools/data
  - `galaxy_server_dir`: (default: `/mnt/galaxy/galaxy-app`) The default
     location where the Galaxy application is stored
  - `galaxy_venv_dir`: (default: `{{ galaxy_server_dir }}/.venv`) The location
@@ -45,8 +39,8 @@ None.
 
 Example Playbook
 ----------------
-To use the role, wrap it into a playbook as follows (the following assumes the
-role has been placed into directory
+To use the role, wrap it into a playbook file called `playbook.yml` as follows
+(the following assumes the role has been placed into directory
 `roles/galaxyprojectdotorg.cloudman-galaxy-setup`):
 
     - hosts: galaxyFS-builder
@@ -54,7 +48,6 @@ role has been placed into directory
       roles:
         - role: galaxyprojectdotorg.cloudman-galaxy-setup
           sudo_user: "{{ galaxy_user_name }}"
-          galaxy_admin_user_password: <a_password>
 
 Next, create a `hosts` file:
 
@@ -67,4 +60,4 @@ Finally, run the playbook as follows:
 
 
 [cmpb]: https://github.com/galaxyproject/cloudman-image-playbook
-[tr]: https://github.com/afgane/ansible-tools
+[tr]: https://github.com/galaxyproject/ansible-galaxy-tools
