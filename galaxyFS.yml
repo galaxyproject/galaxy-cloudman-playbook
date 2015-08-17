@@ -38,7 +38,7 @@
      - galaxyprojectdotorg.trackster
      - role: galaxyprojectdotorg.cloudman-galaxy-setup
        tags: setup, update
-     - role: galaxyprojectdotorg.tools
+     - role: galaxy_tools
        tags: tools, update
      - role: cm.filesystem
        tags: filesystem
