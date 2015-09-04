@@ -19,13 +19,16 @@ option to have this done automatically):
 
 Role variables
 --------------
-All of the listed variabls are stored in `defaults/main.yml`. Individual variables
-can be set or overridden by setting them directly in a playbook for this role
-(see an example below for `vnc_password`). Alternatively, they can be set by
-creating `group_vars` directory in the root directory of the playbook used to
-execute this role and placing a file with the variables there. Note that the
-name of this file must match the value of `hosts` setting in the corresponding
-playbook (e.g., `image-builder` for the sample playbook provided below).
+All of the listed variabls are stored in `defaults/main.yml`. Check that file
+for all the available variables.
+
+Individual variables can be set or overridden by setting them directly in a
+playbook for this role (see an example below for `vnc_password`). Alternatively,
+they can be set by creating `group_vars` directory in the root directory of the
+playbook used to execute this role and placing a file with the variables there.
+Note that the name of this file must match the value of `hosts` setting in the
+corresponding playbook (e.g., `image-builder` for the sample playbook provided
+below).
 
 ### Required variables ###
  - `vnc_password`: a password that will be baked into the image and used as a
@@ -59,6 +62,7 @@ given part of the role should be executed:
     environment for CloudMan
  - `cm_system_environment`: (default: `yes`) setup system-level configurations
     *Note* that setting this option also requires `cm_venvburrito` to be set.
+ - `cm_system_tools`: (default: `yes`) install given tools system wide
  - `cm_install_s3fs`: (default: `yes`) whether to install S3FS or not
  - `cm_configure_nginx`: (default: `yes`) whether to configure Nginx
  - `cm_install_proftpd`: (default: `yes`) whether to install ProFTPd server

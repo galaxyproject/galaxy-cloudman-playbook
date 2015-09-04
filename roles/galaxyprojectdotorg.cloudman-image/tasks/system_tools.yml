@@ -1,0 +1,17 @@
+---
+
+# bcftools
+- name: Create installation dir for bcftools
+  file: path=/tmp/bcftools state=directory
+
+- name: Download bcftools
+  get_url: url=https://github.com/samtools/bcftools/releases/download/{{cm_bcftools_version}}/bcftools-{{cm_bcftools_version}}.tar.bz2 dest=/tmp/bcftools/bcftools.tar.bz2
+
+- name: Unarchive bcftools
+  command: tar jxf /tmp/bcftools/bcftools.tar.bz2 chdir=/tmp/bcftools
+
+- name: Install bcftools
+  command: sudo {{ item }} chdir=/tmp/bcftools/bcftools-{{cm_bcftools_version}}
+  with_items:
+    - make
+    - make install

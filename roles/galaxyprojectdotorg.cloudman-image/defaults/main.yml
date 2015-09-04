@@ -10,6 +10,7 @@
 cm_install_packages: yes
 cm_venvburrito: yes
 cm_system_environment: yes  # Also requires cm_venvburrito to be set
+cm_system_tools: yes
 cm_install_s3fs: yes
 cm_configure_nginx: yes
 cm_install_proftpd: yes
@@ -35,3 +36,6 @@ galaxy_db_port: 5930
 postgresql_bin_dir: /usr/lib/postgresql/9.3/bin
 
 nginx_upload_store_path: "{{ galaxyFS_base_dir }}/upload_store"
+
+# Specify the version of bcftools to install
+cm_bcftools_version: 1.2

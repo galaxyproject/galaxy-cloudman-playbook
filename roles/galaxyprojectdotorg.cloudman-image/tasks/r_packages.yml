@@ -1,11 +1,26 @@
 ---
 # Install r-packages
 
+- name: Place Rprofile file to /etc/R/
+  copy: src=Rprofile dest=/etc/R/Rprofile.site
+
+- name: Build dependency for rgl
+  apt: pkg=r-cran-rgl state=build-dep
+
+- name: Download BiocInstaller
+  get_url:
+    url=https://cloudman.s3.amazonaws.com/files/BiocInstaller_1.19.13.tar.gz
+    dest=/tmp/BiocInstaller.tar.gz
+
+- name: Install BiocInstaller from command line
+  command: R CMD INSTALL /tmp/BiocInstaller.tar.gz
+
 - name: Add R packages
   command: Rscript --slave --no-save --no-restore-history -e "if (! ('{{item}}' %in% installed.packages()[,'Package'])) install.packages(pkgs='{{item}}', repos=c('http://cran.cnr.Berkeley.edu/'))"
   environment:
       LD_LIBRARY_PATH: /usr/local/lib/
   with_items:
+    - mixOmics
     - doParallel
     - devtools
     - snow
@@ -15,4 +30,3 @@
 
 - name: Add Bioconductor BiocParallel package
   command:  Rscript --slave --no-save --no-restore-history -e "source('http://bioconductor.org/biocLite.R'); biocLite(); biocLite('BiocParallel');"
-

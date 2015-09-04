@@ -6,8 +6,16 @@
     url=http://archive.cloudera.com/cm5/ubuntu/trusty/amd64/cm/cloudera.list
     dest=/etc/apt/sources.list.d/cloudera_trusty.list
 
+- name: Add line to apt sources.list for R version upgrade
+  lineinfile:
+    dest=/etc/apt/sources.list
+    line="deb http://cran.cnr.Berkeley.edu/bin/linux/ubuntu trusty/"
+
 - name: Add Cloudera's apt key
   apt_key: url=http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key
+
+- name: Add R apt key
+  command: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
 
 - name: Update APT cache
   apt: update_cache=yes
@@ -50,12 +58,14 @@
     - python-tk  # for IPython %cpaste magic function
     - python-yaml
     - rabbitmq-server
-    - r-base
     - screen
     - slurm-llnl
     - uwsgi
     - uwsgi-plugin-python
     - xfsprogs
+
+- name: Install new r-base 3.2.2 or above
+  apt: name=r-base=3.2* state=present
 
 - name: Upgrade system packages
   apt: upgrade=yes

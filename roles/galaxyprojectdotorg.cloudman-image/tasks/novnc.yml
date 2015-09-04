@@ -71,6 +71,9 @@
 - name: Copy lightdm config file
   copy: src=lightdm.conf dest=/etc/lightdm/lightdm.conf
 
+- name: "Make sure lightdm respawns - fix for race condition: https://bugs.launchpad.net/ubuntu/+source/lightdm/+bug/969489"
+  lineinfile: dest=/etc/init/lightdm.conf line="respawn" insertafter="stop on runlevel [016]"
+
 - name: Copy vnc config file for xinetd
   template: src=xinetd_vnc.j2 dest=/etc/xinetd.d/vnc
 
