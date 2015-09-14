@@ -56,7 +56,9 @@ set before running the playbook:
  - For building components on an OpenStack cloud, it is also necessary to define the
   following environment varaibles (additional config options can also be defined;
   see [Packer documentation for OpenStack][pos] for more): `OS_PASSWORD`,
-  `OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`.
+  `OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`. These variables can be obtained
+  from your OpenStack account Dashboard by downloading  the OpenStack RC file
+  (from *Instances* -> *Access & Security* -> *API Access*) and sourcing it.
 
 #### Optional configration options ####
 Majority of the configuration options are stored in `group_vars/all` and they represent
@@ -68,10 +70,19 @@ are included in this playbook.
 The Packer system and the build scripts support the ability to build the image on
 multiple destinations simultaneously. This is the default behavior. The destinations
 are defined as `builders` sections inside the `image.json` file. At the moment,
-`builders` define the following two destinations: AWS (us-east-1) and
-OpenStack ([NeCTAR][nectar], Melbourne). To build only select destinatinos, use:
+`builders` define the following destinations: `amazon-ebs` (us-east-1 region),
+`nectar` ([NeCTAR cloud][nectar]), and `chameleon`
+([Chameleon cloud](https://www.chameleoncloud.org/)). Note that only one of the
+OpenStack clouds can be used at a time, for whichever one the environment variables
+credentials have been sourced. To build the select destinatinos, use:
 
-    packer build -only=[amazon-ebs, openstack] galaxy_on_the_cloud.json
+    packer build -only=amazon-ebs|nectar|chameleon galaxy_on_the_cloud.json
+
+The defined builders user the `default` security group. Make sure the security
+group allows SSH access to the launched instances. To get more debugging info,
+you can run the command as follows `packer build -debug galaxy_on_the_cloud.json`.
+To increase the Packer logging verbosity, run the command as follows:
+`env PACKER_LOG=1 packer build galaxy_on_the_cloud.json`.
 
 Building individual components
 ------------------------------
@@ -92,7 +103,7 @@ To build the machine image, run the following command (unless parameterized,
 this will run the build process for all the clouds defined in `image.json`, see
 *Multiple Clouds* above):
 
-    packer build [-only=amazon-ebs|openstack] image.json
+    packer build -only=amazon-ebs|nectar|chameleon image.json
 
 Note that this command requires the same environment variables to be defined as
 specified above. Additional options can be set by editing `image.json`, under

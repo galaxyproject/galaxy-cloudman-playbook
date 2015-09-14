@@ -8,8 +8,7 @@
     "image_name": "Galaxy-CloudMan-{{timestamp}}",
     "aws_source_ami": "ami-9a562df2",
     "aws_instance_type": "c3.large",
-    "os_source_image": "d57696ba-5ed2-43fe-bf78-a587829973a9",
-    "os_flavor": "1"
+    "cc_floating_ip": "129.114.33.183"
   },
 
 
@@ -35,14 +34,29 @@
     } ]
   },
   {
+    "name": "nectar",
     "type": "openstack",
     "openstack_provider": "Compute Service",
     "region": "Melbourne",
     "ssh_username": "ubuntu",
-    "source_image": "{{user `os_source_image`}}",
-    "flavor": "{{user `os_flavor`}}",
+    "source_image": "d57696ba-5ed2-43fe-bf78-a587829973a9",
+    "flavor": "1",
     "image_name": "{{user `image_name`}}",
     "security_groups": [ "default" ]
+  },
+  {
+    "name": "chameleon",
+    "type": "openstack",
+    "openstack_provider": "Compute Service",
+    "region": "regionOne",
+    "ssh_username": "cc",
+    "source_image": "fc507be9-41e4-4c2c-b142-5c4256f8a814",
+    "flavor": "2",
+    "image_name": "{{user `image_name`}}",
+    "security_groups": [ "default" ],
+    "networks": [ "de27dd99-625b-4987-ae56-2980a088c0e3" ],
+    "use_floating_ip": true,
+    "floating_ip": "{{user `cc_floating_ip`}}"
   }],
   "provisioners": [
   {
