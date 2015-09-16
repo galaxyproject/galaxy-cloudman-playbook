@@ -124,7 +124,7 @@ private ssh key for the `ansible_ssh_private_key_file` variable. This option als
 requires you to edit `image.yml` file to set `hosts` line to `image-builder` while
 commenting out `connection: local` line. Finally, run the role with
 
-    ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> psql_galaxyftp_password=<a_different_password> --extra-vars cleanup=yes
+    ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> --extra-vars psql_galaxyftp_password=<a_different_password> --extra-vars cleanup=yes
 
 On average, the build time takes about an hour. *Note that after the playbook
 has run to completion, you will no longer be able to ssh into the instance!* If
