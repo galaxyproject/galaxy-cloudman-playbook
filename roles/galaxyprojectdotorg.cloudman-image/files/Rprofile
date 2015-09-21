@@ -1,7 +1,18 @@
 ## Default repo
 local({r <- getOption("repos")
-       r["CRAN"] <- "http://cran.r-project.org" 
+       r["CRAN"] <- "http://cran.r-project.org"
        options(repos=r)
 })
 
 options(rgl.useNULL=TRUE)
+
+## Delete registery in BatchJobs if there exists one.
+## This function will have no effect if BatchJobs has
+## not been loaded before.
+.First <- function(){
+		try(
+		if ("package:BatchJobs" %in% search())
+		{
+			BatchJobs::removeRegistry(reg,ask="no")
+		},silent=TRUE)
+}

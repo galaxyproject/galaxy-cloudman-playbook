@@ -7,26 +7,24 @@
 - name: Build dependency for rgl
   apt: pkg=r-cran-rgl state=build-dep
 
-- name: Download BiocInstaller
-  get_url:
-    url=https://cloudman.s3.amazonaws.com/files/BiocInstaller_1.19.13.tar.gz
-    dest=/tmp/BiocInstaller.tar.gz
+- name: Add R packages
+  command: Rscript --slave --no-save --no-restore-history -e "if (! ('Rmpi' %in% installed.packages()[,'Package'])) install.packages(pkgs='Rmpi',configure.args='--with-mpi=/usr/local', repos=c('http://cran.cnr.Berkeley.edu/'))"
 
-- name: Install BiocInstaller from command line
-  command: R CMD INSTALL /tmp/BiocInstaller.tar.gz
+- name: Add Bioconductor BiocParallel package
+  command:  Rscript --slave --no-save --no-restore-history -e "source('http://bioconductor.org/biocLite.R'); biocLite(); biocLite('BiocParallel');"
 
 - name: Add R packages
   command: Rscript --slave --no-save --no-restore-history -e "if (! ('{{item}}' %in% installed.packages()[,'Package'])) install.packages(pkgs='{{item}}', repos=c('http://cran.cnr.Berkeley.edu/'))"
-  environment:
-      LD_LIBRARY_PATH: /usr/local/lib/
   with_items:
     - mixOmics
     - doParallel
     - devtools
     - snow
-    - parallel
     - foreach
-    - Rmpi
+    - BatchJobs #'
 
-- name: Add Bioconductor BiocParallel package
-  command:  Rscript --slave --no-save --no-restore-history -e "source('http://bioconductor.org/biocLite.R'); biocLite(); biocLite('BiocParallel');"
+- name: Place BatchJobs_global_config.R file to /usr/local/lib/R/site-library/BatchJobs/etc
+  copy: src=BatchJobs_global_config.R dest=/usr/local/lib/R/site-library/BatchJobs/etc/BatchJobs_global_config.R
+
+- name: Place simple.tmpl file to /usr/local/lib/R/site-library/BatchJobs/etc
+  copy: src=simple.tmpl dest=/usr/local/lib/R/site-library/BatchJobs/etc/simple.tmpl

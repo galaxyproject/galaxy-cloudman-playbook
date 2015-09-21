@@ -3,7 +3,7 @@
 
 - name: Download MPI
   get_url:
-    url=http://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.1.tar.gz
+    url=http://www.open-mpi.org/software/ompi/v1.8/downloads/openmpi-1.8.5.tar.gz
     dest=/tmp/mpi.tar.gz
 
 - name: Create temporary directory
@@ -13,15 +13,15 @@
 - name: Unarchive MPI
   unarchive: src=/tmp/mpi.tar.gz dest={{ tempdir.stdout }} copy=no
 
-- name: Install MPI required system packages
-  apt: pkg={{ item }} state=latest
-  with_items:
-    - libibnetdisc-dev
+#- name: Install MPI required system packages
+#  apt: pkg={{ item }} state=latest
+#  with_items:
+#    - libibnetdisc-dev
 
 - name: Install MPI
-  command: "{{ item }} chdir='{{ tempdir.stdout }}/openmpi-1.8.1'"
+  command: "{{ item }} chdir='{{ tempdir.stdout }}/openmpi-1.8.5'"
   with_items:
-    - ./configure
+    - ./configure --prefix=/usr/local
     - make
     - make install
 

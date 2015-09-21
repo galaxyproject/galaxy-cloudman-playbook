@@ -122,13 +122,14 @@ http {
             auth_pam    "Secure Zone";
             auth_pam_service_name   "nginx";
             rewrite ^/vnc$ /vnc/ permanent; # redirect if no trailing slash
-            rewrite ^/vnc(.*) /$1 break;
+            rewrite ^/vnc/(.*) /$1 break;
             proxy_pass http://vnc_app;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
             proxy_set_header Host $host;
         }
+
         location ~ /websockify {
             proxy_pass http://vnc_app;
             proxy_http_version 1.1;
