@@ -18,4 +18,4 @@ galaxy_user_name: galaxy
 galaxy_user_uid: 1001
 
 configure_docker: yes
-docker_package: lxc-docker-1.6.2
+docker_package: docker-engine

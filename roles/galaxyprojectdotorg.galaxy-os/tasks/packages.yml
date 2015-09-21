@@ -4,11 +4,11 @@
   apt_repository: repo="ppa:galaxyproject/nginx" update_cache=no
 
 - name: Add Docker repository key
-  apt_key: url="https://get.docker.io/gpg" id="A88D21E9"
+  apt_key: url="https://apt.dockerproject.org/gpg" id="2C52609D"
   when: configure_docker
 
 - name: Add Docker repository
-  apt_repository: repo='deb http://get.docker.io/ubuntu docker main' update_cache=no
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main' update_cache=no #'
   when: configure_docker
 
 - name: Update APT cache
@@ -65,7 +65,7 @@
     - wget
     - zlib1g-dev
 
-- name: Install lxc-docker if installing packages.
+- name: Install Docker package
   apt: pkg={{ item }} state={{ apt_package_state }}
   with_items:
     - "{{ docker_package }}"
