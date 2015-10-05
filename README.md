@@ -269,7 +269,7 @@ preserved in the final build. For example, if you create a user, upload data,
 or run jobs - all of these will be preserved after the file system build
 process is completed. It it thus a good idea to see what has broken, find a
 permanent fix for it, update the build process and build everything again.
-Unfortunately, this does not apply to tools installed from the Toolshed becasue
+Unfortunately, this does not apply to tools installed from the Toolshed because
 it is likely you will not have control over those tools. Those tools need to be
 repaired manually/via Galaxy.
 
