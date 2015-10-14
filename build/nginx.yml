@@ -29,8 +29,8 @@
     nginx_upload_module_branch: 2.2
     nginx_http_auth_pam_module_version: 1.3
     nginx_http_auth_pam_module_sha256: 199dff5d11fbb3b6ddf9c8a60cc141970125a3f8e7a06f245e3175e93ca947e3
-    pcre_version: 8.33
-    pcre_sha256: 0a8b84eed13ce4e28017d297a457fdd66ab1068b80b2d1e26e932bed688074d7
+    pcre_version: 8.36
+    pcre_sha256: b37544f33caed0cc502a1e729c3b1d3df5086dcc819b9125c30700c239246c9e
     zlib_version: 1.2.8
     zlib_sha256: 36658cb768a54c1d4dec43c3116c27ed893e88b02ecfcb44f2166f9c0b7f2a0d
     nginx_configure_args: --prefix={{ nginx_dir_prefix }}
