@@ -224,14 +224,14 @@ Once an instance has launched, edit `galaxyFS.yml` to set `galaxyFS-builder`
 instance IP address under `galaxyFS-builder` host group in the `inventory/builders`
 file and invoke the following command (having filled in the required variables):
 
- > If you are updating an existing file system, note the Warning
- > note in the previous section. You also probably already have
- > a Galaxy admin user so provide the admin user API key as follows:
- > `--extra-keys api_key=<API KEY>`. Finally, run only the subset of
- > roles by adding the following option to the command below:
- > `--tags "update"`.
-
     ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
+
+ > **If you are updating an existing file system**, note the Warning
+ > note in the previous section. If you already have a registered
+ > admin user, provide the admin user API and set variable
+ > `galaxy_tools_create_bootstrap_user` to `no`. Then run the following command:
+ >
+ > `ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars galaxy_tools_api_key=<API KEY> --tags "update"`
 
 This will download and configure Galaxy as well as install any specified tools.
 Note that depending on the number of tools you are installing, this build process
