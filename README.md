@@ -212,12 +212,13 @@ prevent the role from replacing this file, comment out the file name in
 `group_vars/all` under `galaxy_config_files`.
 
 ### Building or updating galaxyFS
-For either build option, start by launching an instance of the image created above.
+When building a fresh version of galaxyFS or updating an existing one, start by
+launching an instance of the image created above.
 Once CloudMan starts, choose `Cluster only` with `Transient storage` cluster type
 if you're building an archive or `Persistent storage` with desired volume size
 if you're building a volume/snapshot. If you are updating an existing file system,
-launch an instance with the functional file system and run this playbook 'over'
-it (see more below).
+launch an instance with the functional file system (i.e., either transient or
+volume based) and run this playbook 'over' it (see more below).
 
 Once an instance has launched, edit `galaxyFS.yml` to set `galaxyFS-builder`
 `hosts` field and comment out `connection: local` entry. Next, set the launched
@@ -227,19 +228,24 @@ file and invoke the following command (having filled in the required variables):
     ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
  > **If you are updating an existing file system**, note the Warning
- > note in the previous section. If you already have a registered
- > admin user, provide the admin user API and set variable
+ > note in the previous section. Further, if you already have a registered
+ > admin user, provide the admin user API key and set variable
  > `galaxy_tools_create_bootstrap_user` to `no`. Then run the following command:
  >
  > `ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars galaxy_tools_api_key=<API KEY> --tags "update"`
 
 This will download and configure Galaxy as well as install any specified tools.
 Note that depending on the number of tools you are installing, this build process
-may take several hours. At the end, a file system archive will be created and
-uploaded to S3. It is often desirable (and necessary) to do double check that
-tools installed properly and repair any failed ones. In that case, after we've
-made the changes, we can just create the archive and upload it to the object
-store. To achieve this, rerun the above command with `--tags "filesystem"`.
+may take several hours. At the end, if building the file system from scratch, a
+file system archive will be created and uploaded to S3. It is often desirable
+(and necessary) to do double check that tools installed properly and repair any
+failed ones. In that case (or if you are updating an existing file system),
+after we've made the changes, it is necessary to explicitly create the archive
+and upload it to the object store. To achieve this, via CloudMan, stop Galaxy,
+ProFTPd, and Postgres services on the running instance and rerun the above
+command with `--tags "filesystem"`.
+
+When completed, terminate the builder instance via CloudMan.
 
 #### galaxyFS as a volume
 After you have launched an instance, go to CloudMan's Admin page and add a
