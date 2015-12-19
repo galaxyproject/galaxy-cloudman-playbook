@@ -53,6 +53,7 @@ below).
  - `indicesFS_base_dir`: (default: `/mnt/galaxyIndices`) the path where Galaxy
     reference genomes indices will be stored. Also Galaxy Data Managers will be
     installed here (via the Tool Shed, as designed by Galaxy).
+ - `cm_docker_image`: name of the Docker container to preload on the image
 
 ### Control flow variables ###
 The following variables can be set to either `yes` or `no` to indicate if the
@@ -63,6 +64,7 @@ given part of the role should be executed:
  - `cm_system_environment`: (default: `yes`) setup system-level configurations
     *Note* that setting this option also requires `cm_venvburrito` to be set.
  - `cm_system_tools`: (default: `yes`) install given tools system wide
+ - `cm_docker`: (default: `yes`) pull Docker containers on the image
  - `cm_install_s3fs`: (default: `yes`) whether to install S3FS or not
  - `cm_configure_nginx`: (default: `yes`) whether to configure Nginx
  - `cm_install_proftpd`: (default: `yes`) whether to install ProFTPd server

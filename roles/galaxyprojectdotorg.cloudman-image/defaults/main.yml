@@ -11,6 +11,7 @@ cm_install_packages: yes
 cm_venvburrito: yes
 cm_system_environment: yes  # Also requires cm_venvburrito to be set
 cm_system_tools: yes
+cm_docker: yes
 cm_install_s3fs: yes
 cm_configure_nginx: yes
 cm_install_proftpd: yes
@@ -39,3 +40,5 @@ nginx_upload_store_path: "{{ galaxyFS_base_dir }}/upload_store"
 
 # Specify the version of bcftools to install
 cm_bcftools_version: 1.2
+
+cm_docker_image: bgruening/docker-ipython-notebook:15.10.1

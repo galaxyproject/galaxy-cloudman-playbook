@@ -17,6 +17,9 @@
 - include: system_tools.yml
   when: cm_system_tools and not only_cleanup|bool
 
+- include: docker.yml
+  when: cm_docker and not only_cleanup|bool
+
 - include: s3fs.yml
   when: cm_install_s3fs and not only_cleanup|bool
 

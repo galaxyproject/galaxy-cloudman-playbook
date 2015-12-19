@@ -125,3 +125,12 @@
     - "galaxy hard nofile 16384"
     - "galaxy soft nofile 16384"
   sudo_user: root
+
+- name: Symlink trackster required binaries to /usr/bin since trackster specifically looks for them there
+  file: src={{ galaxyFS_base_dir }}/tools/bin/{{ item }} dest=/usr/bin/{{ item }} state=link force=yes
+  with_items:
+    - wigToBigWig
+    - bedGraphToBigWig
+    - faToTwoBit
+  sudo: yes
+  sudo_user: root

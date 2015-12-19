@@ -48,7 +48,7 @@ http {
             auth_pam    "Secure Zone";
             auth_pam_service_name   "nginx";
             if ($remote_user ~ ^$) { break; }
-            if ($remote_user !~ ^(root|ubuntu)$)
+            if ($remote_user !~ ^(root|ubuntu)$) {
 			   return 401;
 			}
             proxy_pass  http://cm_app;
