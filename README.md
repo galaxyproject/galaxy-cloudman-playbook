@@ -117,7 +117,7 @@ typically takes about an hour. You can also run the build command with
 
 #### Running without Packer ####
 To build an image without Packer, make sure the default values provided in the
-`group_vars/all` file suite you. Create a copy of `inventory/builders.sample` as
+`group_vars/all` file suit you. Create a copy of `inventory/builders.sample` as
 `inventory/builders`, manually launch a new instance and set the instance IP address
 under `image-builder` host group in the `builders` file. Also set the path to your
 private ssh key for the `ansible_ssh_private_key_file` variable. This option also
