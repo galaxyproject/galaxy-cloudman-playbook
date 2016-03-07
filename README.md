@@ -53,12 +53,16 @@ set before running the playbook:
    - `CM_GALAXY_FTP_PWD`: a password Galaxy will use to auth to PostgreSQL DB for FTP
    - `CM_GALAXY_ADMIN_PWD`: a Galaxy admin account password for a user that will be
       created to install any Galaxy tools during the build process
- - For building components on an OpenStack cloud, it is also necessary to define the
-  following environment variables (additional config options can also be defined;
-  see [Packer documentation for OpenStack][pos] for more): `OS_PASSWORD`,
-  `OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`. These variables can be obtained
-  from your OpenStack account Dashboard by downloading  the OpenStack RC file
-  (from *Instances* -> *Access & Security* -> *API Access*) and sourcing it.
+ - For building components on an OpenStack cloud, it is also necessary to define
+  several environment variables (additional config options can also be defined;
+  see [Packer documentation for OpenStack][pos] for more). If using identity v2,
+  set the following env variables: `OS_PASSWORD`, `OS_USERNAME`, `OS_TENANT_NAME`,
+  `OS_AUTH_URL`. If using identity v3, set the following ones: `OS_PROJECT_DOMAIN_NAME`,
+  `OS_USER_DOMAIN_NAME`, `OS_PROJECT_NAME`, `OS_TENANT_NAME`, `OS_USERNAME`,
+  `OS_PASSWORD`, `OS_AUTH_URL`, `OS_IDENTITY_API_VERSION`.
+  These variables can be obtained from your OpenStack account Dashboard by
+  downloading  the OpenStack RC file (from *Instances* -> *Access & Security*
+  -> *API Access*) and sourcing it.
 
 #### Optional configuration options ####
 Majority of the configuration options are stored in `group_vars/all` and they represent
