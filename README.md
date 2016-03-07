@@ -54,13 +54,13 @@ set before running the playbook:
    - `CM_GALAXY_ADMIN_PWD`: a Galaxy admin account password for a user that will be
       created to install any Galaxy tools during the build process
  - For building components on an OpenStack cloud, it is also necessary to define the
-  following environment varaibles (additional config options can also be defined;
+  following environment variables (additional config options can also be defined;
   see [Packer documentation for OpenStack][pos] for more): `OS_PASSWORD`,
   `OS_USERNAME`, `OS_TENANT_NAME`, `OS_AUTH_URL`. These variables can be obtained
   from your OpenStack account Dashboard by downloading  the OpenStack RC file
   (from *Instances* -> *Access & Security* -> *API Access*) and sourcing it.
 
-#### Optional configration options ####
+#### Optional configuration options ####
 Majority of the configuration options are stored in `group_vars/all` and they represent
 reasonable defaults. If you would like to change any of the variables, descriptions
 of the available options are provided in README files for individual roles that
@@ -74,7 +74,7 @@ are defined as `builders` sections inside the `image.json` file. At the moment,
 `nectar` ([NeCTAR cloud][nectar]), and `chameleon`
 ([Chameleon cloud](https://www.chameleoncloud.org/)). Note that only one of the
 OpenStack clouds can be used at a time, for whichever one the environment variables
-credentials have been sourced. To build the select destinatinos, use:
+credentials have been sourced. To build the select destinations, use:
 
     packer build -only=amazon-ebs|nectar|chameleon galaxy_on_the_cloud.json
 
@@ -87,7 +87,7 @@ To increase the Packer logging verbosity, run the command as follows:
 Building individual components
 ------------------------------
 As stated above, there are several roles contained in this playbook. Subsets of those
-roles can be used to build indiviudal components. The following is a list of available
+roles can be used to build individual components. The following is a list of available
 components:
  * *CloudMan*: (i.e., cluster-in-the cloud) only the machine image is necessary
  * *galaxyFS*: the file system used by *Galaxy on the Cloud*; it contains the Galaxy
@@ -170,9 +170,9 @@ that are specific to this playbook and do not otherwise show up in the
 included roles. These variables can be changed in `group_vars/all` file:
 
  - `cm_create_archive`: (default: `yes`) if set, create a tarball archive
-    of the galaxyFS filesystem
+    of the galaxyFS file system
  - `galaxy_archive_path`: (default: `/mnt/galaxyFS_archive`) the directory
-    where to place the filesystem tarball archive. Keep in mind that this
+    where to place the file system tarball archive. Keep in mind that this
     directory needs to have sufficient disk space to hold the archive.
  - `galaxy_archive_name`: (default: `galaxyFS-latest.tar.gz`) the file name
     for the archive
@@ -259,7 +259,7 @@ After the build process has completed, you can access the Galaxy application.
 To do so, visit CloudMan's Admin page. First, disable CloudMan's service
 dependency framework (under *System Controls*). Then, start Postgres, ProFTPd,
 and Galaxy services - in that order, while waiting for each of them to enter
-`Running` state before staring the next one. Unce Galaxy is running, the
+`Running` state before staring the next one. Once Galaxy is running, the
 *Access Galaxy* button will become active.
 
 ### Troubleshooting
