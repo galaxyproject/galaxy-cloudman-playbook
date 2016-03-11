@@ -8,7 +8,8 @@
     "image_name": "Galaxy-CloudMan-{{timestamp}}",
     "aws_source_ami": "ami-9a562df2",
     "aws_instance_type": "c3.large",
-    "cc_floating_ip": "129.114.111.137"
+    "cc_floating_ip": "129.114.111.137",
+    "js_floating_ip": "149.165.168.93"
   },
 
 
@@ -57,6 +58,20 @@
     "networks": [ "739eaa06-16d1-45fe-8a79-77044935c517" ],
     "use_floating_ip": true,
     "floating_ip": "{{user `cc_floating_ip`}}"
+  },
+  {
+    "name": "jetstream",
+    "type": "openstack",
+    "openstack_provider": "Compute Service",
+    "domain_name": "tacc",
+    "ssh_username": "ubuntu",
+    "source_image": "1c997f2c-bae9-4b53-9197-2948cd449405",
+    "flavor": "1",
+    "image_name": "{{user `image_name`}}",
+    "networks": [ "86a1c3e8-b1fb-41f3-bcaf-8334567fe989" ],
+    "use_floating_ip": true,
+    "floating_ip": "{{user `js_floating_ip`}}",
+    "security_groups": [ "default" ]
   }],
   "provisioners": [
   {
