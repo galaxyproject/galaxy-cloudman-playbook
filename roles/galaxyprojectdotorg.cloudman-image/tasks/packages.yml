@@ -9,7 +9,7 @@
 - name: Add line to apt sources.list for R version upgrade
   lineinfile:
     dest=/etc/apt/sources.list
-    line="deb http://cran.rstudio.com/bin/linux/ubuntu trusty/"
+    line="deb http://cran.rstudio.com/bin/linux/ubuntu trusty/"  #"
 
 - name: Add Cloudera's apt key
   apt_key: url=http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key

@@ -24,3 +24,5 @@
     - role: galaxyprojectdotorg.cloudman-image
       # vnc_password: <a_password>  # Or specify via the command
       # psql_galaxyftp_password: <a_different_password>  # Or specify via the command
+
+# ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=$CM_VNC_PWD --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD --extra-vars cleanup=no

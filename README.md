@@ -232,8 +232,9 @@ file and invoke the following command (having filled in the required variables):
     ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
 
  > **If you are updating an existing file system**, note the Warning
- > note in the previous section. Further, if you already have a registered
- > admin user, provide the admin user API key and set variable
+ > note in the previous section. Remember to update the value of
+ > `galaxy_changeset_id` variable in `variables/all`. Finally, if you already
+ > have a registered admin user, provide the admin user API key and set variable
  > `galaxy_tools_create_bootstrap_user` to `no`. Then run the following command:
  >
  > `ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars galaxy_tools_api_key=<API KEY> --tags "update"`
