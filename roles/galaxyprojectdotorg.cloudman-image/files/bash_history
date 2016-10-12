@@ -1,4 +1,0 @@
-sinfo -o"%c %n"
-sudo su galaxy
-sudo -s
-tail -c +1 -f /var/log/cloudman/cloudman.log

@@ -1,8 +1,0 @@
-#!/bin/sh
-echo
-printf "=============================================\n"
-printf "Welcome to your Galaxy on the Cloud instance.\n"
-printf "=============================================\n"
-echo
-printf " * Documentation: https://wiki.galaxyproject.org/CloudMan\n"
-echo

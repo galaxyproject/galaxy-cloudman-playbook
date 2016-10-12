@@ -1,6 +1,0 @@
-[program:gxy_postgreSQL]
-user=postgres
-command={{ postgresql_bin_dir }}/pg_ctl -D {{ galaxy_db_dir }} -w -l /var/log/postgresql/pg_galaxy.log start
-autostart=true
-autorestart=true
-priority=520

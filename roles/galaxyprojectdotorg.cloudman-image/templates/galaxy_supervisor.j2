@@ -1,9 +1,0 @@
-[program:galaxy]
-user={{ galaxy_user_name }}
-directory={{ galaxy_server_dir }}
-command=/bin/sh run.sh --pid-file=main.pid --log-file main.log --daemon
-autostart=true
-autorestart=unexpected
-startsecs=10
-startretries=3
-priority=530
