@@ -4,15 +4,27 @@ is used by the [Galaxy project][gp] and is intended for anyone
 wanting to deploy their own version of Galaxy on the Cloud, whether it is
 on a private or public cloud.
 
-This playbook is intended to be run on a Ubuntu (14.04) system.
+This playbook is intended to be run on a Ubuntu 14.04 system.
 
 ## Table of Contents
 
+- [Installation](#installation)
 - [Build the entire *Galaxy on the Cloud*](#build-the-entire-galaxy-on-the-cloud)
 - [Building individual components](#building-individual-components)
   - [Machine Image](#machine-image)
   - [Galaxy File System](#galaxy-file-system)
 - [Tying it all together](#tying-it-all-together)
+
+Installation
+------------
+Clone this repository and run the following command to install any roles that
+are not included with the repo:
+```
+git clone https://github.com/galaxyproject/galaxy-cloudman-playbook.git
+ansible-galaxy install -r requirements_roles.yml -p roles -f
+```
+The same `ansible-galaxy` command should be used to update the roles from
+their respective git repos.
 
 Build the entire *Galaxy on the Cloud*
 --------------------------------------

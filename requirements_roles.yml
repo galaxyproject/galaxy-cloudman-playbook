@@ -1,0 +1,4 @@
+- src: https://github.com/galaxyproject/ansible-cloudman-image
+  name: galaxyprojectdotorg.cloudman-image
+- src: https://github.com/galaxyproject/ansible-galaxy-os
+  name: galaxyprojectdotorg.galaxy-os

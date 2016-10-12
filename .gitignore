@@ -8,3 +8,8 @@ inventory/builders
 scripts/shed_tool_list.yaml
 scripts/dbkeys_tool_list.yaml
 files/shed_tool_list.yaml.test
+
+# Gradually (i.e., once all the roles have been removed from the repo and
+tracked via a requirements file) the entire `roles` dir will be included here.
+roles/galaxyprojectdotorg.cloudman-image/
+roles/galaxyprojectdotorg.galaxy-os/
