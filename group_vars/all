@@ -69,21 +69,20 @@ aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
 aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
 
 galaxy_manage_trackster: yes
-len_file_path: "{{ galaxy_server_dir }}/tool-data/len"
+len_file_path: "{{ galaxy_config_dir }}/len"
 bedtools_version: 2.25.0
 
 #-- Tools role configs
 galaxy_tools_install_tools: yes
 galaxy_tools_create_bootstrap_user: yes
-# galaxy_tools_tool_list_file: files/tool_list.yaml.test
+galaxy_tools_tool_list_files: ["files/usegalaxy_main_tool_list.yaml"]
+galaxy_tools_admin_user_password: admin
+galaxy_tools_admin_user_preset_api_key: yes
+galaxy_tools_api_key: admin
 
 #-- Galaxy role configs
-# Just the default values from the underlying role but required for post_tasks
-# galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
-# galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
-
 galaxy_vcs: git
-galaxy_changeset_id: release_16.04
+galaxy_changeset_id: release_16.07
 galaxy_force_checkout: yes
 
 galaxy_config_dir: "{{ galaxy_server_dir }}/config"
@@ -131,7 +130,7 @@ galaxy_config:
 
     builds_file_path: "{{ galaxy_server_dir }}/tool-data/shared/ucsc/builds.txt"
     tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_config_dir }}/shed_tool_conf_cloud.xml,{{ galaxy_shed_tool_conf_file }}"
-    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
     datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
     migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
     shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
@@ -141,11 +140,20 @@ galaxy_config:
     dynamic_proxy_bind_port: 8800
     interactive_environment_plugins_directory: config/plugins/interactive_environments
 
+    # Conda settings
+    # These have been disabled because of the disk requirements: the size of
+    # the galaxyFS doubles to 14GB if using Conda, which requires significantly
+    # larger instance types to be used if only transient disk is used.
+    # conda_prefix: "{{ galaxyFS_base_dir }}/tool_dependencies/_conda"
+    # conda_debug: False
+    # conda_ensure_channels: r,bioconda,iuc
+    # conda_auto_install: False
+    # conda_auto_init: True
+
   "filter:gzip":
     use: egg:Paste#gzip
   "filter:proxy-prefix":
     use: egg:PasteDeploy#prefix
-    prefix: /galaxy
 
 galaxy_config_files:
   - src: files/galaxy/builds.txt
@@ -154,6 +162,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/shed_tool_conf_cloud.xml"
   - src: files/galaxy/tool_sheds_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+  - src: files/galaxy/tool_data_table_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
 
 galaxy_mutable_configs:
   - src: "{{ galaxy_server_dir }}/config/shed_tool_conf.xml.sample"
@@ -166,7 +176,5 @@ galaxy_mutable_configs:
     dest: "{{ galaxy_config['app:main']['shed_tool_data_table_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_tool_data_table_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_tool_data_table_config'] }}"
   - src: "{{ galaxy_server_dir }}/config/datatypes_conf.xml.sample"
     dest: "{{ galaxy_config['app:main']['datatypes_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'datatypes_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['datatypes_config_file'] }}"
-  - src: "{{ galaxy_server_dir }}/config/tool_data_table_conf.xml.sample"
-    dest: "{{ galaxy_config['app:main']['tool_data_table_config_path'] }}"
   - src: "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
