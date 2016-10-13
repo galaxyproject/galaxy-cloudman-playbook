@@ -2,3 +2,5 @@
   name: galaxyprojectdotorg.cloudman-image
 - src: https://github.com/galaxyproject/ansible-galaxy-os
   name: galaxyprojectdotorg.galaxy-os
+- src: https://github.com/galaxyproject/ansible-galaxy-tools
+  name: galaxy_tools

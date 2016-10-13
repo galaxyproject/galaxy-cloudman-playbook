@@ -16,3 +16,4 @@ tracked via a requirements file) the entire `roles` dir will be included here.
 roles/galaxyprojectdotorg.cloudman-image/
 roles/galaxyprojectdotorg.galaxy-os/
 roles/smola.java/
+roles/galaxy_tools/
