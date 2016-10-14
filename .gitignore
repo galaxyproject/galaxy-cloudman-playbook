@@ -17,3 +17,4 @@ roles/galaxyprojectdotorg.cloudman-image/
 roles/galaxyprojectdotorg.galaxy-os/
 roles/smola.java/
 roles/galaxy_tools/
+roles/cloudman-galaxy-setup/

@@ -72,6 +72,9 @@ galaxy_manage_trackster: yes
 len_file_path: "{{ galaxy_config_dir }}/len"
 bedtools_version: 2.25.0
 
+#-- CloudMan-Galaxy-setup role configs
+cmg_start_galaxy: yes
+
 #-- Tools role configs
 galaxy_tools_install_tools: yes
 galaxy_tools_create_bootstrap_user: yes
