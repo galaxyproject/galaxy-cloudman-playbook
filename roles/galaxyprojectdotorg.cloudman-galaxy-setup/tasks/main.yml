@@ -1,5 +1,0 @@
----
-# Setup Galaxy for CloudMan
-
-- include: setup_galaxy.yml
-  when: cm_setup_galaxy
