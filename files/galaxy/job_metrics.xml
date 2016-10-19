@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<job_metrics>
+  <core />
+  <cpuinfo />
+  <meminfo />
+</job_metrics>

@@ -69,7 +69,7 @@ aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
 aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
 
 galaxy_manage_trackster: yes
-len_file_path: "{{ galaxy_config_dir }}/len"
+len_file_path: "{{ galaxy_server_dir }}/tool-data/len"  # Must match CloudMan
 bedtools_version: 2.25.0
 
 #-- CloudMan-Galaxy-setup role configs
@@ -79,7 +79,7 @@ cmg_start_galaxy: yes
 galaxy_tools_install_tools: yes
 galaxy_tools_create_bootstrap_user: yes
 galaxy_tools_tool_list_files: ["files/usegalaxy_main_tool_list.yaml"]
-galaxy_tools_admin_user_password: admin
+# galaxy_tools_admin_user_password: admin
 galaxy_tools_admin_user_preset_api_key: yes
 galaxy_tools_api_key: admin
 
@@ -165,6 +165,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
   - src: files/galaxy/tool_data_table_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+  - src: files/galaxy/job_metrics.xml
+    dest: "{{ galaxy_config_dir }}/job_metrics.xml"
 
 galaxy_mutable_configs:
   - src: "{{ galaxy_server_dir }}/config/shed_tool_conf.xml.sample"

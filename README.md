@@ -131,6 +131,12 @@ create an AMI, and terminate the builder instance. The image build process
 typically takes about an hour. You can also run the build command with
 `-debug` option to get more feedback during the build process.
 
+> There appears to be a bug in combination of Packer/Ansible/Ubuntu where the
+> required packages don't get installed for Ansible to run. To work around this
+> run `packer` command with the `--debug` option, ssh to the builder instance
+> and run the following command before packer attempt to ssh into the instance:
+> `sudo apt-get update && sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev`
+
 #### Running without Packer ####
 To build an image without Packer, make sure the default values provided in the
 `group_vars/all` file suit you. Create a copy of `inventory/builders.sample` as
@@ -147,6 +153,8 @@ has run to completion, you will no longer be able to ssh into the instance!* If
 you still need to ssh, set `--extra-vars cleanup=no` in the above command.
 Before creating the image, however, you must rerun the entire playbook with that
 flag set or run it with `--extra-vars only_cleanup=yes` to run the cleanup tasks only.
+After the build process completes, create a machine image using the API or the
+cloud dashboard.
 
 ### Customizing
 A configuration file exposing adjustable options is available under
@@ -241,7 +249,7 @@ Once an instance has launched, edit `galaxyFS.yml` to set `galaxyFS-builder`
 instance IP address under `galaxyFS-builder` host group in the `inventory/builders`
 file and invoke the following command (having filled in the required variables):
 
-    ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_admin_user_password=<a password>
+    ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_tools_admin_user_password=<a password>
 
  > **If you are updating an existing file system**, note the Warning
  > note in the previous section. Remember to update the value of

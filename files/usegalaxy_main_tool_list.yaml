@@ -237,104 +237,6 @@ tools:
   tool_panel_section_label: 'NGS: QC and manipulation'
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: True
-- name: deeptools_correct_gc_bias
-  owner: bgruening
-  revisions:
-  - 8f0137a68f02
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_compute_gc_bias
-  owner: bgruening
-  revisions:
-  - 6a056fb2b9c1
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_bigwig_compare
-  owner: bgruening
-  revisions:
-  - 18f46b571982
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_plot_correlation
-  owner: bgruening
-  revisions:
-  - b3589208f673
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_plot_fingerprint
-  owner: bgruening
-  revisions:
-  - e94df7973bb0
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_plot_pca
-  owner: bgruening
-  revisions:
-  - 610bbc25ed8b
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_plot_heatmap
-  owner: bgruening
-  revisions:
-  - e57bfadcab30
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_bam_compare
-  owner: bgruening
-  revisions:
-  - d5d57b40b29a
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_bam_pe_fragmentsize
-  owner: bgruening
-  revisions:
-  - b4886e1369c4
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_multi_bam_summary
-  owner: bgruening
-  revisions:
-  - 87d2c75884d9
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_plot_coverage
-  owner: bgruening
-  revisions:
-  - 70bf1a5592be
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_bam_coverage
-  owner: bgruening
-  revisions:
-  - 65e0795278b4
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_compute_matrix
-  owner: bgruening
-  revisions:
-  - 17d456f4051b
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
-- name: deeptools_multi_bigwig_summary
-  owner: bgruening
-  revisions:
-  - 8518a8e9ac82
-  tool_panel_section_label: 'NGS: DeepTools'
-  tool_shed_url: https://toolshed.g2.bx.psu.edu/
-  install_resolver_dependencies: True
 - name: bowtie2
   owner: devteam
   revisions:
@@ -1590,6 +1492,36 @@ tools:
   tool_panel_section_label: 'NGS: GATK Tools (beta)'
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: True
+- name: data_manager_snpeff
+  owner: iuc
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_bwa_index_builder
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_gatk_picard_index_builder
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_sam_fasta_index_builder
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_fetch_genome_dbkeys_all_fasta
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_fetch_genome_all_fasta
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_bowtie2_index_builder
+  owner:  devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_bwa_mem_index_builder
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_hisat2_index_builder
+  owner: iuc
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
+- name: data_manager_picard_index_builder
+  owner: devteam
+  tool_shed_url: https://toolshed.g2.bx.psu.edu
 ##########
 # The Following list of tools in the commented section DO NOT install cleanly.
 ##########
@@ -2011,5 +1943,100 @@ tools:
 #   revisions:
 #   - ac70bfaf1224
 #   tool_panel_section_label: 'NGS: SAMtools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+#
+#
+# The following install fine but take a really long time to execute jobs
+#
+# - name: deeptools_correct_gc_bias
+#   owner: bgruening
+#   revisions:
+#   - 8f0137a68f02
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_compute_gc_bias
+#   owner: bgruening
+#   revisions:
+#   - 6a056fb2b9c1
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_bigwig_compare
+#   owner: bgruening
+#   revisions:
+#   - 18f46b571982
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_plot_correlation
+#   owner: bgruening
+#   revisions:
+#   - b3589208f673
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_plot_fingerprint
+#   owner: bgruening
+#   revisions:
+#   - e94df7973bb0
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_plot_pca
+#   owner: bgruening
+#   revisions:
+#   - 610bbc25ed8b
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_plot_heatmap
+#   owner: bgruening
+#   revisions:
+#   - e57bfadcab30
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_bam_compare
+#   owner: bgruening
+#   revisions:
+#   - d5d57b40b29a
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_bam_pe_fragmentsize
+#   owner: bgruening
+#   revisions:
+#   - b4886e1369c4
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_multi_bam_summary
+#   owner: bgruening
+#   revisions:
+#   - 87d2c75884d9
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_plot_coverage
+#   owner: bgruening
+#   revisions:
+#   - 70bf1a5592be
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_compute_matrix
+#   owner: bgruening
+#   revisions:
+#   - 17d456f4051b
+#   tool_panel_section_label: 'NGS: DeepTools'
+#   tool_shed_url: https://toolshed.g2.bx.psu.edu/
+#   install_resolver_dependencies: True
+# - name: deeptools_multi_bigwig_summary
+#   owner: bgruening
+#   revisions:
+#   - 8518a8e9ac82
+#   tool_panel_section_label: 'NGS: DeepTools'
 #   tool_shed_url: https://toolshed.g2.bx.psu.edu/
 #   install_resolver_dependencies: True
