@@ -23,6 +23,7 @@
     "source_ami": "{{user `aws_source_ami`}}",
     "instance_type": "{{user `aws_instance_type`}}",
     "ami_name": "{{user `image_name`}}",
+    "enhanced_networking": true,
     "ami_block_device_mappings": [ {
         "device_name": "/dev/sda1",
         "volume_size": 30,
