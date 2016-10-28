@@ -70,7 +70,7 @@ aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
 
 galaxy_manage_trackster: yes
 len_file_path: "{{ galaxy_server_dir }}/tool-data/len"  # Must match CloudMan
-bedtools_version: 2.25.0
+bedtools_version: 2.26.0
 
 #-- CloudMan-Galaxy-setup role configs
 cmg_start_galaxy: yes
