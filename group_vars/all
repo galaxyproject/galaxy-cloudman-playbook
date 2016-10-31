@@ -79,6 +79,7 @@ cmg_start_galaxy: yes
 galaxy_tools_install_tools: yes
 galaxy_tools_create_bootstrap_user: yes
 galaxy_tools_tool_list_files: ["files/usegalaxy_main_tool_list.yaml"]
+# galaxy_tools_tool_list_files: ["files/test_tool_list.yaml"]
 # galaxy_tools_admin_user_password: admin
 galaxy_tools_admin_user_preset_api_key: yes
 galaxy_tools_api_key: admin
@@ -144,14 +145,11 @@ galaxy_config:
     interactive_environment_plugins_directory: config/plugins/interactive_environments
 
     # Conda settings
-    # These have been disabled because of the disk requirements: the size of
-    # the galaxyFS doubles to 14GB if using Conda, which requires significantly
-    # larger instance types to be used if only transient disk is used.
-    # conda_prefix: "{{ galaxyFS_base_dir }}/tool_dependencies/_conda"
-    # conda_debug: False
-    # conda_ensure_channels: r,bioconda,iuc
-    # conda_auto_install: False
-    # conda_auto_init: True
+    conda_prefix: "{{ galaxyFS_base_dir }}/tool_dependencies/_conda"
+    conda_debug: False
+    conda_ensure_channels: r,bioconda,iuc
+    conda_auto_install: False
+    conda_auto_init: True
 
   "filter:gzip":
     use: egg:Paste#gzip
@@ -181,3 +179,5 @@ galaxy_mutable_configs:
     dest: "{{ galaxy_config['app:main']['datatypes_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'datatypes_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['datatypes_config_file'] }}"
   - src: "{{ galaxy_server_dir }}/config/tool_conf.xml.sample"
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
+  - src: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml.sample"
+    dest: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
