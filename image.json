@@ -6,7 +6,7 @@
     "gftp_pwd": "{{env `CM_GALAXY_FTP_PWD`}}",
     "gadmin_pwd": "{{env `CM_GALAXY_ADMIN_PWD`}}",
     "image_name": "Galaxy-CloudMan-{{timestamp}}",
-    "aws_source_ami": "ami-2d39803a",
+    "aws_source_ami": "ami-c8580bdf",
     "aws_instance_type": "c3.large",
     "cc_floating_ip": "129.114.111.137",
     "js_floating_ip": "149.165.168.93"
@@ -26,13 +26,13 @@
     "enhanced_networking": true,
     "ami_block_device_mappings": [ {
         "device_name": "/dev/sda1",
-        "volume_size": 40,
+        "volume_size": 50,
         "volume_type": "gp2",
         "delete_on_termination": true
     } ],
     "launch_block_device_mappings": [ {
         "device_name": "/dev/sda1",
-        "volume_size": 40,
+        "volume_size": 50,
         "volume_type": "gp2",
         "delete_on_termination": true
     } ]
