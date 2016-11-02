@@ -144,17 +144,27 @@ To build an image without Packer, make sure the default values provided in the
 under `image-builder` host group in the `builders` file. Also set the path to your
 private ssh key for the `ansible_ssh_private_key_file` variable. This option also
 requires you to edit `image.yml` file to set `hosts` line to `image-builder` while
-commenting out `connection: local` line. Finally, run the role with
+commenting out `connection: local` line. Run the role with:
 
-    ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> --extra-vars psql_galaxyftp_password=<a_different_password> --extra-vars cleanup=yes
+    ansible-playbook -i inventory/builders image.yml --extra-vars vnc_password=<choose a password> --extra-vars psql_galaxyftp_password=<a_different_password> [--extra-vars cleanup=yes]
 
-On average, the build time takes about an hour. *Note that after the playbook
-has run to completion, you will no longer be able to ssh into the instance!* If
-you still need to ssh, set `--extra-vars cleanup=no` in the above command.
-Before creating the image, however, you must rerun the entire playbook with that
-flag set or run it with `--extra-vars only_cleanup=yes` to run the cleanup tasks only.
+On average, the build time takes 30 minutes. The `cleanup` var should not be
+set for AWS instances (see the next paragraph).
+
+For AWS, to enable [enhanced networking](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html),
+it is necessary to stop the instance and modify its attribute with the following
+command. This step must be run using the [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html).
+
+    aws ec2 modify-instance-attribute --instance-id <instance-id> --sriov-net-support simple
+
+Start the instance, update the IP address in the `builders` file, and run the
+following command:
+
+    ansible-playbook -i inventory/builders image.yml --extra-vars only_cleanup=yes
+
+*Note that after this step, you will no longer be able to ssh into the instance!*
 After the build process completes, create a machine image using the API or the
-cloud dashboard.
+cloud dashboard. The size of the image root file system should be set to 50GB.
 
 ### Customizing
 A configuration file exposing adjustable options is available under
