@@ -8,7 +8,7 @@
 galaxy_user_name: galaxy
 galaxyFS_base_dir: /mnt/galaxy
 galaxy_server_dir: "{{ galaxyFS_base_dir }}/galaxy-app"
-indicesFS_base_dir: /mnt/galaxyIndices
+indicesFS_base_dir: "{{ galaxyFS_base_dir }}/custom-indices"
 
 galaxy_db_dir: "{{ galaxyFS_base_dir }}/db"
 galaxy_db_port: 5930
