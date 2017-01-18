@@ -6,3 +6,5 @@
   name: galaxy_tools
 - src: https://github.com/galaxyproject/ansible-cloudman-galaxy-setup
   name: galaxyprojectdotorg.cloudman-galaxy-setup
+- src: https://github.com/galaxyproject/ansible-galaxy
+  name: galaxyprojectdotorg.galaxy
