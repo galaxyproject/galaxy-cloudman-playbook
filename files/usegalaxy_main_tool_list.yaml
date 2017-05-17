@@ -1643,7 +1643,7 @@ tools:
 - name: ggplot_histogram
   owner: moheydarian
   revisions:
-  - 9673586abd7a
+  - 0d872b4dfca1
   tool_panel_section_label: 'Graph/Display Data'
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
@@ -1696,7 +1696,27 @@ tools:
   tool_panel_section_label: 'Text Manipulation'
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
-
+- name: tsne
+  owner: moheydarian
+  revisions:
+  - c99a60c49682
+  tool_panel_section_label: 'Graph/Display Data'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: False
+- name: heatmap2
+  owner: moheydarian
+  revisions:
+  - c1f0f262836a
+  tool_panel_section_label: 'Graph/Display Data'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: False
+- name: gffcompare
+  owner: iuc
+  revisions:
+  - 3c97c841a443
+  tool_panel_section_label: 'NGS: RNA Analysis'
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: False
 ##########
 # The Following list of tools in the commented section DO NOT install cleanly.
 ##########
