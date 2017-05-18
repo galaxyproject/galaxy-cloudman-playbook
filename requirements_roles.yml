@@ -8,3 +8,5 @@
   name: galaxyprojectdotorg.cloudman-galaxy-setup
 - src: https://github.com/galaxyproject/ansible-galaxy
   name: galaxyprojectdotorg.galaxy
+- src: https://github.com/galaxyproject/ansible-trackster
+  name: trackster
