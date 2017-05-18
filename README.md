@@ -26,6 +26,7 @@ Clone this repository and run the following command to install any roles that
 are not included in the repo:
 ```
 git clone https://github.com/galaxyproject/galaxy-cloudman-playbook.git
+cd galaxy-cloudman-playbook
 ansible-galaxy install -r requirements_roles.yml -p roles -f
 ```
 If you are looking to update your local roles to the tip of their respective
@@ -243,40 +244,43 @@ AWS-compatible image ID for the image you built. Take a look at
 [this snippet of code](https://gist.github.com/afgane/f9c0c729a36830125ed4)
 for an example connection setup.
 
-When launching CloudMan, choose `Cluster only` with `Transient storage` cluster
-type if you're building an archive or `Persistent storage` with desired volume
-size if you're building a volume/snapshot. If you are updating an existing file
-system, launch an instance with the functional file system (i.e., either
-transient or volume based) and run this playbook 'over' it (see more below).
+When launching CloudMan, if building an all-new file system, choose
+`Cluster only` with `Transient storage` cluster type if you're building an
+archive or `Persistent storage` with desired volume size if you're building a
+volume/snapshot. If you are updating an existing file system, launch an
+instance with the functional file system (i.e., either transient or volume
+based) and run this playbook 'over' it (see more below).
 
 Once an instance has launched, edit `galaxyFS.yml` to set `galaxyFS-builder`
-`hosts` field and comment out `connection: local` entry. Next, set the launched
-instance IP address under `galaxyFS-builder` host group in the `inventory/builders`
-file and invoke the following command (having filled in the required variables):
+`hosts` field and comment out `connection: local` entry. Update the
+`galaxy_changeset_id` variable in `variables/all` and set the launched
+instance IP address under `galaxyFS-builder` host group in the
+`inventory/builders` file. Then invoke the following command (having filled in
+the required variables):
 
     ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars psql_galaxyftp_password=<psql_galaxyftp_password from image above> --extra-vars galaxy_tools_admin_user_password=<a password>
 
- > **If you are updating an existing file system**, wait for CloudMan to start
-all services before proceeding. Note that for this step, it is not necessary
-to shut down any services. Update the value of  `galaxy_changeset_id`
-variable in `variables/all`. Finally, if you already have a registered admin
-user and want to install/update tools, provide the  admin user API key and
-set variable `galaxy_tools_create_bootstrap_user` to `no`. If you don't want to
-install/update any tools, set variable `galaxy_install_tools` to `no`. Then run
-the following command:
+ > **If you are updating an existing file system**, start a Galaxy CloudMan
+instance and wait for CloudMan to start all services before proceeding. Note
+that for this step, it is not necessary to shut down any services. Update the
+value of  `galaxy_changeset_id` variable in `variables/all`. Finally, if you
+already have a registered admin user and want to install/update tools, provide
+the  admin user API key and set variable `galaxy_tools_create_bootstrap_user`
+to `no`. If you don't want to install/update any tools, set variable
+`galaxy_install_tools` to `no`. Then run the following command:
 
  > `ansible-playbook -i inventory/builders galaxyFS.yml --extra-vars galaxy_tools_api_key=<API KEY> --tags "update"`
 
 This will download and configure Galaxy as well as install any specified tools.
-Note that depending on the number of tools you are installing, this build process
-may take several hours. At the end, if building the file system from scratch, a
-file system archive will be created and uploaded to S3. It is often desirable
-(and necessary) to do double check that tools installed properly and repair any
-failed ones. In that case (or if you are updating an existing file system),
-after we've made the changes, it is necessary to explicitly create the archive
-and upload it to the object store. To achieve this, via CloudMan, stop Galaxy,
-ProFTPd, and Postgres services on the running instance and rerun the above
-command with `--tags "filesystem"`.
+Note that depending on the number of tools you are installing, this build
+process may take several hours. At the end, if building the file system from
+scratch, a file system archive will be created and uploaded to S3. It is often
+desirable (and necessary) to double check that tools installed properly and
+repair any failed ones. In that case (or if you are updating an existing file
+system), after we've made the changes, it is necessary to explicitly create the
+archive and upload it to the object store. To achieve this, via CloudMan, stop
+the  Postgres service (which will in turn stop all the other necessary
+services) and rerun the above command with `--tags "filesystem"`.
 
 When completed, terminate the builder instance via CloudMan.
 
