@@ -87,7 +87,7 @@ galaxy_tools_api_key: admin
 
 #-- Galaxy role configs
 galaxy_vcs: git
-galaxy_changeset_id: release_16.10
+galaxy_changeset_id: release_17.05
 galaxy_force_checkout: yes
 
 galaxy_config_dir: "{{ galaxy_server_dir }}/config"
@@ -121,13 +121,17 @@ galaxy_config:
     enable_job_recovery: True
     set_metadata_externally: True
     retry_metadata_internally: True
+    retry_job_output_collection: 10
+    collect_outputs_from: job_working_directory
     outputs_to_working_directory: False
     cleanup_job: onsuccess
     cluster_job_queue_workers: 3
     use_pbkdf2: False
     allow_user_deletion: True
+    paste.app_factory: galaxy.web.buildapp:app_factory
 
     file_path: "{{ galaxyFS_base_dir }}/files"
+    cluster_files_directory: "{{ galaxyFS_base_dir }}/tmp/pbs"
     tool_dependency_dir: "{{ galaxyFS_base_dir }}/tools"
     len_file_path: "{{ len_file_path }}"
     galaxy_data_manager_data_path: "{{ indicesFS_base_dir }}"
@@ -145,11 +149,15 @@ galaxy_config:
     dynamic_proxy_bind_port: 8800
     interactive_environment_plugins_directory: config/plugins/interactive_environments
 
+    use_heartbeat: True
+    heartbeat_interval: -1
+    hearbeat_log: "{{ galaxyFS_base_dir }}/tmp/heartbeat_{server_name}.log"
+
     # Conda settings
     conda_prefix: "{{ galaxyFS_base_dir }}/tool_dependencies/_conda"
     conda_debug: False
     conda_ensure_channels: r,bioconda,iuc
-    conda_auto_install: False
+    conda_auto_install: True
     conda_auto_init: True
 
   "filter:gzip":

@@ -11,7 +11,7 @@
 #
 #   % ansible-playbook -i inventory/builders galaxyFS.yml
 #     --extra-vars psql_galaxyftp_password=$CM_GALAXY_FTP_PWD
-#     --extra-vars galaxy_admin_user_password=$CM_GALAXY_ADMIN_PWD
+#     --extra-vars galaxy_tools_admin_user_password=$CM_GALAXY_ADMIN_PWD
 #
 # - hosts: galaxyFS-builder
 - hosts: localhost
