@@ -405,7 +405,7 @@ tools:
   owner: bgruening
   revisions:
   - d6dcb3dd5f8f
-  tool_panel_section_label: 'NGS: RNA Analysis'
+  tool_panel_section_label: 'NGS: Peak Calling'
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: htseq_count
@@ -1605,6 +1605,20 @@ tools:
   owner: iuc
   tool_panel_section_label: 'NGS: Assembly'
   install_resolver_dependencies: False
+- name: column_maker
+  owner: devteam
+  revisions:
+  - 626658afe4cb
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: False
+- name: regex_replace
+  owner: kellrott
+  revisions:
+  - 9a77d5fca67c
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
+  tool_shed_url: https://toolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: False
 - name: deseq2
   owner: iuc
   revisions:
@@ -1623,6 +1637,13 @@ tools:
   owner: moheydarian
   revisions:
   - 3621af0e3ef7
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  install_resolver_dependencies: False
+- name: unique
+  owner: bgruening
+  revisions:
+  - 7ce75adb93be
   tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
