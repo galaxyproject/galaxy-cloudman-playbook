@@ -1616,14 +1616,14 @@ tools:
   owner: moheydarian
   revisions:
   - d7e3814be68e
-  tool_panel_section_label: 'Text Manipulation'
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: melt
   owner: moheydarian
   revisions:
   - 3621af0e3ef7
-  tool_panel_section_label: 'Text Manipulation'
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: featurecounts
@@ -1637,21 +1637,21 @@ tools:
   owner: moheydarian
   revisions:
   - fed4e754376e
-  tool_panel_section_label: 'Graph/Display Data'
+  tool_panel_section_id: plots  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: ggplot_histogram
   owner: moheydarian
   revisions:
   - 0d872b4dfca1
-  tool_panel_section_label: 'Graph/Display Data'
+  tool_panel_section_id: plots  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: ggplot_violin_plot
   owner: moheydarian
   revisions:
   - 996c274d942d
-  tool_panel_section_label: 'Graph/Display Data'
+  tool_panel_section_id: plots  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: collection_column_join
@@ -1679,35 +1679,35 @@ tools:
   owner: iuc
   revisions:
   - 2f3c6f2dcf39
-  tool_panel_section_label: 'Text Manipulation'
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: datamash_reverse
   owner: iuc
   revisions:
   - 3234b2813413
-  tool_panel_section_label: 'Text Manipulation'
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: datamash_transpose
   owner: iuc
   revisions:
   - 1cb70a56fc89
-  tool_panel_section_label: 'Text Manipulation'
+  tool_panel_section_id: textutil  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://toolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: tsne
   owner: moheydarian
   revisions:
   - c99a60c49682
-  tool_panel_section_label: 'Graph/Display Data'
+  tool_panel_section_id: plots  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: heatmap2
   owner: moheydarian
   revisions:
   - c1f0f262836a
-  tool_panel_section_label: 'Graph/Display Data'
+  tool_panel_section_id: plots  # Use ID since the group is included w/ Galaxy
   tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
   install_resolver_dependencies: False
 - name: gffcompare
