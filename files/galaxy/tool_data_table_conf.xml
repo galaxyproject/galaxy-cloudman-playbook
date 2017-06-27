@@ -166,4 +166,9 @@
         <columns>value, name, url</columns>
         <file path="/cvmfs/main.galaxyproject.org/galaxy/tool-data/vcf_iobio.loc.sample" />
     </table>
+    <!-- 2bit files -->
+    <table name="twobit" comment_char="#">
+        <columns>value, path</columns>
+        <file path="/galaxy/data/location/twobit.loc" />
+    </table>
 </tables>
